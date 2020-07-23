@@ -1,5 +1,11 @@
 # Pitch Scapes
-Python library to compute pitch scapes for music analysis. The implemented methods are described in (please cite when using this library for publications):
+Python library to compute pitch scapes for music analysis.
+
+![figure_1](./doc/figure_1.png)
+
+![figure_2](./doc/figure_2.png)
+
+The implemented methods are described in (please cite when using this library for publications):
 
 Lieck R, Rohrmeier M (2020) **Modelling Hierarchical Key Structure with Pitch Scapes**. In: *Proceedings of the 21st International Society for Music Information Retrieval Conference*. Montréal, Canada
 ```
