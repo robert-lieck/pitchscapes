@@ -1,7 +1,10 @@
 # Pitch Scapes
 Python library to compute pitch scapes for music analysis.
 
-<img src="./doc/figure_1.png" alt="Figure 1" width=40%> <img src="./doc/figure_2.png" alt="Figure 2" width=40%>
+<div>
+  <img src="./doc/figure_1.png" alt="Figure 1" width=40%>
+  <img src="./doc/figure_2.png" alt="Figure 2" width=40%>
+</div>
 
 The implemented methods are described in (please cite when using this library for publications):
 
