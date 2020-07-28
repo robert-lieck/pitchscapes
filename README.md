@@ -14,4 +14,8 @@ Python library to compute pitch scapes for music analysis. The implemented metho
 }
 ```
 
-**Note:** I will progressively refactor my existing code and make it available as a clean library here. Please contact me if you have any questions or are missing anything!
+## Getting Started
+
+Please have a look at the [Tutorial](./Tutorial.ipynb), which guides you through all the basic functionality of reading data, plotting pitch scapes and training the unsupervised clustering model.
+
+**Note:** I tried to make the code accessible and provide some convenience functions for getting started smoothly. But there is still lots of room for better documentation and testing. Please contact me if you have any questions, are missing anything or encounter bugs!
