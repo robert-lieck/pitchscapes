@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/282043116.svg)](https://zenodo.org/badge/latestdoi/282043116)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # Pitch Scapes
 
 <img src="./doc/figure_1.png" alt="Figure 1" width=35%>                                 <img src="./doc/figure_2.png" alt="Figure 2" width=25%>
