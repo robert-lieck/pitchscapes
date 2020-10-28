@@ -5,7 +5,7 @@
 
 <img src="./doc/figure_1.png" alt="Figure 1" width=35%>                                 <img src="./doc/figure_2.png" alt="Figure 2" width=25%>
 
-Python library to compute pitch scapes for music analysis. The implemented methods are described in (please cite when using this library for publications, BibTeX below): Lieck R, Rohrmeier M (2020) **Modelling Hierarchical Key Structure with Pitch Scapes**. In: *Proceedings of the 21st International Society for Music Information Retrieval Conference*. Montréal, Canada
+Python library to compute pitch scapes for music analysis. The implemented methods are described in (please cite when using this library for publications, BibTeX below): Lieck R, Rohrmeier M (2020) [**Modelling Hierarchical Key Structure with Pitch Scapes**](http://robert-lieck.com/literature/pdfs/8K8MJHK9/Lieck_and_Rohrmeier_-_2020_-_Modelling_Hierarchical_Key_Structure_With_Pitch_Sc.pdf). In: *Proceedings of the 21st International Society for Music Information Retrieval Conference*. Montréal, Canada
 ```
 @inproceedings{lieckModellingHierarchicalKey2020,
   title = {Modelling Hierarchical Key Structure with Pitch Scapes},
