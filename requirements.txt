@@ -1,1 +1,5 @@
-numpy matplotlib torch scipy mido
+numpy
+matplotlib
+torch
+scipy
+mido
