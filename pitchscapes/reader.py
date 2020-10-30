@@ -138,3 +138,17 @@ def sample_piece(n_samples,
     if file_path is not None:
         scape = get_pitch_scape(file_path, normalise=normalise)
     return sample_pitch_scape(scape=scape, n_samples=n_samples, prior_counts=prior_counts)
+
+
+def sample_density(n_samples,
+                   file_path=None,
+                   scape=None):
+    if (file_path is None) == (scape is None):
+        raise ValueError("Have to provide exactly one of 'file_path' and 'scape' as arguments")
+    if file_path is not None:
+        scape = get_pitch_scape(file_path)
+    times = np.linspace(scape.min_time, scape.max_time, n_samples + 1)
+    samples = np.zeros((n_samples, 12))
+    for idx, (start, end) in enumerate(zip(times[:-1], times[1:])):
+        samples[idx, :] = scape[start, end]
+    return samples
