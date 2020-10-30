@@ -250,7 +250,7 @@ class PitchScape(Scape):
             end = times[-1]
         # check bounds
         if lower_start_idx < 0:
-            raise ValueError("Start below zero")
+            raise ValueError("Start below valid times")
         if upper_end_idx >= n_times:
             raise ValueError("End beyond valid times")
         return start, end, lower_start_idx, upper_start_idx, lower_end_idx, upper_end_idx
