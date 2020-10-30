@@ -1,0 +1,6 @@
+numpy
+matplotlib
+ipython
+mido
+scipy
+torch
