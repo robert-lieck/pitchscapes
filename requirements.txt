@@ -1,6 +1,4 @@
-numpy
-matplotlib
-ipython
-mido
-scipy
 torch
+scipy
+mido
+IPython
