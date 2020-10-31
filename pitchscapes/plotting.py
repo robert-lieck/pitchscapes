@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as color_map
 
 from .keyfinding import KeyEstimator
-from .util import sample_pitch_scape, axis_set_invisible, pitch_classes_sharp, pitch_classes_flat
+from .util import sample_pitch_scape, axis_set_invisible, pitch_classes_sharp, pitch_classes_flat, coords_from_times
 
 
 _default_circle_of_fifths = False
@@ -368,6 +368,47 @@ def key_scape_plot(scape=None,
         key_legend(ax_, **legend_kwargs)
     if ax is None:
         return fig, ax_
+
+
+def scape_plot_from_array(arr: np.ndarray, ax=None, times=None, check=True, coord_kwargs=None, plot_kwargs=None):
+    """
+    Generate a scape plot from a numpy array of values or colours.
+    :param arr: array of values or colors; must be of shape (L,), (L, 3), or (L, 4), where L = n*(n+1)/2 for some
+    integer n; for the two dimensional versions the second dimension is interpreted as RGB or RGBA values, respectively.
+    :param ax: [optional] axis to plot to
+    :param times: optional array of length n + 1 with boundaries between the time slots; if not provided n uniformly
+    spaced slots of width 1/n in [0, 1] are assumed.
+    :param check: [default=True] check dimensions of arr and times.
+    :param coord_kwargs: optional kwargs passed to `coords_from_times` function.
+    :param plot_kwargs: optional kwargs passed to `scape_plot` function.
+    """
+    # get number of time slots
+    n = int(np.sqrt(1 / 4 + 2 * arr.shape[0]) - 1 / 2)
+    # get times if not provided
+    if times is None:
+        times = np.linspace(0, 1, n + 1)
+    # get coords
+    if coord_kwargs is None:
+        coord_kwargs = {}
+    coords = coords_from_times(times, **coord_kwargs)
+    # do checks
+    if check:
+        if not (arr.ndim == 1 or (arr.ndim == 2 and arr.shape[1] in [3, 4])):
+            raise ValueError(f"arr must be a one-dimensional array or a two-dimensional array with second dimension of "
+                             f"length 3 or 4 (has {arr.ndim} dimensions with shape {arr.shape})")
+        if n * (n + 1) / 2 != arr.shape[0]:
+            raise ValueError(f"array length does not correspond to triangular matrix; "
+                             f"lower match: n = {n} --> {int(n * (n + 1) / 2)}; "
+                             f"upper match: n = {n + 1} --> {int((n + 1) * (n + 2) / 2)}; "
+                             f"array length: {arr.shape[0]}")
+        if coords.shape[0] != arr.shape[0]:
+            raise ValueError("coord length and times length do not match")
+    # plot
+    if ax is None:
+        fig, ax = plt.subplots(1, 1)
+    if plot_kwargs is None:
+        plot_kwargs = {}
+    scape_plot(samples=arr, coords=coords, ax=ax, **plot_kwargs)
 
 
 def scape_plot(samples,

@@ -11,7 +11,7 @@ class TestVarious(TestCase):
 
     _print_count = None
 
-    def test_various(self):
+    def test_various_1(self):
         self.print_count = 0
         def pp():
             print(self.print_count)
@@ -205,3 +205,31 @@ class TestVarious(TestCase):
         # for c in model.clusters():
         #     pt.key_scape_plot(c, 30, size=5)
         # pt.plot_cluster_assignments(model.assignments())
+
+    def test_key_scape_plot(self):
+        scape = rd.get_pitch_scape('./doc/Prelude_No_1_BWV_846_in_C_Major.mid')
+        pt.key_scape_plot(scape=scape, n_samples=10)
+        plt.show()
+
+    def test_scape_plot_from_array(self):
+        # check for wrong array shape (3,5)
+        self.assertRaises(ValueError, lambda: pt.scape_plot_from_array(arr=np.array([[1, 2, 3, 4, 5],
+                                                                                     [6, 7, 8, 9, 10],
+                                                                                     [11, 12, 13, 14, 15]])))
+        # check for wrong array length (1D case)
+        self.assertRaises(ValueError, lambda: pt.scape_plot_from_array(arr=np.array([1, 2, 3, 4])))
+        # plot with scalar values
+        pt.scape_plot_from_array(arr=np.array([1, 2, 3]))
+        # plot with RGB values
+        pt.scape_plot_from_array(arr=np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
+        # plot with RGBA values
+        pt.scape_plot_from_array(arr=np.array([[1, 0, 0, 0.2], [0, 1, 0, 0.4], [0, 0, 1, 0.6]]))
+        # plot with random RGBA values
+        n = 5
+        values = np.random.uniform(0, 1, (int(n * (n + 1) / 2), 4))
+        pt.scape_plot_from_array(arr=values)
+        # plt.show()
+        # check for mismatch of times and array length
+        self.assertRaises(ValueError, lambda: pt.scape_plot_from_array(arr=values,
+                                                                       times=np.linspace(0, 1, n),  # should be n + 1
+                                                                       ))

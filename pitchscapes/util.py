@@ -184,3 +184,32 @@ def sample_discrete_scape(scape,
                     yield return_list[0]
                 else:
                     yield tuple(return_list)
+
+
+def coords_from_times(times, remove_offset=True, unit_times=True):
+    coords = []
+    for start_idx, start in enumerate(times):
+        for end_idx, end in enumerate(times):
+            # only process valid, non-zero size windows
+            if start_idx < end_idx:
+                coo = [tuple(start_end_to_center_width(start, times[end_idx - 1])),
+                       tuple(start_end_to_center_width(start, end)),
+                       tuple(start_end_to_center_width(times[start_idx + 1], end))]
+                if end_idx - start_idx > 1:
+                    coo.append(tuple(start_end_to_center_width(times[start_idx + 1], times[end_idx - 1])))
+                else:
+                    coo.append((np.nan, np.nan))
+                coords.append(tuple(coo))
+    coords = np.array(coords)
+    # remove offset
+    min_time = np.min(times)
+    max_time = np.max(times)
+    if remove_offset:
+        coords[:, :, 0] -= min_time
+    # rescale to unit interval [0, 1]
+    if unit_times:
+        if remove_offset:
+            coords /= (max_time - min_time)
+        else:
+            coords /= max_time
+    return coords
