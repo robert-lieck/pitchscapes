@@ -8,14 +8,13 @@ from .util import sample_pitch_scape
 
 
 Event = namedtuple("Event", "time duration data")
-MIDINote = namedtuple("MIDINote", "value velocity channel track")
 
 
 def read_midi(file):
     """
     Read notes with onset and duration from MIDI file. Time is specified in beats.
     :param file: path to MIDI file
-    :return: sorted list of MIDINote events
+    :return: sorted list of pitch Events
     """
     mid = mido.MidiFile(file)
     piece = []
@@ -52,10 +51,7 @@ def read_midi(file):
                             # append to track
                             track.append(Event(time=onset_time,
                                                duration=note_duration,
-                                               data=MIDINote(value=msg.note,
-                                                             velocity=active_notes[note][1],
-                                                             channel=msg.channel,
-                                                             track=track_id)))
+                                               data=msg.note))
                             del active_notes[note]
                         else:
                             raise ValueError(f"{note} not active (time={time}, msg.type={msg.type}, "
@@ -67,16 +63,16 @@ def read_midi(file):
 def chordify(piece):
     """
     Create time bins at note events (on- or offset). For each bin create a set of notes that are on.
-    :param piece: List of MIDINote Events
+    :param piece: List of pitch Events
     :return: list of Events (with start time and duration) with note sets
     """
     # create dictionary with time on- and offsets and events starting at a certain onset
     event_dict = {}
     for e in piece:
         # add onset and offset time slot
-        if not e.time in event_dict:
+        if e.time not in event_dict:
             event_dict[e.time] = set()
-        if not e.time + e.duration in event_dict:
+        if e.time + e.duration not in event_dict:
             event_dict[e.time + e.duration] = set()
         # add event to onset time slot
         event_dict[e.time].add(e)
@@ -93,7 +89,8 @@ def chordify(piece):
         active_events |= events
     # the last element should not contain any events as it was only created because the last event(s) ended at that time
     if event_list[-1][1]:
-        raise ValueError("The last time slot should be empty. This is a bug (maybe due to floating point arithmetics?)")
+        raise ValueError(f"The last time slot should be empty but it contains: '{event_list[-1][1]}'. "
+                         f"This is a bug (maybe due to floating point arithmetics?)")
     # turn dict into an ordered list of events with correct durations and combined event data
     return [Event(time=time, duration=next_time - time, data=frozenset([e.data for e in events]))
             for (time, events), (next_time, next_events) in zip(event_list, event_list[1:])]
@@ -109,7 +106,7 @@ def pitch_class_counts_from_chordified(chordified):
     pitch_class_counts = np.zeros((len(chordified), 12))
     for time_idx, event in enumerate(chordified):
         for pitch in event.data:
-            pitch_class_counts[time_idx][pitch.value % 12] += 1
+            pitch_class_counts[time_idx][pitch % 12] += 1
     times = np.array([event.time for event in chordified] + [chordified[-1].time + chordified[-1].duration])
     return pitch_class_counts, times
 
