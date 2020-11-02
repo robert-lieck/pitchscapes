@@ -2,6 +2,7 @@ import numpy as np
 from collections import namedtuple
 
 import mido
+import music21
 
 from .scapes import PitchScape
 from .util import sample_pitch_scape
@@ -10,7 +11,7 @@ from .util import sample_pitch_scape
 Event = namedtuple("Event", "time duration data")
 
 
-def read_midi(file):
+def read_midi_mido(file):
     """
     Read notes with onset and duration from MIDI file. Time is specified in beats.
     :param file: path to MIDI file
@@ -58,6 +59,22 @@ def read_midi(file):
                                              f"msg.velocity={msg.velocity})")
         piece += track
     return list(sorted(piece, key=lambda x: x.time))
+
+
+def read(file):
+    events = []
+    piece = music21.converter.parse(file)
+    for part_id, part in enumerate(piece.parts):
+        for note in part.flat.notes:
+            if isinstance(note, (music21.note.Note, music21.chord.Chord)):
+                for pitch in note.pitches:
+                    events.append(Event(data=int(pitch.ps),
+                                        time=float(note.offset),
+                                        duration=float(note.duration.quarterLength)))
+            else:
+                raise Warning(f"Encountered unknown MIDI stream object {note} (type: {type(note)}) "
+                              f"while reading file '{file}'")
+    return list(sorted(events, key=lambda e: e.time))
 
 
 def chordify(piece):
@@ -111,13 +128,13 @@ def pitch_class_counts_from_chordified(chordified):
     return pitch_class_counts, times
 
 
-def pitch_class_counts(file):
+def pitch_class_counts(file, reader=read):
     """
     Read pitch-class counts from MIDI file by concatenating read_midi, chordify, and pitch_class_counts
     :param file: MIDI file
     :return: 2-tuple of numpy arrays with pitch-class counts and time boundaries
     """
-    return pitch_class_counts_from_chordified(chordify(read_midi(file)))
+    return pitch_class_counts_from_chordified(chordify(reader(file)))
 
 
 def get_pitch_scape(file_path, normalise=False):

@@ -4,3 +4,4 @@ torch
 scipy
 mido
 IPython
+music21

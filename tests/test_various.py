@@ -11,6 +11,12 @@ class TestVarious(TestCase):
 
     _print_count = None
 
+    def test_reader(self):
+        p1 = rd.get_pitch_scape('./tests/data/Prelude_No_1_BWV_846_in_C_Major.mid')
+        p2 = rd.get_pitch_scape('./tests/data/Prelude_No_1_BWV_846_in_C_Major.mxl')
+        pt.key_scape_plot(scape=p1, n_samples=10, size=5)
+        pt.key_scape_plot(scape=p2, n_samples=10, size=5)
+
     def test_various_1(self):
         self.print_count = 0
         def pp():
@@ -20,8 +26,8 @@ class TestVarious(TestCase):
         pp()
 
         # load some data
-        scape_JSB = rd.get_pitch_scape('./doc/Prelude_No_1_BWV_846_in_C_Major.mid')
-        scape_LvB = rd.get_pitch_scape('./doc/Sonata_No._14_Op._27_No._2_-_Ludwig_van_Beethoven.mid')
+        scape_JSB = rd.get_pitch_scape('./tests/data/Prelude_No_1_BWV_846_in_C_Major.mid')
+        scape_LvB = rd.get_pitch_scape('./tests/data/Sonata_No._14_Op._27_No._2_-_Ludwig_van_Beethoven.mid')
 
         pp()
 
@@ -48,7 +54,7 @@ class TestVarious(TestCase):
         pp()
 
         # get counts an times
-        counts, times = rd.pitch_class_counts('./doc/Prelude_No_1_BWV_846_in_C_Major.mid')
+        counts, times = rd.pitch_class_counts('./tests/data/Prelude_No_1_BWV_846_in_C_Major.mid')
         print("data of the fist quarter note of the first bar:")
         print(counts[:6])
         print(times[:7])
@@ -126,8 +132,8 @@ class TestVarious(TestCase):
             self.print_count += 1
 
         # read the original pieces
-        counts_JSB, times_JSB = rd.pitch_class_counts('./doc/Prelude_No_1_BWV_846_in_C_Major.mid')
-        counts_LvB, times_LvB = rd.pitch_class_counts('./doc/Sonata_No._14_Op._27_No._2_-_Ludwig_van_Beethoven.mid')
+        counts_JSB, times_JSB = rd.pitch_class_counts('./tests/data/Prelude_No_1_BWV_846_in_C_Major.mid')
+        counts_LvB, times_LvB = rd.pitch_class_counts('./tests/data/Sonata_No._14_Op._27_No._2_-_Ludwig_van_Beethoven.mid')
         # generate artificial pieces by cutting start/end and transposing
         n_pieces = 2
         pieces = [[PitchScape(np.roll(c[s:e], shift=shift, axis=1), t[s:e + 1])
@@ -207,9 +213,9 @@ class TestVarious(TestCase):
         # pt.plot_cluster_assignments(model.assignments())
 
     def test_key_scape_plot(self):
-        scape = rd.get_pitch_scape('./doc/Prelude_No_1_BWV_846_in_C_Major.mid')
+        scape = rd.get_pitch_scape('./tests/data/Prelude_No_1_BWV_846_in_C_Major.mid')
         pt.key_scape_plot(scape=scape, n_samples=10)
-        plt.show()
+        # plt.show()
 
     def test_scape_plot_from_array(self):
         # check for wrong array shape (3,5)

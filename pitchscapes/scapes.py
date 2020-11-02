@@ -114,9 +114,9 @@ class DiscretePitchScape(Scape):
     def assert_valid_time_window(self, start, end):
         super().assert_valid_time_window(start, end)
         if start not in self.indices:
-            raise ValueError(f"Window start ({start}) is not a valid time")
+            raise ValueError(f"Window start ({start}) is not a valid time (not in {self.indices})")
         if end not in self.indices:
-            raise ValueError(f"Window end ({end}) is not a valid time")
+            raise ValueError(f"Window end ({end}) is not a valid time (not in {self.indices})")
 
     def assert_valid_index_window(self, start, end):
         if not (self.min_index <= start <= end <= self.max_index):
