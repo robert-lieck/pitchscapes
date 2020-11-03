@@ -325,6 +325,9 @@ def pitch_scape_plots(scape=None,
         if pitch_labels:
             ax.set_xlabel(l)
     if axes is None:
+        for ax in axes_:
+            ax.set_aspect('equal')
+        fig.tight_layout()
         return fig, axes_
 
 
