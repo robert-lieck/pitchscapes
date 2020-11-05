@@ -113,6 +113,45 @@ def chordify(piece):
             for (time, events), (next_time, next_events) in zip(event_list, event_list[1:])]
 
 
+def piano_roll(file, min_pitch=None, max_pitch=None, return_range=False, return_durations=False, reader=read):
+    # read piece and chordify
+    chordified = chordify(reader(file))
+    assert len(chordified) > 0, "this piece seems to be empty"
+    # get all occuring pitches
+    all_pitches = frozenset.union(*[event.data for event in chordified])
+    # get actual minimum and maximum pitch
+    actual_min_pitch = min(all_pitches)
+    actual_max_pitch = max(all_pitches)
+    # check against requested values
+    if min_pitch is None:
+        min_pitch = actual_min_pitch
+    else:
+        if actual_min_pitch < min_pitch:
+            raise ValueError(f"actual minimum pitch ({actual_min_pitch}) is smaller than requested value ({min_pitch}")
+    if max_pitch is None:
+        max_pitch = actual_max_pitch
+    else:
+        if actual_max_pitch > max_pitch:
+            raise ValueError(f"actual maximum pitch ({actual_max_pitch}) is greater than requested value ({max_pitch}")
+    assert max_pitch >= min_pitch  # safety check
+    # allocate numpy array of appropriate size
+    roll = np.zeros((len(chordified), max_pitch - min_pitch + 1), dtype=np.bool)
+    # set multiple-hot for all time slices
+    for time_idx, event in enumerate(chordified):
+        roll[time_idx, np.array(list(event.data)) - min_pitch] = True
+    # construct return tuple
+    ret = (roll,)
+    if return_range:
+        ret = ret + (np.arange(min_pitch, max_pitch + 1),)
+    if return_durations:
+        ret = ret + (np.array([event.duration for event in chordified]),)
+    # return
+    if len(ret) == 1:
+        return ret[0]
+    else:
+        return ret
+
+
 def pitch_class_counts_from_chordified(chordified):
     """
     Take a chordified piece and compute pitch class counts for each time slot.
