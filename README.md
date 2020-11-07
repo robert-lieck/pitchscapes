@@ -1,5 +1,6 @@
 # Pitch Scapes
 
+[![PyPI version](https://badge.fury.io/py/pitchscapes.svg)](https://badge.fury.io/py/pitchscapes)
 ![build](https://github.com/robert-lieck/pitchscapes/workflows/build/badge.svg)
 ![tests](https://github.com/robert-lieck/pitchscapes/workflows/tests/badge.svg)
 [![codecov](https://codecov.io/gh/robert-lieck/pitchscapes/branch/master/graph/badge.svg?token=UVBQF5J5HG)](undefined)
