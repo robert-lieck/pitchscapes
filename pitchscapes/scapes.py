@@ -71,7 +71,14 @@ class DiscretePitchScape(Scape):
     (optionally) divides by the total time interval.
     """
 
-    def __init__(self, values, times=None, strategy="left", normalise=False, normalise_values=True):
+    def __init__(self,
+                 values,
+                 times=None,
+                 prior_counts=None,
+                 strategy="left",
+                 normalise=False,
+                 normalise_values=True,
+                 skip_type_check=False):
         """
         Initialise the scape.
         :param values: values for each time slot (2D array like with first dimension of size N)
@@ -81,6 +88,7 @@ class DiscretePitchScape(Scape):
         "center": [K,K+1]+[K+1,L-1]+[L-1,L]. Also see comments for parse_bottom_up concerning efficiency and run time.
         :param normalise: whether to compute the weighted sum or mean (default: False i.e. compute weighted sum)
         """
+        self.prior_counts = prior_counts
         self.strategy = strategy
         self.normalise = normalise
         # set times and initialise super class
@@ -97,19 +105,32 @@ class DiscretePitchScape(Scape):
         super().__init__(min_time=self.times.min(), max_time=self.times.max())
         # values
         self.values = np.array(values)
+        # warn for non-float types
+        if not skip_type_check and not np.issubdtype(self.values.dtype, np.floating):
+            if normalise_values or normalise:
+                raise TypeError(f"Using non-floating values of type '{self.values.dtype}' may lead to errors or "
+                                f"unexpected results in combination with normalisation. Either use float values; or "
+                                f"don't use normalisation (normalise_values=False and normalise=False); or set "
+                                f"skip_type_check=True to take the risk.")
+            if np.issubdtype(type(self.prior_counts), np.floating):
+                raise TypeError(f"Combining non-floating values of type '{self.values.dtype}' with floating-type prior "
+                                f"counts of type '{type(self.prior_counts)}' may lead to errors or unexpected results. "
+                                f"Use float values; or set skip_type_check=True to take the risk.")
         # normalise_values
         if normalise_values:
-            normalize_non_zero(self.values)
+            normalize_non_zero(self.values, skip_type_check=skip_type_check)
+        # pre-compute the overall number of value dimensions (for prior counts and normalisation)
+        self.n_value_dim = np.prod(self.values.shape[1:])
         # check dimensions
         if self.values.shape[0] != self.times.shape[0] - 1:
             raise ValueError(f"There should be n-1 values for n time steps "
                              f"(values shape: {self.values.shape}, times shape: {self.times.shape})")
         # initialise scape
         if self.normalise:
-            self._data = {(idx, idx + 1): v for idx, v in enumerate(self.values)}
+            self._accumulated_values = {(idx, idx + 1): v for idx, v in enumerate(self.values)}
         else:
-            self._data = {(idx, idx + 1): v * (self.times[idx + 1] - self.times[idx])
-                          for idx, v in enumerate(self.values)}
+            self._accumulated_values = {(idx, idx + 1): v * (self.times[idx + 1] - self.times[idx])
+                                        for idx, v in enumerate(self.values)}
 
     def assert_valid_time_window(self, start, end):
         super().assert_valid_time_window(start, end)
@@ -149,43 +170,53 @@ class DiscretePitchScape(Scape):
     def get_value_at_index(self, start, end):
         # check for zero-size windows
         if start == end:
-            return np.zeros_like(self.values[start])
-        # retrieve value from memory or compute recursively
-        try:
-            return self._data[start, end]
-        except KeyError:
-            # accumulate indices to compute
-            indices_to_compute = [(start, end)]
-            unprocessed_indices = [(start, end)]
-            while unprocessed_indices:
-                unprocessed_start, unprocessed_end = unprocessed_indices.pop()
-                for new_start, new_end in self.recursive_indices(unprocessed_start, unprocessed_end):
-                    if (new_start, new_end) not in self._data:
-                        unprocessed_indices.append((new_start, new_end))
-                        indices_to_compute.append((new_start, new_end))
-            # compute
-            for new_start, new_end in reversed(indices_to_compute):
-                # double-check before computing (might have reoccurred higher in the stack and already been computed)
-                if (new_start, new_end) not in self._data:
-                    sum_val = None
-                    for new_new_start, new_new_end in self.recursive_indices(new_start, new_end):
-                        if self.normalise:
+            ret = np.zeros(self.values.shape[1:], dtype=self.values.dtype)
+            if self.normalise:
+                if self.prior_counts is not None:
+                    # for any value of prior counts (except None) return a uniform distribution
+                    ret += 1 / self.n_value_dim
+            else:
+                if self.prior_counts is not None and self.prior_counts != 0:
+                    ret += self.prior_counts
+            return ret
+        else:
+            # if value is not stored in memory: compute recursively
+            if (start, end) not in self._accumulated_values:
+                # accumulate indices to compute
+                indices_to_compute = [(start, end)]
+                unprocessed_indices = [(start, end)]
+                while unprocessed_indices:
+                    unprocessed_start, unprocessed_end = unprocessed_indices.pop()
+                    for new_start, new_end in self.recursive_indices(unprocessed_start, unprocessed_end):
+                        if (new_start, new_end) not in self._accumulated_values:
+                            unprocessed_indices.append((new_start, new_end))
+                            indices_to_compute.append((new_start, new_end))
+                # compute
+                for new_start, new_end in reversed(indices_to_compute):
+                    # double-check before computing
+                    # (might have reoccurred higher in the stack and already been computed)
+                    if (new_start, new_end) not in self._accumulated_values:
+                        sum_val = None
+                        for new_new_start, new_new_end in self.recursive_indices(new_start, new_end):
                             if sum_val is None:
-                                sum_val = self._data[new_new_start, new_new_end] \
-                                              * (self.times[new_new_end] - self.times[new_new_start])
+                                sum_val = self._accumulated_values[new_new_start, new_new_end]
                             else:
-                                sum_val = sum_val + self._data[new_new_start, new_new_end] \
-                                              * (self.times[new_new_end] - self.times[new_new_start])
-                        else:
-                            if sum_val is None:
-                                sum_val = self._data[new_new_start, new_new_end]
-                            else:
-                                sum_val = sum_val + self._data[new_new_start, new_new_end]
-                    if self.normalise:
-                        self._data[new_start, new_end] = sum_val / (self.times[new_end] - self.times[new_start])
-                    else:
-                        self._data[new_start, new_end] = sum_val
-            return self._data[start, end]
+                                sum_val = sum_val + self._accumulated_values[new_new_start, new_new_end]
+                        self._accumulated_values[new_start, new_end] = sum_val
+            ret = self._accumulated_values[start, end].copy()
+        if self.prior_counts is not None and self.prior_counts != 0:
+            ret += self.prior_counts
+        if self.normalise:
+            if self.prior_counts == 0 and np.all(ret == 0):
+                # edge case of prior counts --> 0: return uniform distribution
+                ret += 1 / self.n_value_dim
+            elif self.prior_counts is None:
+                # prior counts ignored in normalisation
+                ret /= self.times[end] - self.times[start]
+            else:
+                # prior counts included in normalisation
+                ret /= self.times[end] - self.times[start] + self.n_value_dim * self.prior_counts
+        return ret
 
     def parse_bottom_up(self):
         """
@@ -209,7 +240,7 @@ class PitchScape(Scape):
     scape.
     """
 
-    def __init__(self, values=None, times=None, scape=None, normalise=False):
+    def __init__(self, values=None, times=None, scape=None, **kwargs):
         """
         Initialise PitchScape either from count values or from DiscretePitchScape.
         :param values: pitch-class counts (do not provide together with scape)
@@ -220,7 +251,9 @@ class PitchScape(Scape):
         if (values is None) == (scape is None) or (values is None and times is not None and scape is not None):
             raise ValueError("Please specify EITHER 'values' (and optional key-word arguments) OR 'scape'")
         if scape is None:
-            scape = DiscretePitchScape(values=values, times=times, normalise=normalise)
+            scape = DiscretePitchScape(values=values, times=times, **kwargs)
+        elif kwargs:
+            raise TypeError("Cannot take keyword arguments if scape object is given.")
         self.scape = scape
         self.normalise = scape.normalise
         super().__init__(min_time=self.scape.min_time, max_time=self.scape.max_time)
