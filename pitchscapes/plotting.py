@@ -417,12 +417,12 @@ def scape_plot_from_array(arr: np.ndarray, ax=None, times=None, check=True, coor
 def scape_plot(samples,
                coords,
                ax,
-               xlim=(0, 1),
-               ylim=(0, 1),
+               xlim=None,
+               ylim=None,
                cmap=color_map.RdBu_r,
                vmin=None,
                vmax=None,
-               axis_off=True):
+               axis_off=False):
     # get scale
     scale = np.amax(np.abs(samples[np.logical_not(np.isnan(samples))]))
     if vmin is None:
@@ -438,9 +438,13 @@ def scape_plot(samples,
                                match_original=True)
     ax.add_collection(polygons)
     # set axis limits and turn axis of
-    if xlim is not None:
+    if xlim is not False:
+        if xlim is None:
+            xlim = (np.nanmin(coords[:, :, 0]), np.nanmax(coords[:, :, 0]))
         ax.set_xlim(*xlim)
-    if ylim is not None:
+    if ylim is not False:
+        if ylim is None:
+            ylim = (np.nanmin(coords[:, :, 1]), np.nanmax(coords[:, :, 1]))
         ax.set_ylim(*ylim)
     if axis_off:
         set_axis_off(ax)
