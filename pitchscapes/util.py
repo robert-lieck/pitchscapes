@@ -192,30 +192,92 @@ def sample_discrete_scape(scape,
                     yield tuple(return_list)
 
 
-def coords_from_times(times, remove_offset=True, unit_times=True):
-    coords = []
+def coords_from_times(times,
+                      start_end_idx=False,
+                      start_end_time=False,
+                      center_width=False,
+                      coords=False,
+                      remove_offset=True,
+                      unit_times=True):
+    """
+
+    :param times:
+    :param start_end_idx:
+    :param start_end_time:
+    :param center_width:
+    :param coords: list of coords (left, top, right, bottom/nan)
+    :param remove_offset:
+    :param unit_times:
+    :return:
+    """
+    start_end_idx_list = []
+    start_end_time_list = []
+    center_width_list = []
+    coord_list = []
     for start_idx, start in enumerate(times):
         for end_idx, end in enumerate(times):
             # only process valid, non-zero size windows
             if start_idx < end_idx:
-                coo = [tuple(start_end_to_center_width(start, times[end_idx - 1])),
-                       tuple(start_end_to_center_width(start, end)),
-                       tuple(start_end_to_center_width(times[start_idx + 1], end))]
-                if end_idx - start_idx > 1:
-                    coo.append(tuple(start_end_to_center_width(times[start_idx + 1], times[end_idx - 1])))
-                else:
-                    coo.append((np.nan, np.nan))
-                coords.append(tuple(coo))
-    coords = np.array(coords)
+                # get start/end index
+                if start_end_idx:
+                    start_end_idx_list.append([start_idx, end_idx])
+                # get start/end time
+                if start_end_time:
+                    start_end_time_list.append([start, end])
+                # get center/width
+                if center_width:
+                    center_width_list.append(start_end_to_center_width(start, end))
+                # get coordinates
+                if coords:
+                    coo = [tuple(start_end_to_center_width(start, times[end_idx - 1])),
+                           tuple(start_end_to_center_width(start, end)),
+                           tuple(start_end_to_center_width(times[start_idx + 1], end))]
+                    if end_idx - start_idx > 1:
+                        coo.append(tuple(start_end_to_center_width(times[start_idx + 1], times[end_idx - 1])))
+                    else:
+                        coo.append((np.nan, np.nan))
+                    coord_list.append(tuple(coo))
+    start_end_idx_list = np.array(start_end_idx_list)
+    # initialise as floats to allow for inplace division later
+    start_end_time_list = np.array(start_end_time_list, dtype=float)
+    center_width_list = np.array(center_width_list, dtype=float)
+    coord_list = np.array(coord_list, dtype=float)
     # remove offset
     min_time = np.min(times)
     max_time = np.max(times)
     if remove_offset:
-        coords[:, :, 0] -= min_time
+        if start_end_time:
+            start_end_time_list -= min_time
+        if center_width:
+            center_width_list[:, 0] -= min_time
+        if coords:
+            coord_list[:, :, 0] -= min_time
     # rescale to unit interval [0, 1]
     if unit_times:
         if remove_offset:
-            coords /= (max_time - min_time)
+            if start_end_time:
+                start_end_time_list /= (max_time - min_time)
+            if center_width:
+                center_width_list /= (max_time - min_time)
+            if coords:
+                coord_list /= (max_time - min_time)
         else:
-            coords /= max_time
-    return coords
+            if start_end_time:
+                start_end_time_list /= max_time
+            if center_width:
+                center_width_list /= max_time
+            if coords:
+                coord_list /= max_time
+    ret = []
+    if start_end_idx:
+        ret += [start_end_idx_list]
+    if start_end_time:
+        ret += [start_end_time_list]
+    if center_width:
+        ret += [center_width_list]
+    if coords:
+        ret += [coord_list]
+    if len(ret) == 1:
+        return ret[0]
+    else:
+        return tuple(ret)

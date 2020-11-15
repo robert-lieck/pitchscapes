@@ -393,7 +393,7 @@ def scape_plot_from_array(arr: np.ndarray, ax=None, times=None, check=True, coor
     # get coords
     if coord_kwargs is None:
         coord_kwargs = {}
-    coords = coords_from_times(times, **coord_kwargs)
+    coords = coords_from_times(times, coords=True, **coord_kwargs)
     # do checks
     if check:
         if not (arr.ndim == 1 or (arr.ndim == 2 and arr.shape[1] in [3, 4])):
