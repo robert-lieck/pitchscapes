@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,16 +10,19 @@ pitch_classes_sharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#
 pitch_classes_flat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 pitch_classes = pitch_classes_sharp
 
+
 def safe_int(s):
     i = int(s)
     assert i == s, f"{i} == {s}"
     return i
+
 
 def random_batch_ids(n_data, n_batches):
     batch_ids = np.arange(n_data)
     np.random.shuffle(batch_ids)
     batch_ids %= n_batches
     return batch_ids
+
 
 def axis_set_invisible(ax, splines=False, ticks=(), patch=False, x=False, y=False):
     if x:
@@ -76,6 +81,7 @@ def multi_sample_pitch_scapes(scapes, n_samples):
 
 
 def sample_pitch_scape(scape, n_samples, prior_counts=None, normalize=True):
+    warnings.warn("This function is deprecated as it handles prior counts inconsistently.", DeprecationWarning)
     if prior_counts is None:
         if isinstance(scape, PitchScape):
             prior_counts = 1.
