@@ -4,7 +4,7 @@ import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 import pitchscapes.reader as rd
-from scapes import PitchScape, DiscretePitchScape
+from pitchscapes.scapes import PitchScape, DiscretePitchScape
 
 
 class Test(TestCase):
