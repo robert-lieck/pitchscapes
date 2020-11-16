@@ -22,6 +22,7 @@ class TestVarious(TestCase):
         def pp():
             print(self.print_count)
             self.print_count += 1
+            # plt.show()
 
         pp()
 

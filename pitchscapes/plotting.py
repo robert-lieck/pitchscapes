@@ -82,15 +82,15 @@ def key_scores_to_color(scores,
     is_nan = np.any(np.isnan(scores), axis=(1, 2))
     is_not_nan = np.logical_not(is_nan)
     # get colours
-    key_colours = np.zeros((12, 2, 3))
-    key_colours[:, 0, :] = get_key_colour(pitch=np.arange(12),
-                                          maj_min=0,
-                                          circle_of_fifths=circle_of_fifths,
-                                          palette=palette)
-    key_colours[:, 1, :] = get_key_colour(pitch=np.arange(12),
-                                          maj_min=1,
-                                          circle_of_fifths=circle_of_fifths,
-                                          palette=palette)
+    key_colours = np.zeros((2, 12, 3))
+    key_colours[0, ...] = get_key_colour(pitch=np.arange(12),
+                                         maj_min=0,
+                                         circle_of_fifths=circle_of_fifths,
+                                         palette=palette)
+    key_colours[1, ...] = get_key_colour(pitch=np.arange(12),
+                                         maj_min=1,
+                                         circle_of_fifths=circle_of_fifths,
+                                         palette=palette)
     # compute weighted colours for each estimate
     colours = scores[is_not_nan, :, :, None] * key_colours[None, :, :, :]
     # take average colour

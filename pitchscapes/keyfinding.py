@@ -2,8 +2,13 @@ import numpy as np
 
 from .util import euclidean_distance
 
-class KeyEstimator:
 
+class KeyEstimator:
+    """
+    Compute key estimates. Custom parameters can be provided on initialisation.
+    """
+
+    # different major and minor key profiles
     profiles = {
         "metadata": {
             "major": [0.16728176182048993, 0.02588894338557735, 0.1171404498466961, 0.0356495908305276,
@@ -43,33 +48,35 @@ class KeyEstimator:
     }
 
     @staticmethod
-    def score(counts, profiles, scoring_func, normalise_counts=True, normalise_profiles=True):
-        # get counts as numpy array of right shape
+    def score(counts, profiles, scoring_func=euclidean_distance, normalise_counts=True, normalise_profiles=True):
+        """
+        Compute scores for the given count statistics and profiles.
+        :param counts: array-like of shape MxK with count statistics; M is the number of independent statistics to
+        compute scores for and K the number of categories, for instance, 12 for pitch-classes.
+        :param profiles: array-like of shape NxK with profiles to match the count statistics against; N is the
+        number of different profiles and K has to be of the same as for the counts.
+        :param scoring_func: the scoring function taking two arrays....
+        :param normalise_counts: whether to normalise counts before computing scores
+        :param normalise_profiles: whether to normalise profiles before computing scores
+        :return: array of shape MxNxK with scores for all statistics, profiles, and transpositions
+        """
+        # get counts and profiles as numpy arrays and normalise
         counts = np.array(counts, dtype=np.float)
-        # get profiles
-        if isinstance(profiles, str):
-            try:
-                profiles = KeyEstimator.profiles[profiles]
-            except KeyError:
-                raise KeyError(f"Could not find source '{profiles}', "
-                               f"available sources are {list(KeyEstimator.profiles.keys())}")
-            profiles = np.array([profiles["major"], profiles["minor"]], dtype=np.float)
-        else:
-            profiles = np.array(profiles, dtype=np.float)
+        profiles = np.array(profiles, dtype=np.float)
+        if normalise_counts:
+            counts /= counts.sum(axis=1, keepdims=True)
         if normalise_profiles:
             profiles /= profiles.sum(axis=1, keepdims=True)
         # assert matching dimensions
-        if counts.shape[1] != profiles.shape[1]:
+        if counts.shape[1:] != profiles.shape[1:]:
             raise ValueError(f"Count and profile arrays have different size ({counts.shape[1]} vs {profiles.shape[1]})")
-        # precompute rolled profiles
-        profile_list = [np.roll(profiles, i, axis=1) for i in range(profiles.shape[1])]
-        # compute scores
-        scores = np.full(counts.shape + (profiles.shape[0],), np.inf)
-        if normalise_counts:
-            counts /= counts.sum(axis=1, keepdims=True)
-        for roll_idx, pros in enumerate(profile_list):
-            for p_idx, p in enumerate(pros):
-                scores[:, roll_idx, p_idx] = scoring_func(counts[:, :], p[None, :], axis=1)
+        # initialise scores
+        scores = np.full((counts.shape[0], profiles.shape[0],) + counts.shape[1:], np.nan)
+        # compute scores by iterating over transpositions
+        for roll_idx in range(profiles.shape[1]):
+            # roll/transpose profiles
+            profs = np.roll(profiles, roll_idx, axis=1)
+            scores[:, :, roll_idx] = scoring_func(counts[:, None, ...], profs[None, :, ...], axis=2)
         return scores
 
     @staticmethod
@@ -78,6 +85,12 @@ class KeyEstimator:
 
     @staticmethod
     def argmin_scores(scores):
+        """
+        Compute the best match (minimal score).
+        :param scores: scores as computed by score function; shape MxNxK (data points x profiles x transpositions)
+        :return: array with indices of best match; shape Nx2 (first index is the profile index; second the
+        transposition)
+        """
         # get list of min indices from flattened scores
         idx = np.array([s.argmin() for s in scores])
         # unravel them into multidimensional indices (grouped by dimension)
@@ -99,19 +112,41 @@ class KeyEstimator:
                  scoring_func=euclidean_distance,
                  normalise_counts=True,
                  normalise_profiles=True):
-        self.profiles = profiles
+        """
+        Defaults to use
+        :param profiles: a string in KeyEstimator.profiles or profiles of shape Nx12 (for N profiles)
+        :param scoring_func: scoring function (default Euclidean distance)
+        :param normalise_counts: whether to normalise counts before computing scores (default: True)
+        :param normalise_profiles: whether to normalise profiles before computing scores (default: True)
+        """
+        # get profiles
+        if isinstance(profiles, str):
+            try:
+                profiles = KeyEstimator.profiles[profiles]
+            except KeyError:
+                raise KeyError(f"Could not find source '{profiles}', "
+                               f"available sources are {list(KeyEstimator.profiles.keys())}")
+            self.profiles = np.array([profiles["major"], profiles["minor"]], dtype=np.float)
+        else:
+            self.profiles = np.array(profiles, dtype=np.float)
         self.scoring_func = scoring_func
         self.normalise_counts = normalise_counts
         self.normalise_profiles = normalise_profiles
 
     def get_estimate(self, counts):
-        return KeyEstimator.argmin_scores(KeyEstimator.score(counts,
-                                                             profiles=self.profiles,
-                                                             scoring_func=self.scoring_func,
-                                                             normalise_counts=self.normalise_counts,
-                                                             normalise_profiles=self.normalise_profiles))
+        """
+        Get best key estimate for given counts. Shortcut for using KeyEstimator.argmin_scores with given defaults.
+        :param counts: counts to compute scores from
+        :return: estimates as return by KeyEstimator.argmin_scores
+        """
+        return KeyEstimator.argmin_scores(self.get_score(counts))
 
     def get_score(self, counts):
+        """
+        Get scores for given counts. Shotcut to using KeyEstimator.score with given defaults.
+        :param counts: counts to compute
+        :return: scores as returned by KeyEstimator.score
+        """
         return KeyEstimator.score(counts,
                                   profiles=self.profiles,
                                   scoring_func=self.scoring_func,
