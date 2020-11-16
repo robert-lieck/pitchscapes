@@ -77,16 +77,30 @@ class DiscretePitchScape(Scape):
                  prior_counts=None,
                  strategy="left",
                  normalise=False,
-                 normalise_values=True,
+                 normalise_values=False,
                  skip_type_check=False):
         """
         Initialise the scape.
-        :param values: values for each time slot (2D array like with first dimension of size N)
-        :param times: [optional] boundaries of the time slots (array like of length N+1). Defaults to [0, 1, ..., N].
+        :param values: values for each time slot (first dimension of size N runs over time intervals)
+        :param times: [optional] boundaries of the time intervals (array like of length N+1).
+        Defaults to [0, 1, ..., N].
+        :param prior_counts: scalar prior counts added to the aggregated values. Non-zero prior counts correspond to
+         a Bayesian estimate with a uniform prior; the magnitude adjusts the prior strength. A value of None (default)
+         does not add any prior counts. If return values are normalised (normalise=True) there is a difference between
+         None and 0: A value of 0 is interpreted as the limitting case of non-zero prior counts, which means that
+         outputs will always be normalised and if no data is available (zero counts, e.g. for zero-width time intervals
+         or time intervals only zero values), a uniform distribution is returned. For a value of None, you will get an
+         unnormalised all-zero output instead.
         :param strategy: one of ["left", "right", "center"] (default: "left"). Determines how a time-index interval
         [K, L] is split in the recursive computations. For "left": [K,L-1]+[L-1,L]; for "right": [K,K+1]+[K+1,L]; for
         "center": [K,K+1]+[K+1,L-1]+[L-1,L]. Also see comments for parse_bottom_up concerning efficiency and run time.
         :param normalise: whether to compute the weighted sum or mean (default: False i.e. compute weighted sum)
+        :param normalise_values: whether to normalise the values per time interval (default: True)
+        :param skip_type_check: If the values are integers there may be problems with in-place normalisation or adding
+        floating-type prior counts. The function raises a warning in these cases, suggesting to use a floating type
+        for the values. This check can be disabled (which is generally a bad idea) by setting skip_type_check=True.
+        Note that the warning is not raised for integer values of no normalisation is performed and the prior counts are
+        None or not of a floating type.
         """
         self.prior_counts = prior_counts
         self.strategy = strategy
@@ -240,18 +254,18 @@ class PitchScape(Scape):
     scape.
     """
 
-    def __init__(self, values=None, times=None, scape=None, **kwargs):
+    def __init__(self, values=None, scape=None, **kwargs):
         """
         Initialise PitchScape either from count values or from DiscretePitchScape.
         :param values: pitch-class counts (do not provide together with scape)
         :param scape: DiscretePitchScape object (do not provide together with values)
-        :param kwargs: key-word arguments passed on to initialize DiscretePitchScape (use only when also providing
+        :param kwargs: keyword arguments passed on to initialize DiscretePitchScape (use only when also providing
         values)
         """
-        if (values is None) == (scape is None) or (values is None and times is not None and scape is not None):
-            raise ValueError("Please specify EITHER 'values' (and optional key-word arguments) OR 'scape'")
+        if (values is None) == (scape is None):
+            raise ValueError("Please specify EITHER 'values' (and optional keyword arguments) OR 'scape'")
         if scape is None:
-            scape = DiscretePitchScape(values=values, times=times, **kwargs)
+            scape = DiscretePitchScape(values=values, **kwargs)
         elif kwargs:
             raise TypeError("Cannot take keyword arguments if scape object is given.")
         self.scape = scape

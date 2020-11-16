@@ -178,6 +178,12 @@ def pitch_class_counts(file, reader=read):
 
 
 def get_pitch_scape(file_path, **kwargs):
+    """
+    Load a pitch scape from file.
+    :param file_path: file to load
+    :param kwargs: kwargs passed to PitchScape
+    :return: PitchScape object
+    """
     pitch_counts, times = pitch_class_counts(file_path)
     return PitchScape(values=pitch_counts, times=times, **kwargs)
 
@@ -219,8 +225,7 @@ def sample_scape(n_time_intervals,
     """
     Sample points from a scape on a uniform grid. The total time [min_time, max_time] is divided into n_time_intervals
     equally sized intervals. A sample for every possible combination of start and end time is collected and returned,
-    starting with the smallest intervals of size (max_time - min_time) / n_time_intervals and terminating with the
-    maximum interval of size max_time - min_time.
+    ordered first by start time and then by end time.
     :param n_time_intervals: the number of time intervals
     :param file_path: path to a file for reading a scape via get_pitch_scape (alternative to passing scape directly)
     :param scape: the scape to sample (alternative to providing file_path)

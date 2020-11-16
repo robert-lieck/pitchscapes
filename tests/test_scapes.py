@@ -7,6 +7,59 @@ from pitchscapes.scapes import PitchScape, DiscretePitchScape
 
 class TestPitchScape(TestCase):
 
+    def test_multidimensional(self):
+        data = np.array([[[1, 0, 0, 0], [1, 0, 0, 0]],
+                         [[0, 1, 0, 0], [0, 1, 0, 0]],
+                         [[0, 0, 1, 0], [0, 0, 1, 0]],
+                         [[0, 0, 0, 1], [0, 0, 0, 1]]])
+        pitch_scape = DiscretePitchScape(values=data)
+        pitch_scape = PitchScape(scape=pitch_scape)
+        # check width-4 time slot
+        assert_array_almost_equal([[1, 1, 1, 1],
+                                   [1, 1, 1, 1]], pitch_scape[0, 4])
+        # check width-0 time slots
+        assert_array_almost_equal([[0, 0, 0, 0],
+                                   [0, 0, 0, 0]], pitch_scape[0, 0])
+        assert_array_almost_equal([[0, 0, 0, 0],
+                                   [0, 0, 0, 0]], pitch_scape[1, 1])
+        assert_array_almost_equal([[0, 0, 0, 0],
+                                   [0, 0, 0, 0]], pitch_scape[2, 2])
+        assert_array_almost_equal([[0, 0, 0, 0],
+                                   [0, 0, 0, 0]], pitch_scape[3, 3])
+        assert_array_almost_equal([[0, 0, 0, 0],
+                                   [0, 0, 0, 0]], pitch_scape[4, 4])
+        # check width-1 time slots
+        assert_array_almost_equal([[1, 0, 0, 0],
+                                   [1, 0, 0, 0]], pitch_scape[0, 1])
+        assert_array_almost_equal([[0, 1, 0, 0],
+                                   [0, 1, 0, 0]], pitch_scape[1, 2])
+        assert_array_almost_equal([[0, 0, 1, 0],
+                                   [0, 0, 1, 0]], pitch_scape[2, 3])
+        assert_array_almost_equal([[0, 0, 0, 1],
+                                   [0, 0, 0, 1]], pitch_scape[3, 4])
+        # check width-1 time slots shifted by 0.5
+        assert_array_almost_equal([[0.5, 0.5, 0, 0],
+                                   [0.5, 0.5, 0, 0]],
+                                  pitch_scape[0.5, 1.5])
+        assert_array_almost_equal([[0, 0.5, 0.5, 0],
+                                   [0, 0.5, 0.5, 0]],
+                                  pitch_scape[1.5, 2.5])
+        assert_array_almost_equal([[0, 0, 0.5, 0.5],
+                                   [0, 0, 0.5, 0.5]],
+                                  pitch_scape[2.5, 3.5])
+        # check width-2 time slots
+        assert_array_almost_equal([[1, 1, 0, 0],
+                                   [1, 1, 0, 0]], pitch_scape[0, 2])
+        assert_array_almost_equal([[0, 1, 1, 0],
+                                   [0, 1, 1, 0]], pitch_scape[1, 3])
+        assert_array_almost_equal([[0, 0, 1, 1],
+                                   [0, 0, 1, 1]], pitch_scape[2, 4])
+        # check width-3 time slots
+        assert_array_almost_equal([[1, 1, 1, 0],
+                                   [1, 1, 1, 0]], pitch_scape[0, 3])
+        assert_array_almost_equal([[0, 1, 1, 1],
+                                   [0, 1, 1, 1]], pitch_scape[1, 4])
+
     def test_scape(self):
         # data (as int)
         data = np.array([[1, 0, 0, 0],
