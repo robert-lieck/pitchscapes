@@ -125,16 +125,49 @@ def key_legend(ax=None,
                fontsize=None,
                axis_off=True,
                equal_axes_aspect=True):
+    """
+
+    :param ax: axis to plot to or None to create
+    :param sharp_flat: one of ['sharp', 'flat']; whether to use sharps or flats as accidentals
+    :param location: one of ['centre', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'left small',
+    'right small']; set the default values of horizontal, label_size, fontsize, x_scale, y_scale, x_offset, y_offset
+    (providing explicit values overwrites the defaults set by location); default is 'centre' resulting in values:
+    horizontal = True
+    label_size = 0.8
+    x_scale = 1.
+    y_scale = 1.
+    x_offset = 0.5
+    y_offset = 0.5
+    fontsize = 10
+    :param circle_of_fifths: bool or None (default); whether to arrange keys chromatically (False) or along the circle
+    of fifths (True); if None the value is determined from the default, which can be set via set_circle_of_fifths.
+    :param horizontal: orientation of the legend: horizontal (True) or vertical False
+    :param x_scale: scaling along x-direction (default: 1.)
+    :param y_scale: scaling along y-direction (default: 1.)
+    :param aspect: aspect ratio (default: 1.); determines the aspect ratio (width/height) of the legend elements; if
+    the x- and y-axes are not scalled equally, this can be used to retain circular legend elements
+    :param x_offset: change position in x-direction (default: 0.5)
+    :param y_offset: change position in y-direction (default: 0.5)
+    :param palette: palette argument used in get_key_colour
+    :param label_size: scales the size of the legend elements (default: 0.8)
+    :param fontsize: fontsize of the legend elements' text (default: 10)
+    :param axis_off: whether to turn off axis visibility (default: True)
+    :param equal_axes_aspect: whether to set equal aspect ratio for the axes (default: True)
+    :return: None (if ax was provided) or newly created figure and axis
+    """
     if circle_of_fifths is None:
         circle_of_fifths = get_circle_of_fifths()
     # set defaults
+    horizontal_ = True
     label_size_ = 0.8
+    fontsize_ = 10
     x_scale_ = 1.
     y_scale_ = 1.
     x_offset_ = 0.5
     y_offset_ = 0.5
-    fontsize_ = 10
     # set location specific defaults
+    if location == 'centre':
+        pass
     if location == 'top':
         horizontal_ = True
         y_offset_ = 1 - y_scale_ / 12
@@ -149,7 +182,7 @@ def key_legend(ax=None,
         x_offset_ = 1 - x_scale_ / 12
     elif location == 'top left':
         label_size_ = 0.35
-        fontsize = 7
+        fontsize_ = 7
         x_scale_ = 0.43
         y_scale_ = 0.43
         horizontal_ = True
@@ -157,7 +190,7 @@ def key_legend(ax=None,
         y_offset_ = 1 - y_scale_ / 12
     elif location == 'top right':
         label_size_ = 0.35
-        fontsize = 7
+        fontsize_ = 7
         x_scale_ = 0.43
         y_scale_ = 0.43
         horizontal_ = True
@@ -178,7 +211,7 @@ def key_legend(ax=None,
         x_offset_ = 1 - x_scale_ / 12
         y_offset_ = 1 - y_scale_ / 2
     else:
-        raise ValueError(f"'location' should be one of ['top', 'bottom', 'left', 'right', "
+        raise ValueError(f"'location' should be one of ['centre', 'top', 'bottom', 'left', 'right', "
                          f"'top left', 'top right', 'left small', 'right small'] but is '{location}'")
     # set explicitly specified values
     if horizontal is not None:
@@ -197,7 +230,13 @@ def key_legend(ax=None,
         fontsize_ = fontsize
     # get axis
     if ax is None:
-        fig, ax_ = plt.subplots(1, 1)
+        if horizontal_:
+            figsize = (12 * x_scale_, 2 * y_scale_)
+        else:
+            figsize = (2 * x_scale_, 12 * y_scale_)
+        fig, ax_ = plt.subplots(1, 1,
+                                figsize=figsize,
+                                gridspec_kw=dict(left=0, right=1, bottom=0, top=1))
     else:
         ax_ = ax
     if equal_axes_aspect:
