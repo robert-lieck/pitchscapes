@@ -97,10 +97,13 @@ class KeyEstimator:
         idx = np.unravel_index(idx, scores.shape[1:])
         # concatenate along first dimension and transpose (i-th entry in return correspond to indices of minimum entry
         # in the i-th score array)
-        idx = np.concatenate([i[None, :] for i in idx]).T.astype(np.float)
+        idx = np.concatenate([i[None, :] for i in idx]).T
         # reconstruct nan values
         contains_nans = np.any(np.isnan(scores), axis=tuple(range(1, len(scores.shape))))
-        idx[contains_nans, ...] = np.nan
+        # if there are nans: convert to float and reconstruct
+        if np.any(contains_nans):
+            idx = idx.astype(np.float)
+            idx[contains_nans, ...] = np.nan
         return idx
 
     def __init__(self,
