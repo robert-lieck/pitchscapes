@@ -594,3 +594,61 @@ def plot_assignment(assignments, ax, add_marginal_row=False, add_marginal_col=Fa
     # add tick labels
     ax.set_xticks(list(range(n_cols)))
     ax.set_yticks(list(range(n_rows)))
+
+
+def compare_key_profiles(empirical,
+                         profile=None,
+                         key_estimator=None,
+                         ax=None,
+                         plot_kwargs=None,
+                         normalise=True,
+                         transpose_profile=True,
+                         sharp_flat='sharp'):
+    # get np array
+    empirical = np.array(empirical)
+    # get labels
+    if sharp_flat == 'sharp':
+        labels = pitch_classes_sharp
+    else:
+        labels = pitch_classes_flat
+    # get profile via key-estimator if not provided
+    xlabel = None
+    if profile is None:
+        # get default key-estimator if not provided
+        if key_estimator is None:
+            key_estimator = KeyEstimator()
+        # compute key estimate (add first dimension)
+        maj_min, tonic = key_estimator.get_estimate(empirical[None, :])[0]
+        # choose profile
+        profile = key_estimator.profiles[maj_min]
+        # choose transposition/tonic
+        if transpose_profile:
+            profile = np.roll(profile, shift=tonic)
+            xlabel = labels[tonic] + [" major", " minor"][maj_min]
+        else:
+            labels = np.roll(labels, shift=-tonic)
+            empirical = np.roll(empirical, shift=-tonic)
+            xlabel = labels[0] + [" major", " minor"][maj_min]
+
+    # get axis if not provided
+    if ax is None:
+        fig, ax_ = plt.subplots(1, 1)
+    else:
+        ax_ = ax
+    # init plot_kwargs
+    if plot_kwargs is None:
+        plot_kwargs = {}
+    # normalise
+    if normalise:
+        empirical = empirical / np.sum(empirical)
+        profile = profile / np.sum(profile)
+    # do plot
+    width = 0.33
+    x = np.arange(12)
+    ax_.bar(x + width / 2, empirical, width=width, label="empirical", **plot_kwargs)
+    ax_.bar(x - width / 2, profile, width=width, label="profile", **plot_kwargs)
+    ax_.set_xticks(x)
+    ax_.set_xticklabels(labels)
+    if xlabel is not None:
+        ax_.set_xlabel(xlabel)
+    ax_.legend()
