@@ -1,5 +1,7 @@
-import numpy as np
 from math import isclose
+from warnings import warn
+import numpy as np
+
 
 
 def normalize_non_zero(a, axis=None, skip_type_check=False):
@@ -168,7 +170,14 @@ class DiscretePitchScape(Scape):
         self.assert_valid_time_window(start, end)
         start_idx, end_idx = self.indices[start], self.indices[end]
         self.assert_valid_index_window(start_idx, end_idx)
-        return self.get_value_at_index(start_idx, end_idx)
+        # check for zero-size windows or return accumulated value
+        if start == end:
+            return self.zero_size_value()
+        else:
+            value = self.get_value_at_index(start_idx, end_idx)
+            delta_t = self.times[end_idx] - self.times[start_idx]
+            self.add_prior_counts(value, delta_t)
+            return value
 
     def recursive_indices(self, start_idx, end_idx):
         if end_idx - start_idx < 2:
@@ -186,56 +195,79 @@ class DiscretePitchScape(Scape):
             raise ValueError(f"Unknown recursion strategy '{self.strategy}'")
         return index_list
 
-    def get_value_at_index(self, start, end):
-        # check for zero-size windows
-        if start == end:
-            ret = np.zeros(self.values.shape[1:], dtype=self.values.dtype)
-            if self.normalise:
-                if self.prior_counts is not None:
-                    # for any value of prior counts (except None) return a uniform distribution
-                    ret += 1 / self.n_value_dim
-            else:
-                if self.prior_counts is not None and self.prior_counts != 0:
-                    ret += self.prior_counts
-            return ret
-        else:
-            # if value is not stored in memory: compute recursively
-            if (start, end) not in self._accumulated_values:
-                # accumulate indices to compute
-                indices_to_compute = [(start, end)]
-                unprocessed_indices = [(start, end)]
-                while unprocessed_indices:
-                    unprocessed_start, unprocessed_end = unprocessed_indices.pop()
-                    for new_start, new_end in self.recursive_indices(unprocessed_start, unprocessed_end):
-                        if (new_start, new_end) not in self._accumulated_values:
-                            unprocessed_indices.append((new_start, new_end))
-                            indices_to_compute.append((new_start, new_end))
-                # compute
-                for new_start, new_end in reversed(indices_to_compute):
-                    # double-check before computing
-                    # (might have reoccurred higher in the stack and already been computed)
-                    if (new_start, new_end) not in self._accumulated_values:
-                        sum_val = None
-                        for new_new_start, new_new_end in self.recursive_indices(new_start, new_end):
-                            if sum_val is None:
-                                sum_val = self._accumulated_values[new_new_start, new_new_end]
-                            else:
-                                sum_val = sum_val + self._accumulated_values[new_new_start, new_new_end]
-                        self._accumulated_values[new_start, new_end] = sum_val
-            ret = self._accumulated_values[start, end].copy()
-        if self.prior_counts is not None and self.prior_counts != 0:
-            ret += self.prior_counts
+    def zero_size_value(self):
+        # return zeros, uniform distribution, or prior counts (depending on value of prior_counts)
+        ret = np.zeros(self.values.shape[1:], dtype=self.values.dtype)
         if self.normalise:
-            if self.prior_counts == 0 and np.all(ret == 0):
-                # edge case of prior counts --> 0: return uniform distribution
+            if self.prior_counts is not None:
+                # for any value of prior counts (except None) return a uniform distribution
                 ret += 1 / self.n_value_dim
+        else:
+            if self.prior_counts is not None and self.prior_counts != 0:
+                ret += self.prior_counts
+        return ret
+
+    def get_value_at_index(self, start, end):
+        # if value is not stored in memory: compute recursively
+        if (start, end) not in self._accumulated_values:
+            # accumulate indices to compute
+            indices_to_compute = [(start, end)]
+            unprocessed_indices = [(start, end)]
+            while unprocessed_indices:
+                unprocessed_start, unprocessed_end = unprocessed_indices.pop()
+                for new_start, new_end in self.recursive_indices(unprocessed_start, unprocessed_end):
+                    if (new_start, new_end) not in self._accumulated_values:
+                        unprocessed_indices.append((new_start, new_end))
+                        indices_to_compute.append((new_start, new_end))
+            # compute
+            for new_start, new_end in reversed(indices_to_compute):
+                # double-check before computing
+                # (might have reoccurred higher in the stack and already been computed)
+                if (new_start, new_end) not in self._accumulated_values:
+                    sum_val = None
+                    for new_new_start, new_new_end in self.recursive_indices(new_start, new_end):
+                        # compute value
+                        val = self._accumulated_values[new_new_start, new_new_end]
+                        if self.normalise:
+                            # get unnormalised value by multiplying with the respective time interval
+                            val = val * (self.times[new_new_end] - self.times[new_new_start])
+                        # initialise or update sum
+                        if sum_val is None:
+                            sum_val = val
+                        else:
+                            sum_val = sum_val + val
+                    if self.normalise:
+                        # if output should be normalised, store normalised values
+                        sum_val /= self.times[new_end] - self.times[new_start]
+                    self._accumulated_values[new_start, new_end] = sum_val
+        # return a copy of the stored value
+        return self._accumulated_values[start, end].copy()
+
+    def add_prior_counts(self, value, delta_t):
+        """Add prior counts ensuring correct normalisation. NOTE: value is modified in place."""
+        if self.normalise:
+            # get unnormalised value from normalised to correctly add prior counts
+            value *= delta_t
+        if self.prior_counts is not None and self.prior_counts != 0:
+            # add prior counts
+            value += self.prior_counts
+        if self.normalise:
+            # renormalise
+            if self.prior_counts == 0 and np.all(value == 0):
+                # edge case of prior counts --> 0: return uniform distribution
+                value += 1 / self.n_value_dim
             elif self.prior_counts is None:
                 # prior counts ignored in normalisation
-                ret /= self.times[end] - self.times[start]
+                value /= delta_t
             else:
                 # prior counts included in normalisation
-                ret /= self.times[end] - self.times[start] + self.n_value_dim * self.prior_counts
-        return ret
+                value /= delta_t + self.n_value_dim * self.prior_counts
+            if not np.all(value == 0):
+                # compensate floating point errors
+                n = value.sum()
+                value /= n
+                if not np.isclose(n, 1, atol=1e-2):
+                    warn(f"Inexact normalisation corrected ({n})", RuntimeWarning)
 
     def parse_bottom_up(self):
         """
@@ -308,6 +340,9 @@ class PitchScape(Scape):
         return start, end, lower_start_idx, upper_start_idx, lower_end_idx, upper_end_idx
 
     def interpolate(self, start, end):
+        # check for zero-size windows
+        if start == end:
+            return self.scape.zero_size_value()
         # get adjacent indices
         (start,
          end,
@@ -323,10 +358,10 @@ class PitchScape(Scape):
         if lower_start_idx == lower_end_idx and upper_start_idx == upper_end_idx:
             # window start/end lie in the same time interval
             if self.normalise:
-                return self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
+                value = self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
             else:
-                return (end - start) / (upper_start_time - lower_start_time) * \
-                       self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
+                value = (end - start) / (upper_start_time - lower_start_time) * \
+                      self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
         elif upper_start_time == lower_end_time:
             # window start/end lie in between two adjacent time intervals
             e = self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
@@ -334,11 +369,11 @@ class PitchScape(Scape):
             if self.normalise:
                 f1 = upper_start_time - start
                 f2 = end - lower_end_time
-                return (f1 * e + f2 * f) / (f1 + f2)
+                value = (f1 * e + f2 * f) / (f1 + f2)
             else:
                 f1 = (upper_start_time - start) / (upper_start_time - lower_start_time)
                 f2 = (end - lower_end_time) / (upper_end_time - lower_end_time)
-                return f1 * e + f2 * f
+                value = f1 * e + f2 * f
         else:
             # at least one complete time interval lies in between window start/end
             assert lower_start_time <= start <= upper_start_time, \
@@ -352,8 +387,11 @@ class PitchScape(Scape):
                 f1 = upper_start_time - start
                 f2 = end - lower_end_time
                 f3 = lower_end_time - upper_start_time
-                return (f3 * d + f1 * e + f2 * f) / (f1 + f2 + f3)
+                value = (f3 * d + f1 * e + f2 * f) / (f1 + f2 + f3)
             else:
                 f1 = (upper_start_time - start) / (upper_start_time - lower_start_time)
                 f2 = (end - lower_end_time) / (upper_end_time - lower_end_time)
-                return d + f1 * e + f2 * f
+                value = d + f1 * e + f2 * f
+        # add prior counts
+        self.scape.add_prior_counts(value, end - start)
+        return value

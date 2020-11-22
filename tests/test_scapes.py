@@ -252,3 +252,26 @@ class TestPitchScape(TestCase):
                         except Exception:
                             print(f"strategy: {strategy}\nnormalise: {normalise}\npcs: {pcs}")
                             raise
+
+    def test_normalisation(self):
+        length = 100
+        for prior_counts in [None, 0] + list(np.random.uniform(0, 100, 10)):
+            counts = np.random.randint(0, 3, (length, 5)).astype(float)
+            times = np.linspace(0, length, length + 1)
+            times[1:-1] += np.random.uniform(-0.1, 0.1, length - 1)
+            scape = PitchScape(values=counts,
+                               times=times,
+                               normalise_values=True,
+                               normalise=True,
+                               prior_counts=prior_counts)
+            # check non-zero intervals
+            for a, b in np.random.uniform(0, length, (100, 2)):
+                start, end = sorted([a, b])
+                self.assertAlmostEqual(1, scape[start, end].sum())
+            # check zero intervals
+            for a, b in [(x, x) for x in np.random.uniform(0, length, 100)]:
+                start, end = sorted([a, b])
+                if prior_counts is None:
+                    self.assertAlmostEqual(0, scape[start, end].sum())
+                else:
+                    self.assertAlmostEqual(1, scape[start, end].sum())
