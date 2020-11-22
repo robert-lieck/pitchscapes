@@ -78,7 +78,8 @@ class DiscretePitchScape(Scape):
                  strategy="left",
                  normalise=False,
                  normalise_values=False,
-                 skip_type_check=False):
+                 skip_type_check=False,
+                 dtype=None):
         """
         Initialise the scape.
         :param values: values for each time slot (first dimension of size N runs over time intervals)
@@ -101,6 +102,7 @@ class DiscretePitchScape(Scape):
         for the values. This check can be disabled (which is generally a bad idea) by setting skip_type_check=True.
         Note that the warning is not raised for integer values of no normalisation is performed and the prior counts are
         None or not of a floating type.
+        :param dtype: type to use for values
         """
         self.prior_counts = prior_counts
         self.strategy = strategy
@@ -118,7 +120,10 @@ class DiscretePitchScape(Scape):
         self.max_index = self.times.shape[0]
         super().__init__(min_time=self.times.min(), max_time=self.times.max())
         # values
-        self.values = np.array(values)
+        if dtype is None:
+            self.values = np.array(values)
+        else:
+            self.values = np.array(values, dtype=dtype)
         # warn for non-float types
         if not skip_type_check and not np.issubdtype(self.values.dtype, np.floating):
             if normalise_values or normalise:
