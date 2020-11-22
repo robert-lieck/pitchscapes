@@ -1,5 +1,6 @@
 from collections import namedtuple
 from itertools import product
+from warnings import warn
 
 import numpy as np
 import mido
@@ -234,7 +235,10 @@ def sample_scape(n_time_intervals,
     """
     if (file_path is None) == (scape is None):
         raise ValueError("Have to provide exactly one of 'file_path' and 'scape' as arguments")
-    if file_path is not None:
+    if scape is not None:
+        if kwargs:
+            warn("Keyword arguments are ignored if you provide 'scape'")
+    else:
         scape = get_pitch_scape(file_path, **kwargs)
     times = np.linspace(scape.min_time, scape.max_time, n_time_intervals + 1)
     samples = []
