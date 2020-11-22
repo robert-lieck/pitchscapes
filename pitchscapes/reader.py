@@ -6,7 +6,7 @@ import numpy as np
 import mido
 import music21
 
-from .scapes import PitchScape
+from .scapes import PitchScape, normalize_non_zero
 from .util import sample_pitch_scape
 
 
@@ -186,6 +186,7 @@ def get_pitch_scape(file_path, **kwargs):
     :return: PitchScape object
     """
     pitch_counts, times = pitch_class_counts(file_path)
+    normalize_non_zero(pitch_counts)
     return PitchScape(values=pitch_counts, times=times, **kwargs)
 
 
