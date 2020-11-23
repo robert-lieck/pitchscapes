@@ -1,10 +1,12 @@
 #  Copyright (c) 2020 Robert Lieck
 from unittest import TestCase
 import numpy as np
+from numpy.testing import assert_array_equal
 from pitchscapes.keyfinding import KeyEstimator
 
 
 class TestKeyEstimator(TestCase):
+
     def test_score(self):
         profiles = np.array([[1, 2, 3, 4, 5],
                              [5, 4, 3, 2, 1]])
@@ -21,3 +23,14 @@ class TestKeyEstimator(TestCase):
         estimates = k.get_estimate(counts=counts)
         np.testing.assert_array_equal([[0, 0], [0, 1], [0, 2],
                                        [1, 0], [1, 1], [1, 2]], estimates)
+
+    def test_classification(self):
+        # prototypical major and minor profile
+        major = np.array([[2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1]])  # C major
+        minor = np.array([[2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 1, 0]])  # C minor
+        # key estimator
+        k = KeyEstimator()
+        # roll through all transpositions
+        for trans in range(12):
+            assert_array_equal([[0, trans]], k.get_estimate(np.roll(major, shift=trans, axis=1)))
+            assert_array_equal([[1, trans]], k.get_estimate(np.roll(minor, shift=trans, axis=1)))
