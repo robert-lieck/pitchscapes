@@ -32,7 +32,7 @@ def set_axis_off(ax):
     axis_set_invisible(ax=ax, splines=True, ticks='all', patch=True)
 
 
-def get_key_colour(pitch, maj_min, circle_of_fifths=None, palette=None):
+def get_key_colour(tonic_pitch, maj_min, circle_of_fifths=None, palette=None):
     if palette is None:
         # hand-tuned hue circle of bright and dark colours
         palette = np.array([(255, 55, 121), (213, 0, 70),
@@ -54,10 +54,10 @@ def get_key_colour(pitch, maj_min, circle_of_fifths=None, palette=None):
     if circle_of_fifths is None:
         circle_of_fifths = get_circle_of_fifths()
     if circle_of_fifths:
-        pitch = (pitch * 7) % 12
+        tonic_pitch = (tonic_pitch * 7) % 12
     if maj_min == 1:
-        pitch = (pitch + minor_shift(circle_of_fifths)) % 12
-    return palette[pitch, maj_min]
+        tonic_pitch = (tonic_pitch + minor_shift(circle_of_fifths)) % 12
+    return palette[tonic_pitch, maj_min]
 
 
 def key_scores_to_color(scores,
@@ -83,11 +83,11 @@ def key_scores_to_color(scores,
     is_not_nan = np.logical_not(is_nan)
     # get colours
     key_colours = np.zeros((2, 12, 3))
-    key_colours[0, ...] = get_key_colour(pitch=np.arange(12),
+    key_colours[0, ...] = get_key_colour(tonic_pitch=np.arange(12),
                                          maj_min=0,
                                          circle_of_fifths=circle_of_fifths,
                                          palette=palette)
-    key_colours[1, ...] = get_key_colour(pitch=np.arange(12),
+    key_colours[1, ...] = get_key_colour(tonic_pitch=np.arange(12),
                                          maj_min=1,
                                          circle_of_fifths=circle_of_fifths,
                                          palette=palette)
@@ -242,15 +242,15 @@ def key_legend(ax=None,
     if equal_axes_aspect:
         ax_.set_aspect('equal')
     # generate legend
-    for pitch, key in enumerate(zip(pitch_classes_sharp, pitch_classes_flat)):
+    for tonic_pitch, key in enumerate(zip(pitch_classes_sharp, pitch_classes_flat)):
         for maj_min in [0, 1]:
             # x coordinate {0, 1}
             x = maj_min
             # y coordinate {0,...,11}
             if circle_of_fifths:
-                y = (pitch * 7) % 12
+                y = (tonic_pitch * 7) % 12
             else:
-                y = pitch
+                y = tonic_pitch
             # adapt capitalisation of label and shift y coordinate for minor
             if maj_min == 0:
                 key = [key[0].capitalize(), key[1].capitalize()]
@@ -295,7 +295,7 @@ def key_legend(ax=None,
             width = label_size_ / 12 * np.sqrt(aspect)
             height = label_size_ / 12 / np.sqrt(aspect)
             ax_.add_patch(Ellipse((x, y), width, height,
-                                  color=get_key_colour(pitch=pitch,
+                                  color=get_key_colour(tonic_pitch=tonic_pitch,
                                                        maj_min=maj_min,
                                                        circle_of_fifths=circle_of_fifths,
                                                        palette=palette)))
