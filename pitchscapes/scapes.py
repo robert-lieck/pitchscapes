@@ -66,7 +66,7 @@ class Scape:
             raise ValueError(f"Window start is greater than or equal to window end ({start} >= {end})")
 
 
-class DiscretePitchScape(Scape):
+class DiscretePitchScape_(Scape):
     """
     Discrete-time scape that is only well-defined at specific points in time. It computes the weighted sum (optionally
     the mean) over the given time window i.e. it sums up the values weighted by the corresponding time span and
@@ -284,7 +284,146 @@ class DiscretePitchScape(Scape):
                 self.get_value_at_index(start_idx, start_idx + width)
 
 
-class PitchScape(Scape):
+class DiscreteScape(Scape):
+    """
+    Discrete-time scape that is only well-defined at specific points in time. It computes the weighted sum over the
+    given time window i.e. it sums up the values weighted by the corresponding time span.
+    """
+
+    def __init__(self,
+                 values,
+                 times=None,
+                 weights=None,
+                 strategy="left"):
+        """
+        Initialise the scape.
+        :param values: values for each time slot (first dimension of size N runs over time intervals)
+        :param times: [optional] boundaries of the time intervals (array like of length N+1).
+        Defaults to [0, 1, ..., N].
+        :param weights: [optional] non-negative weights for the values; if not provided, the size of respective time
+        interval is used.
+        :param strategy: one of ["left", "right", "center"] (default: "left"). Determines how a time-index interval
+        [K, L] is split in the recursive computations. For "left": [K,L-1]+[L-1,L]; for "right": [K,K+1]+[K+1,L]; for
+        "center": [K,K+1]+[K+1,L-1]+[L-1,L]. Also see comments for parse_bottom_up concerning efficiency and run time.
+        """
+        self.strategy = strategy
+        # set times and initialise super class
+        if times is None:
+            times = list(range(len(values) + 1))
+        self._len = len(times)
+        self.times = np.array(times)
+        if not np.all(self.times[:-1] <= self.times[1:]):
+            raise ValueError(f"Times are not sorted: {self.times}")
+        # get reverse time indices
+        self.indices = {time: idx for idx, time in enumerate(self.times)}
+        self.min_index = 0
+        self.max_index = self.times.shape[0]
+        super().__init__(min_time=self.times.min(), max_time=self.times.max())
+        # get weights
+        if weights is None:
+            self.weights = self.times[1:] - self.times[:-1]
+        else:
+            self.weights = np.array(weights)
+        if np.any(self.weights < 0):
+            raise ValueError(f"Weights must be non-negative: {self.weights}")
+        # values
+        self.values = np.array(values)
+        # value for windows of zero width
+        self.zero_size_value = np.zeros(self.values.shape[1:], dtype=self.values.dtype)
+        # check dimensions
+        if self.values.shape[0] != self.times.shape[0] - 1:
+            raise ValueError(f"There should be n-1 values for n time steps "
+                             f"(values shape: {self.values.shape}, times shape: {self.times.shape})")
+        if self.weights.shape[0] != self.values.shape[0]:
+            raise ValueError(f"There should be a many weights as values "
+                             f"(values shape: {self.values.shape}, weight shape: {self.weights.shape})")
+        # initialise bottom level of scape with weighted values
+        self._accumulated_values = {(idx, idx + 1): v * w for idx, (v, w) in enumerate(zip(self.values, self.weights))}
+
+    def assert_valid_time_window(self, start, end):
+        super().assert_valid_time_window(start, end)
+        if start not in self.indices:
+            raise ValueError(f"Window start ({start}) is not a valid time (not in {self.indices})")
+        if end not in self.indices:
+            raise ValueError(f"Window end ({end}) is not a valid time (not in {self.indices})")
+
+    def assert_valid_index_window(self, start, end):
+        if not (self.min_index <= start <= end <= self.max_index):
+            raise ValueError(f"Invalid start/end index, should be "
+                             f"{self.min_index} <= {start} < {end} <= {self.max_index}")
+
+    def __getitem__(self, item):
+        start, end = item
+        self.assert_valid_time_window(start, end)
+        start_idx, end_idx = self.indices[start], self.indices[end]
+        self.assert_valid_index_window(start_idx, end_idx)
+        return self.get_value_at_index(start_idx, end_idx)
+
+    def recursive_indices(self, start_idx, end_idx):
+        if end_idx - start_idx < 2:
+            raise ValueError(f"Recursion only defined for windows with size > 1 "
+                             f"(start: {start_idx}, end: {end_idx}, size: {end_idx - start_idx})")
+        if self.strategy == "center":
+            index_list = [(start_idx, start_idx + 1), (end_idx - 1, end_idx)]
+            if end_idx - start_idx > 2:
+                index_list.append((start_idx + 1, end_idx - 1))
+        elif self.strategy == "left":
+            index_list = [(start_idx, end_idx - 1), (end_idx - 1, end_idx)]
+        elif self.strategy == "right":
+            index_list = [(start_idx, start_idx + 1), (start_idx + 1, end_idx)]
+        else:
+            raise ValueError(f"Unknown recursion strategy '{self.strategy}'")
+        return index_list
+
+    def get_value_at_index(self, start, end):
+        # zero-size window
+        if start == end:
+            return self.zero_size_value.copy()
+        # if value is not stored in memory: compute recursively
+        if (start, end) not in self._accumulated_values:
+            # accumulate indices to compute
+            indices_to_compute = [(start, end)]
+            unprocessed_indices = [(start, end)]
+            while unprocessed_indices:
+                unprocessed_start, unprocessed_end = unprocessed_indices.pop()
+                for new_start, new_end in self.recursive_indices(unprocessed_start, unprocessed_end):
+                    if (new_start, new_end) not in self._accumulated_values:
+                        unprocessed_indices.append((new_start, new_end))
+                        indices_to_compute.append((new_start, new_end))
+            # compute
+            for new_start, new_end in reversed(indices_to_compute):
+                # double-check before computing
+                # (might have reoccurred higher in the stack and already been computed)
+                if (new_start, new_end) not in self._accumulated_values:
+                    sum_val = None
+                    for new_new_start, new_new_end in self.recursive_indices(new_start, new_end):
+                        # compute value
+                        val = self._accumulated_values[new_new_start, new_new_end]
+                        # initialise or update sum
+                        if sum_val is None:
+                            sum_val = val
+                        else:
+                            sum_val = sum_val + val
+                    self._accumulated_values[new_start, new_end] = sum_val
+        # return a copy of the stored value
+        return self._accumulated_values[start, end].copy()
+
+    def parse_bottom_up(self):
+        """
+        Compute all values bottom up. Performs an efficient dynamic programming pass through the entire scape and avoids
+        time consuming recursive look-ups for compting single values (run time ~O(n^2)). This can be used if all values
+        within the scape are expected to be needed. For high-resolution scapes where only few values need to be computed
+        this may be inefficient as a single lookup has only ~O(n) run time. So if fewer than n values are needed,
+        separate lookup will be more efficient. Moreover, if multiple value have the same start or end time, the overall
+        run time for computing these values is only ~O(n). Depending on whether star or end time are in common the
+        "left" or "right" strategy is more efficient.
+        """
+        for width in range(2, self.max_index - self.min_index):
+            for start_idx in range(self.min_index, self.max_index - width):
+                self.get_value_at_index(start_idx, start_idx + width)
+
+
+class PitchScape_(Scape):
     """
     Continuous-time scape that takes a discrete-time scape and interpolates linearly for points that lie in between the
     discrete time points. This is the exact continuous generalisation when using DiscretePitchScape as discrete-time
@@ -302,7 +441,7 @@ class PitchScape(Scape):
         if (values is None) == (scape is None):
             raise ValueError("Please specify EITHER 'values' (and optional keyword arguments) OR 'scape'")
         if scape is None:
-            scape = DiscretePitchScape(values=values, **kwargs)
+            scape = DiscretePitchScape_(values=values, **kwargs)
         elif kwargs:
             raise TypeError("Cannot take keyword arguments if scape object is given.")
         self.scape = scape
@@ -394,4 +533,100 @@ class PitchScape(Scape):
                 value = d + f1 * e + f2 * f
         # add prior counts
         self.scape.add_prior_counts(value, end - start)
+        return value
+
+
+class ContinuousScape(Scape):
+    """
+    Continuous-time scape that takes a discrete-time scape and interpolates linearly for points that lie in between the
+    discrete time points. This is the exact continuous generalisation when using DiscretePitchScape as discrete-time
+    scape.
+    """
+
+    def __init__(self, values=None, scape=None, **kwargs):
+        """
+        Initialise PitchScape either from count values or from DiscretePitchScape.
+        :param values: pitch-class counts (do not provide together with scape)
+        :param scape: DiscretePitchScape object (do not provide together with values)
+        :param kwargs: keyword arguments passed on to initialize DiscretePitchScape (use only when also providing
+        values)
+        """
+        if (values is None) == (scape is None):
+            raise ValueError("Please specify EITHER 'values' (and optional keyword arguments) OR 'scape'")
+        if scape is None:
+            scape = DiscreteScape(values=values, **kwargs)
+        elif kwargs:
+            raise TypeError("Cannot take keyword arguments if scape object is given.")
+        self.scape = scape
+        super().__init__(min_time=self.scape.min_time, max_time=self.scape.max_time)
+
+    def __getitem__(self, item):
+        try:
+            return self.scape[item]
+        except ValueError:
+            return self.interpolate(*item)
+
+    @staticmethod
+    def get_adjacent_indices(start, end, times):
+        # get upper/lower adjacent indices
+        upper_start_idx = np.searchsorted(times, start, side='right')
+        lower_start_idx = upper_start_idx - 1
+        upper_end_idx = np.searchsorted(times, end, side='left')
+        lower_end_idx = upper_end_idx - 1
+        n_times = len(times)
+        # handle floating point round-off errors
+        if lower_start_idx == -1 and isclose(start, times[0]):
+            lower_start_idx = 0
+            upper_start_idx = 1
+            start = times[0]
+        if upper_end_idx == n_times and isclose(end, times[-1]):
+            lower_end_idx = n_times - 2
+            upper_end_idx = n_times - 1
+            end = times[-1]
+        # check bounds
+        if lower_start_idx < 0:
+            raise ValueError("Start below valid times")
+        if upper_end_idx >= n_times:
+            raise ValueError("End beyond valid times")
+        return start, end, lower_start_idx, upper_start_idx, lower_end_idx, upper_end_idx
+
+    def interpolate(self, start, end):
+        # check for zero-size windows
+        if start == end:
+            return self.scape.zero_size_value.copy()
+        # get adjacent indices
+        (start,
+         end,
+         lower_start_idx,
+         upper_start_idx,
+         lower_end_idx,
+         upper_end_idx) = self.get_adjacent_indices(start, end, self.scape.times)
+        # get corresponding times
+        upper_start_time = self.scape.times[upper_start_idx]
+        lower_start_time = self.scape.times[lower_start_idx]
+        upper_end_time = self.scape.times[upper_end_idx]
+        lower_end_time = self.scape.times[lower_end_idx]
+        if lower_start_idx == lower_end_idx and upper_start_idx == upper_end_idx:
+            # window start/end lie in the same time interval
+            value = self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
+            value *= (end - start) / (upper_start_time - lower_start_time)
+        elif upper_start_time == lower_end_time:
+            # window start/end lie in between two adjacent time intervals
+            e = self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
+            f = self.scape.get_value_at_index(lower_end_idx, upper_end_idx)
+            f1 = (upper_start_time - start) / (upper_start_time - lower_start_time)
+            f2 = (end - lower_end_time) / (upper_end_time - lower_end_time)
+            value = f1 * e + f2 * f
+        else:
+            # at least one complete time interval lies in between window start/end
+            assert lower_start_time <= start <= upper_start_time, \
+                f"NOT {lower_start_time} <= {start} <= {upper_start_time}"
+            assert lower_end_time <= end <= upper_end_time, \
+                f"NOT {lower_end_time} <= {end} <= {upper_end_time}"
+            d = self.scape.get_value_at_index(upper_start_idx, lower_end_idx)
+            e = self.scape.get_value_at_index(lower_start_idx, upper_start_idx)
+            f = self.scape.get_value_at_index(lower_end_idx, upper_end_idx)
+            f1 = (upper_start_time - start) / (upper_start_time - lower_start_time)
+            f2 = (end - lower_end_time) / (upper_end_time - lower_end_time)
+            value = d + f1 * e + f2 * f
         return value

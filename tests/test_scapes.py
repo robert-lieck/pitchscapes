@@ -2,10 +2,158 @@
 from unittest import TestCase
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from pitchscapes.scapes import PitchScape, DiscretePitchScape
+from pitchscapes.scapes import DiscreteScape, ContinuousScape
 
 
 class TestPitchScape(TestCase):
+
+    def test_scape(self):
+        # data (as int)
+        data = np.array([[1, 0, 0, 0],
+                         [0, 1, 0, 0],
+                         [0, 0, 1, 0],
+                         [0, 0, 0, 1],
+                         [1, 0, 0, 0]])
+        for strategy in ['left', 'right', 'center']:
+            for weighting in ["uniform", "times", "weights"]:
+                if weighting == "uniform":
+                    # |x|x|x|x|x|
+                    times = None
+                    weights = None
+                elif weighting == "times":
+                    # |xx|x|xx|x|xx|
+                    times = [0, 2, 3, 5, 6, 8]
+                    weights = None
+                elif weighting == "weights":
+                    # |xx|x|xx|x|xx|
+                    times = None
+                    weights = [2, 1, 2, 1, 2]
+                else:
+                    self.fail("Unhandled weighting scheme")
+                discrete_scape = DiscreteScape(values=data, times=times, weights=weights, strategy=strategy)
+                continuous_scape = ContinuousScape(scape=discrete_scape)
+                # check both discrete and continuous scape
+                for discrete in [True, False]:
+                    if discrete:
+                        pitch_scape = discrete_scape
+                    else:
+                        pitch_scape = continuous_scape
+                    if weighting == "uniform":
+                        # check width-5 time slot
+                        assert_array_almost_equal([2, 1, 1, 1], pitch_scape[0, 5])
+                        # check width-0 time slots
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[0, 0])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[1, 1])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[2, 2])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[3, 3])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[4, 4])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[5, 5])
+                        # check width-1 time slots
+                        assert_array_almost_equal([1, 0, 0, 0], pitch_scape[0, 1])
+                        assert_array_almost_equal([0, 1, 0, 0], pitch_scape[1, 2])
+                        assert_array_almost_equal([0, 0, 1, 0], pitch_scape[2, 3])
+                        assert_array_almost_equal([0, 0, 0, 1], pitch_scape[3, 4])
+                        assert_array_almost_equal([1, 0, 0, 0], pitch_scape[4, 5])
+                        if not discrete:
+                            # check width-1 time slots shifted by 0.5
+                            assert_array_almost_equal([0.5, 0.5, 0, 0],
+                                                      pitch_scape[0.5, 1.5])
+                            assert_array_almost_equal([0, 0.5, 0.5, 0],
+                                                      pitch_scape[1.5, 2.5])
+                            assert_array_almost_equal([0, 0, 0.5, 0.5],
+                                                      pitch_scape[2.5, 3.5])
+                            assert_array_almost_equal([0.5, 0, 0, 0.5],
+                                                      pitch_scape[3.5, 4.5])
+                        # check width-2 time slots
+                        assert_array_almost_equal([1, 1, 0, 0], pitch_scape[0, 2])
+                        assert_array_almost_equal([0, 1, 1, 0], pitch_scape[1, 3])
+                        assert_array_almost_equal([0, 0, 1, 1], pitch_scape[2, 4])
+                        assert_array_almost_equal([1, 0, 0, 1], pitch_scape[3, 5])
+                        # check width-3 time slots
+                        assert_array_almost_equal([1, 1, 1, 0], pitch_scape[0, 3])
+                        assert_array_almost_equal([0, 1, 1, 1], pitch_scape[1, 4])
+                        assert_array_almost_equal([1, 0, 1, 1], pitch_scape[2, 5])
+                        # check width-4 time slots
+                        assert_array_almost_equal([1, 1, 1, 1], pitch_scape[0, 4])
+                        assert_array_almost_equal([1, 1, 1, 1], pitch_scape[1, 5])
+                    elif weighting == "times":
+                        # check width-5 time slot
+                        assert_array_almost_equal([4, 1, 2, 1], pitch_scape[0, 8])
+                        # check width-0 time slots
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[0, 0])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[2, 2])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[3, 3])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[5, 5])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[6, 6])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[8, 8])
+                        # check width-1 time slots
+                        assert_array_almost_equal([2, 0, 0, 0], pitch_scape[0, 2])
+                        assert_array_almost_equal([0, 1, 0, 0], pitch_scape[2, 3])
+                        assert_array_almost_equal([0, 0, 2, 0], pitch_scape[3, 5])
+                        assert_array_almost_equal([0, 0, 0, 1], pitch_scape[5, 6])
+                        assert_array_almost_equal([2, 0, 0, 0], pitch_scape[6, 8])
+                        if not discrete:
+                            # check width-1 time slots shifted by 0.5
+                            assert_array_almost_equal([1, 0.5, 0, 0],
+                                                      pitch_scape[1, 2.5])
+                            assert_array_almost_equal([0, 0.5, 1, 0],
+                                                      pitch_scape[2.5, 4])
+                            assert_array_almost_equal([0, 0, 1, 0.5],
+                                                      pitch_scape[4, 5.5])
+                            assert_array_almost_equal([1, 0, 0, 0.5],
+                                                      pitch_scape[5.5, 7])
+                        # check width-2 time slots
+                        assert_array_almost_equal([2, 1, 0, 0], pitch_scape[0, 3])
+                        assert_array_almost_equal([0, 1, 2, 0], pitch_scape[2, 5])
+                        assert_array_almost_equal([0, 0, 2, 1], pitch_scape[3, 6])
+                        assert_array_almost_equal([2, 0, 0, 1], pitch_scape[5, 8])
+                        # check width-3 time slots
+                        assert_array_almost_equal([2, 1, 2, 0], pitch_scape[0, 5])
+                        assert_array_almost_equal([0, 1, 2, 1], pitch_scape[2, 6])
+                        assert_array_almost_equal([2, 0, 2, 1], pitch_scape[3, 8])
+                        # check width-4 time slots
+                        assert_array_almost_equal([2, 1, 2, 1], pitch_scape[0, 6])
+                        assert_array_almost_equal([2, 1, 2, 1], pitch_scape[2, 8])
+                    elif weighting == "weights":
+                        # check width-5 time slot
+                        assert_array_almost_equal([4, 1, 2, 1], pitch_scape[0, 5])
+                        # check width-0 time slots
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[0, 0])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[1, 1])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[2, 2])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[3, 3])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[4, 4])
+                        assert_array_almost_equal([0, 0, 0, 0], pitch_scape[5, 5])
+                        # check width-1 time slots
+                        assert_array_almost_equal([2, 0, 0, 0], pitch_scape[0, 1])
+                        assert_array_almost_equal([0, 1, 0, 0], pitch_scape[1, 2])
+                        assert_array_almost_equal([0, 0, 2, 0], pitch_scape[2, 3])
+                        assert_array_almost_equal([0, 0, 0, 1], pitch_scape[3, 4])
+                        assert_array_almost_equal([2, 0, 0, 0], pitch_scape[4, 5])
+                        if not discrete:
+                            # check width-1 time slots shifted by 0.5
+                            assert_array_almost_equal([1, 0.5, 0, 0],
+                                                      pitch_scape[0.5, 1.5])
+                            assert_array_almost_equal([0, 0.5, 1, 0],
+                                                      pitch_scape[1.5, 2.5])
+                            assert_array_almost_equal([0, 0, 1, 0.5],
+                                                      pitch_scape[2.5, 3.5])
+                            assert_array_almost_equal([1, 0, 0, 0.5],
+                                                      pitch_scape[3.5, 4.5])
+                        # check width-2 time slots
+                        assert_array_almost_equal([2, 1, 0, 0], pitch_scape[0, 2])
+                        assert_array_almost_equal([0, 1, 2, 0], pitch_scape[1, 3])
+                        assert_array_almost_equal([0, 0, 2, 1], pitch_scape[2, 4])
+                        assert_array_almost_equal([2, 0, 0, 1], pitch_scape[3, 5])
+                        # check width-3 time slots
+                        assert_array_almost_equal([2, 1, 2, 0], pitch_scape[0, 3])
+                        assert_array_almost_equal([0, 1, 2, 1], pitch_scape[1, 4])
+                        assert_array_almost_equal([2, 0, 2, 1], pitch_scape[2, 5])
+                        # check width-4 time slots
+                        assert_array_almost_equal([2, 1, 2, 1], pitch_scape[0, 4])
+                        assert_array_almost_equal([2, 1, 2, 1], pitch_scape[1, 5])
+                    else:
+                        self.fail("Unhandled weighting scheme")
 
     def test_multidimensional(self):
         data = np.array([[[1, 0, 0, 0], [1, 0, 0, 0]],
@@ -60,7 +208,7 @@ class TestPitchScape(TestCase):
         assert_array_almost_equal([[0, 1, 1, 1],
                                    [0, 1, 1, 1]], pitch_scape[1, 4])
 
-    def test_scape(self):
+    def test_scape_(self):
         # data (as int)
         data = np.array([[1, 0, 0, 0],
                          [0, 1, 0, 0],
