@@ -4,7 +4,7 @@ import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 import pitchscapes.reader as rd
-from pitchscapes.scapes import PitchScape, DiscretePitchScape
+from pitchscapes.scapes import PitchScape
 
 
 class Test(TestCase):
@@ -30,7 +30,7 @@ class Test(TestCase):
                          [0, 0, 1, 0],
                          [0, 0, 0, 1]], dtype=float)
         for normalise in [False, True]:
-            scape = PitchScape(scape=DiscretePitchScape(values=data, normalise=normalise))
+            scape = PitchScape(values=data, normalise=normalise)
             if normalise:
                 assert_array_almost_equal([[1, 0, 0, 0],
                                            [1, 0, 0, 0],
@@ -58,7 +58,7 @@ class Test(TestCase):
                          [0, 0, 1, 0],
                          [0, 0, 0, 1]], dtype=float)
         for normalise in [False, True]:
-            scape = PitchScape(scape=DiscretePitchScape(values=data, normalise=normalise))
+            scape = PitchScape(values=data, normalise=normalise)
             if normalise:
                 assert_array_almost_equal(
                     [[1, 0, 0, 0], [1 / 2, 1 / 2, 0, 0], [1 / 3, 1 / 3, 1 / 3, 0], [1 / 4, 1 / 4, 1 / 4, 1 / 4],

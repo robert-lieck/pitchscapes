@@ -186,7 +186,6 @@ def get_pitch_scape(file_path, **kwargs):
     :return: PitchScape object
     """
     pitch_counts, times = pitch_class_counts(file_path)
-    kwargs = {**dict(normalise_values=True, dtype=np.float), **kwargs}
     return PitchScape(values=pitch_counts, times=times, **kwargs)
 
 

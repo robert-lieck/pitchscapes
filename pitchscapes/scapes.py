@@ -3,8 +3,7 @@ from warnings import warn
 import numpy as np
 
 
-
-def normalize_non_zero(a, axis=None, skip_type_check=False):
+def normalize_non_zero(a, axis=None, replace_zeros=False, skip_type_check=False):
     """For the given ND array, normalise each 1D array obtained by indexing the 'axis' dimension if the sum along the
     other dimensions (for that entry) is non-zero. Normalisation is performed in place."""
     # check that dtype is float (in place division of integer arrays silently rounds)
@@ -30,6 +29,10 @@ def normalize_non_zero(a, axis=None, skip_type_check=False):
     non_zero_arr = tuple(slice(None) if idx in axis else n for idx, n in enumerate(non_zero.nonzero()))
     # in-place replace non-zero entries by their normalised values
     a[non_zero_arr] = a[non_zero_arr] / s[non_zero_arr]
+    # add uniform distribution for zeros if requested
+    if replace_zeros:
+        zero_arr = tuple(slice(None) if idx in axis else n for idx, n in enumerate(np.logical_not(non_zero).nonzero()))
+        a[zero_arr] += 1 / np.array(a.shape)[np.array(axis)].prod()
     # return array
     return a
 
@@ -629,4 +632,69 @@ class ContinuousScape(Scape):
             f1 = (upper_start_time - start) / (upper_start_time - lower_start_time)
             f2 = (end - lower_end_time) / (upper_end_time - lower_end_time)
             value = d + f1 * e + f2 * f
+        return value
+
+
+class PitchScape(Scape):
+
+    def __init__(self,
+                 values=None,
+                 scape=None,
+                 prior_counts=0,
+                 normalise=False,
+                 **kwargs):
+        self.prior_counts = prior_counts
+        self.normalise = normalise
+        # use float values
+        values = np.array(values, dtype=np.float)
+        # dimensionality of the output
+        self.n_dim = np.prod(values.shape[1:])
+        # value of uniform distribution
+        self.uniform = 1 / self.n_dim
+        # custom weights not allowed with normalisation
+        if self.normalise and "weights" in kwargs:
+            raise ValueError("Custom weights are not supported in conjunction with normalisation.")
+        # initialise underlying scape
+        if (values is None) == (scape is None):
+            raise ValueError("Please specify EITHER 'values' (and optional keyword arguments) OR 'scape'")
+        if scape is None:
+            # if required: normalise allong all axes except the first
+            if self.normalise:
+                axis = tuple(range(1, len(values.shape)))
+                normalize_non_zero(values, axis=axis, replace_zeros=True)
+            scape = ContinuousScape(values=values, **kwargs)
+        elif kwargs:
+            raise TypeError("Cannot take keyword arguments if scape object is given.")
+        self.scape = scape
+        # init super
+        super().__init__(min_time=self.scape.min_time, max_time=self.scape.max_time)
+
+    def __getitem__(self, item):
+        # get value from underlying scape
+        value = self.scape[item]
+        # handle zeros
+        if np.all(value == 0):
+            if self.prior_counts is None:
+                # if prior_counts is None: just return value of zeros
+                pass
+            elif self.normalise:
+                # if prior_counts is not None and normalisation is requested: return uniform distribution
+                value += self.uniform
+            else:
+                # if prior_counts is not None and NO normalisation is requested: add prior counts
+                value += self.prior_counts
+            return value
+        # add prior counts
+        if self.prior_counts is not None:
+            value += self.prior_counts
+        # normalise
+        if self.normalise:
+            # get time interval for normalisation
+            start, end = item
+            delta_t = end - start
+            # if prior_counts is not None: add to normalisation
+            if self.prior_counts is None:
+                value /= delta_t
+            else:
+                value /= delta_t + self.n_dim * self.prior_counts
         return value
