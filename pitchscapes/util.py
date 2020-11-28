@@ -281,3 +281,12 @@ def coords_from_times(times,
         return ret[0]
     else:
         return tuple(ret)
+
+
+def key_estimates_to_str(estimates, sharp_flat='sharp'):
+    pcs = np.array(pitch_classes_sharp if sharp_flat == 'sharp' else pitch_classes_flat)
+    tonic_names = pcs[estimates[:, 1]]
+    lower_tonic_names = np.fromiter((t.lower() for t in tonic_names), tonic_names.dtype, len(tonic_names))
+    minor = estimates[:, 0] == 1
+    tonic_names[minor] = lower_tonic_names[minor]
+    return tonic_names
