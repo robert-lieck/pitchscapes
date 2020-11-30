@@ -597,7 +597,9 @@ def plot_assignment(assignments, ax, add_marginal_row=False, add_marginal_col=Fa
 
 
 def compare_key_profiles(empirical,
+                         empirical_label=None,
                          profile=None,
+                         profile_label=None,
                          key_estimator=None,
                          ax=None,
                          plot_kwargs=None,
@@ -642,11 +644,16 @@ def compare_key_profiles(empirical,
     if normalise:
         empirical = empirical / np.sum(empirical)
         profile = profile / np.sum(profile)
+    # labels for legend
+    if empirical_label is None:
+        empirical_label = "empirical"
+    if profile_label is None:
+        profile_label = "profile"
     # do plot
     width = 0.33
     x = np.arange(12)
-    ax_.bar(x + width / 2, empirical, width=width, label="empirical", **plot_kwargs)
-    ax_.bar(x - width / 2, profile, width=width, label="profile", **plot_kwargs)
+    ax_.bar(x + width / 2, empirical, width=width, label=empirical_label, **plot_kwargs)
+    ax_.bar(x - width / 2, profile, width=width, label=profile_label, **plot_kwargs)
     ax_.set_xticks(x)
     ax_.set_xticklabels(labels)
     if xlabel is not None:
