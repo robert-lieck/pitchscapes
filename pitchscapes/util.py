@@ -200,15 +200,27 @@ def coords_from_times(times,
                       remove_offset=True,
                       unit_times=True):
     """
-
-    :param times:
-    :param start_end_idx:
-    :param start_end_time:
-    :param center_width:
-    :param coords: list of coords (left, top, right, bottom/nan)
-    :param remove_offset:
-    :param unit_times:
-    :return:
+    Generate various coordinate information from a given list of times. Given N points in time, the returned arrays will
+     contain N(N-1)/2 items, corresponding to all ordered non-zero time intervals. The ordering corresponds constructing
+      a list by iterating over start points in the outer loop and end points in the inner loop.
+    :param times: An iterable of N points in time (has to be ordered).
+    :param start_end_idx: (default False) Whether to return an array of shape Nx2 with integer (start_idx, end_idx)
+    pairs.
+    :param start_end_time: (default False) Whether to return an array of shape Nx2 with (start_time, end_time) pairs
+    according to the values in times.
+    :param center_width: (default False) Whether to return an array of shape Nx2 with (center, width) time coordinate,
+    related to (start_time, end_time) via start_end_to_center_width.
+    :param coords: (default False) Whether to return an array of shape Nx4x2 with four points in center-width
+    coordinates, describing the rhomboid region in a scape plot that corresponds to the respective time interval. The
+    top-point of the rhombus corresponds to the respective center_width coordinate, the other three points are obtained
+    by moving the start and/or end point one time step forward and/or backward, respectively. The coordinates are
+    ordered clock-wise starting at 9 (left, top, right, bottom), corresponding to the indices [(start, end - 1),
+    (start, end), (start + 1, end), (start + 1, end - 1)]. For the bottom row of a scape plot (adjacent points in time),
+    the last (bottom) coordinate will be a pair of np.nan.
+    :param remove_offset: (default True) Whether the minimum time is subtracted to have time start at zero.
+    :param unit_times: (default True) Whether to normalise times to be in [0, 1].
+    :return: If only one of [start_end_idx, start_end_time, center_width, coords] is true, return the corresponding
+    array, otherwise return a tuple of the requested arrays (in this order).
     """
     start_end_idx_list = []
     start_end_time_list = []
@@ -284,6 +296,17 @@ def coords_from_times(times,
 
 
 def key_estimates_to_str(estimates, sharp_flat='sharp', use_capitalisation=True):
+    """
+    Transform an array of key estimates into string representation
+    :param estimates: 2D numpy array of shape Nx2 with N estimates, where the first entry in each row indicates whether it
+    is major (0) or minor (1) and the second entry indicates the tonic (0-11, starting a C in chromatically ascending
+    order)
+    :param sharp_flat: one of ['sharp', 'flat'] (default 'sharp'); whether to use sharps or flats for chromatic notes
+    (i.e. C# versus Db)
+    :param use_capitalisation: True/False (default True); whether to indicate major/minor by capitalisation
+    ('C' versus 'c') or spelled out ('C major' versus 'C minor')
+    :return: 1D array of length N with the string descriptions
+    """
     pcs = np.array(pitch_classes_sharp if sharp_flat == 'sharp' else pitch_classes_flat)
     tonic_names = pcs[estimates[:, 1]]
     if use_capitalisation:
