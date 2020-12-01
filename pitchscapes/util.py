@@ -283,10 +283,13 @@ def coords_from_times(times,
         return tuple(ret)
 
 
-def key_estimates_to_str(estimates, sharp_flat='sharp'):
+def key_estimates_to_str(estimates, sharp_flat='sharp', use_capitalisation=True):
     pcs = np.array(pitch_classes_sharp if sharp_flat == 'sharp' else pitch_classes_flat)
     tonic_names = pcs[estimates[:, 1]]
-    lower_tonic_names = np.fromiter((t.lower() for t in tonic_names), tonic_names.dtype, len(tonic_names))
-    minor = estimates[:, 0] == 1
-    tonic_names[minor] = lower_tonic_names[minor]
-    return tonic_names
+    if use_capitalisation:
+        keys = np.array([tonic if is_major else tonic.lower()
+                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 1)])
+    else:
+        keys = np.array([tonic + " major" if is_major else tonic + " minor"
+                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 1)])
+    return keys
