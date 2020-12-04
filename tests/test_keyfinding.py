@@ -3,6 +3,7 @@ from unittest import TestCase
 import numpy as np
 from numpy.testing import assert_array_equal
 from pitchscapes.keyfinding import KeyEstimator
+from pitchscapes.util import pitch_classes_sharp, key_estimates_to_str
 
 
 class TestKeyEstimator(TestCase):
@@ -32,5 +33,19 @@ class TestKeyEstimator(TestCase):
         k = KeyEstimator()
         # roll through all transpositions
         for trans in range(12):
+            # major
             assert_array_equal([[0, trans]], k.get_estimate(np.roll(major, shift=trans, axis=1)))
+            assert_array_equal([pitch_classes_sharp[trans]],
+                               key_estimates_to_str(k.get_estimate(np.roll(major, shift=trans, axis=1)),
+                                                    use_capitalisation=True))
+            assert_array_equal([pitch_classes_sharp[trans] + " major"],
+                               key_estimates_to_str(k.get_estimate(np.roll(major, shift=trans, axis=1)),
+                                                    use_capitalisation=False))
+            # minor
             assert_array_equal([[1, trans]], k.get_estimate(np.roll(minor, shift=trans, axis=1)))
+            assert_array_equal([pitch_classes_sharp[trans].lower()],
+                               key_estimates_to_str(k.get_estimate(np.roll(minor, shift=trans, axis=1)),
+                                                    use_capitalisation=True))
+            assert_array_equal([pitch_classes_sharp[trans] + " minor"],
+                               key_estimates_to_str(k.get_estimate(np.roll(minor, shift=trans, axis=1)),
+                                                    use_capitalisation=False))

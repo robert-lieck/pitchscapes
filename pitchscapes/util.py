@@ -311,8 +311,8 @@ def key_estimates_to_str(estimates, sharp_flat='sharp', use_capitalisation=True)
     tonic_names = pcs[estimates[:, 1]]
     if use_capitalisation:
         keys = np.array([tonic if is_major else tonic.lower()
-                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 1)])
+                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 0)])
     else:
         keys = np.array([tonic + " major" if is_major else tonic + " minor"
-                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 1)])
+                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 0)])
     return keys
