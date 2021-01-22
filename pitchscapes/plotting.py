@@ -428,10 +428,14 @@ def scape_plot_from_array(arr: np.ndarray, ax=None, times=None, check=True, coor
     n = int(np.sqrt(1 / 4 + 2 * arr.shape[0]) - 1 / 2)
     # get times if not provided
     if times is None:
-        times = np.linspace(0, 1, n + 1)
+        times = np.linspace(0, n, n + 1)
     # get coords
     if coord_kwargs is None:
         coord_kwargs = {}
+    for key, val in [('remove_offset', False),
+                     ('unit_times', False)]:
+        if key not in coord_kwargs:
+            coord_kwargs[key] = val
     coords = coords_from_times(times, coords=True, **coord_kwargs)
     # do checks
     if check:
@@ -461,7 +465,8 @@ def scape_plot(samples,
                cmap=color_map.RdBu_r,
                vmin=None,
                vmax=None,
-               axis_off=False):
+               axis_off=False,
+               antialiaseds=False):
     # get scale
     scale = np.amax(np.abs(samples[np.logical_not(np.isnan(samples))]))
     if vmin is None:
@@ -474,7 +479,8 @@ def scape_plot(samples,
     # do plotting
     polygons = PatchCollection([Polygon(np.array(coo), facecolor=color, edgecolor=color, linewidth=0)
                                 for color, coo in zip(samples, coords)],
-                               match_original=True)
+                               match_original=True,
+                               antialiaseds=antialiaseds)
     ax.add_collection(polygons)
     # set axis limits and turn axis of
     if xlim is not False:
