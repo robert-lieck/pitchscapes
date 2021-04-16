@@ -59,6 +59,11 @@ def get_key_colour(tonic_pitch, maj_min, circle_of_fifths=None, palette=None):
         tonic_pitch = (tonic_pitch + minor_shift(circle_of_fifths)) % 12
     return palette[tonic_pitch, maj_min]
 
+def counts_to_colors(counts, key_estimator=None):
+    if key_estimator is None:
+        key_estimator = KeyEstimator()
+    scores = key_estimator.get_score(counts)
+    return key_scores_to_color(scores)
 
 def key_scores_to_color(scores,
                         circle_of_fifths=None,
