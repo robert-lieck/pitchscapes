@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pitchscapes",
-    version="0.1.5",
+    version="0.1.6",
     author="Robert Lieck",
     author_email="robert.lieck@epfl.ch",
     description="computing pitch-scapes and pitch-scape clusters",
