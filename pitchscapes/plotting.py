@@ -32,7 +32,7 @@ def set_axis_off(ax):
     axis_set_invisible(ax=ax, splines=True, ticks='all', patch=True)
 
 
-def get_key_colour(pitch, maj_min, circle_of_fifths=None, palette=None):
+def get_key_colour(tonic_pitch, maj_min, circle_of_fifths=None, palette=None):
     if palette is None:
         # hand-tuned hue circle of bright and dark colours
         palette = np.array([(255, 55, 121), (213, 0, 70),
@@ -54,11 +54,16 @@ def get_key_colour(pitch, maj_min, circle_of_fifths=None, palette=None):
     if circle_of_fifths is None:
         circle_of_fifths = get_circle_of_fifths()
     if circle_of_fifths:
-        pitch = (pitch * 7) % 12
+        tonic_pitch = (tonic_pitch * 7) % 12
     if maj_min == 1:
-        pitch = (pitch + minor_shift(circle_of_fifths)) % 12
-    return palette[pitch, maj_min]
+        tonic_pitch = (tonic_pitch + minor_shift(circle_of_fifths)) % 12
+    return palette[tonic_pitch, maj_min]
 
+def counts_to_colors(counts, key_estimator=None):
+    if key_estimator is None:
+        key_estimator = KeyEstimator()
+    scores = key_estimator.get_score(counts)
+    return key_scores_to_color(scores)
 
 def key_scores_to_color(scores,
                         circle_of_fifths=None,
@@ -82,15 +87,15 @@ def key_scores_to_color(scores,
     is_nan = np.any(np.isnan(scores), axis=(1, 2))
     is_not_nan = np.logical_not(is_nan)
     # get colours
-    key_colours = np.zeros((12, 2, 3))
-    key_colours[:, 0, :] = get_key_colour(pitch=np.arange(12),
-                                          maj_min=0,
-                                          circle_of_fifths=circle_of_fifths,
-                                          palette=palette)
-    key_colours[:, 1, :] = get_key_colour(pitch=np.arange(12),
-                                          maj_min=1,
-                                          circle_of_fifths=circle_of_fifths,
-                                          palette=palette)
+    key_colours = np.zeros((2, 12, 3))
+    key_colours[0, ...] = get_key_colour(tonic_pitch=np.arange(12),
+                                         maj_min=0,
+                                         circle_of_fifths=circle_of_fifths,
+                                         palette=palette)
+    key_colours[1, ...] = get_key_colour(tonic_pitch=np.arange(12),
+                                         maj_min=1,
+                                         circle_of_fifths=circle_of_fifths,
+                                         palette=palette)
     # compute weighted colours for each estimate
     colours = scores[is_not_nan, :, :, None] * key_colours[None, :, :, :]
     # take average colour
@@ -125,16 +130,49 @@ def key_legend(ax=None,
                fontsize=None,
                axis_off=True,
                equal_axes_aspect=True):
+    """
+
+    :param ax: axis to plot to or None to create
+    :param sharp_flat: one of ['sharp', 'flat']; whether to use sharps or flats as accidentals
+    :param location: one of ['centre', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'left small',
+    'right small']; set the default values of horizontal, label_size, fontsize, x_scale, y_scale, x_offset, y_offset
+    (providing explicit values overwrites the defaults set by location); default is 'centre' resulting in values:
+    horizontal = True
+    label_size = 0.8
+    x_scale = 1.
+    y_scale = 1.
+    x_offset = 0.5
+    y_offset = 0.5
+    fontsize = 10
+    :param circle_of_fifths: bool or None (default); whether to arrange keys chromatically (False) or along the circle
+    of fifths (True); if None the value is determined from the default, which can be set via set_circle_of_fifths.
+    :param horizontal: orientation of the legend: horizontal (True) or vertical False
+    :param x_scale: scaling along x-direction (default: 1.)
+    :param y_scale: scaling along y-direction (default: 1.)
+    :param aspect: aspect ratio (default: 1.); determines the aspect ratio (width/height) of the legend elements; if
+    the x- and y-axes are not scalled equally, this can be used to retain circular legend elements
+    :param x_offset: change position in x-direction (default: 0.5)
+    :param y_offset: change position in y-direction (default: 0.5)
+    :param palette: palette argument used in get_key_colour
+    :param label_size: scales the size of the legend elements (default: 0.8)
+    :param fontsize: fontsize of the legend elements' text (default: 10)
+    :param axis_off: whether to turn off axis visibility (default: True)
+    :param equal_axes_aspect: whether to set equal aspect ratio for the axes (default: True)
+    :return: None (if ax was provided) or newly created figure and axis
+    """
     if circle_of_fifths is None:
         circle_of_fifths = get_circle_of_fifths()
     # set defaults
+    horizontal_ = True
     label_size_ = 0.8
+    fontsize_ = 10
     x_scale_ = 1.
     y_scale_ = 1.
     x_offset_ = 0.5
     y_offset_ = 0.5
-    fontsize_ = 10
     # set location specific defaults
+    if location == 'centre':
+        pass
     if location == 'top':
         horizontal_ = True
         y_offset_ = 1 - y_scale_ / 12
@@ -149,7 +187,7 @@ def key_legend(ax=None,
         x_offset_ = 1 - x_scale_ / 12
     elif location == 'top left':
         label_size_ = 0.35
-        fontsize = 7
+        fontsize_ = 7
         x_scale_ = 0.43
         y_scale_ = 0.43
         horizontal_ = True
@@ -157,7 +195,7 @@ def key_legend(ax=None,
         y_offset_ = 1 - y_scale_ / 12
     elif location == 'top right':
         label_size_ = 0.35
-        fontsize = 7
+        fontsize_ = 7
         x_scale_ = 0.43
         y_scale_ = 0.43
         horizontal_ = True
@@ -178,7 +216,7 @@ def key_legend(ax=None,
         x_offset_ = 1 - x_scale_ / 12
         y_offset_ = 1 - y_scale_ / 2
     else:
-        raise ValueError(f"'location' should be one of ['top', 'bottom', 'left', 'right', "
+        raise ValueError(f"'location' should be one of ['centre', 'top', 'bottom', 'left', 'right', "
                          f"'top left', 'top right', 'left small', 'right small'] but is '{location}'")
     # set explicitly specified values
     if horizontal is not None:
@@ -197,21 +235,27 @@ def key_legend(ax=None,
         fontsize_ = fontsize
     # get axis
     if ax is None:
-        fig, ax_ = plt.subplots(1, 1)
+        if horizontal_:
+            figsize = (12 * x_scale_, 2 * y_scale_)
+        else:
+            figsize = (2 * x_scale_, 12 * y_scale_)
+        fig, ax_ = plt.subplots(1, 1,
+                                figsize=figsize,
+                                gridspec_kw=dict(left=0, right=1, bottom=0, top=1))
     else:
         ax_ = ax
     if equal_axes_aspect:
         ax_.set_aspect('equal')
     # generate legend
-    for pitch, key in enumerate(zip(pitch_classes_sharp, pitch_classes_flat)):
+    for tonic_pitch, key in enumerate(zip(pitch_classes_sharp, pitch_classes_flat)):
         for maj_min in [0, 1]:
             # x coordinate {0, 1}
             x = maj_min
             # y coordinate {0,...,11}
             if circle_of_fifths:
-                y = (pitch * 7) % 12
+                y = (tonic_pitch * 7) % 12
             else:
-                y = pitch
+                y = tonic_pitch
             # adapt capitalisation of label and shift y coordinate for minor
             if maj_min == 0:
                 key = [key[0].capitalize(), key[1].capitalize()]
@@ -256,7 +300,7 @@ def key_legend(ax=None,
             width = label_size_ / 12 * np.sqrt(aspect)
             height = label_size_ / 12 / np.sqrt(aspect)
             ax_.add_patch(Ellipse((x, y), width, height,
-                                  color=get_key_colour(pitch=pitch,
+                                  color=get_key_colour(tonic_pitch=tonic_pitch,
                                                        maj_min=maj_min,
                                                        circle_of_fifths=circle_of_fifths,
                                                        palette=palette)))
@@ -389,11 +433,15 @@ def scape_plot_from_array(arr: np.ndarray, ax=None, times=None, check=True, coor
     n = int(np.sqrt(1 / 4 + 2 * arr.shape[0]) - 1 / 2)
     # get times if not provided
     if times is None:
-        times = np.linspace(0, 1, n + 1)
+        times = np.linspace(0, n, n + 1)
     # get coords
     if coord_kwargs is None:
         coord_kwargs = {}
-    coords = coords_from_times(times, **coord_kwargs)
+    for key, val in [('remove_offset', False),
+                     ('unit_times', False)]:
+        if key not in coord_kwargs:
+            coord_kwargs[key] = val
+    coords = coords_from_times(times, coords=True, **coord_kwargs)
     # do checks
     if check:
         if not (arr.ndim == 1 or (arr.ndim == 2 and arr.shape[1] in [3, 4])):
@@ -417,12 +465,13 @@ def scape_plot_from_array(arr: np.ndarray, ax=None, times=None, check=True, coor
 def scape_plot(samples,
                coords,
                ax,
-               xlim=(0, 1),
-               ylim=(0, 1),
+               xlim=None,
+               ylim=None,
                cmap=color_map.RdBu_r,
                vmin=None,
                vmax=None,
-               axis_off=True):
+               axis_off=False,
+               antialiaseds=False):
     # get scale
     scale = np.amax(np.abs(samples[np.logical_not(np.isnan(samples))]))
     if vmin is None:
@@ -435,12 +484,17 @@ def scape_plot(samples,
     # do plotting
     polygons = PatchCollection([Polygon(np.array(coo), facecolor=color, edgecolor=color, linewidth=0)
                                 for color, coo in zip(samples, coords)],
-                               match_original=True)
+                               match_original=True,
+                               antialiaseds=antialiaseds)
     ax.add_collection(polygons)
     # set axis limits and turn axis of
-    if xlim is not None:
+    if xlim is not False:
+        if xlim is None:
+            xlim = (np.nanmin(coords[:, :, 0]), np.nanmax(coords[:, :, 0]))
         ax.set_xlim(*xlim)
-    if ylim is not None:
+    if ylim is not False:
+        if ylim is None:
+            ylim = (np.nanmin(coords[:, :, 1]), np.nanmax(coords[:, :, 1]))
         ax.set_ylim(*ylim)
     if axis_off:
         set_axis_off(ax)
@@ -551,3 +605,68 @@ def plot_assignment(assignments, ax, add_marginal_row=False, add_marginal_col=Fa
     # add tick labels
     ax.set_xticks(list(range(n_cols)))
     ax.set_yticks(list(range(n_rows)))
+
+
+def compare_key_profiles(empirical,
+                         empirical_label=None,
+                         profile=None,
+                         profile_label=None,
+                         key_estimator=None,
+                         ax=None,
+                         plot_kwargs=None,
+                         normalise=True,
+                         transpose_profile=True,
+                         sharp_flat='sharp'):
+    # get np array
+    empirical = np.array(empirical)
+    # get labels
+    if sharp_flat == 'sharp':
+        labels = pitch_classes_sharp
+    else:
+        labels = pitch_classes_flat
+    # get profile via key-estimator if not provided
+    xlabel = None
+    if profile is None:
+        # get default key-estimator if not provided
+        if key_estimator is None:
+            key_estimator = KeyEstimator()
+        # compute key estimate (add first dimension)
+        maj_min, tonic = key_estimator.get_estimate(empirical[None, :])[0]
+        # choose profile
+        profile = key_estimator.profiles[maj_min]
+        # choose transposition/tonic
+        if transpose_profile:
+            profile = np.roll(profile, shift=tonic)
+            xlabel = labels[tonic] + [" major", " minor"][maj_min]
+        else:
+            labels = np.roll(labels, shift=-tonic)
+            empirical = np.roll(empirical, shift=-tonic)
+            xlabel = labels[0] + [" major", " minor"][maj_min]
+
+    # get axis if not provided
+    if ax is None:
+        fig, ax_ = plt.subplots(1, 1)
+    else:
+        ax_ = ax
+    # init plot_kwargs
+    if plot_kwargs is None:
+        plot_kwargs = {}
+    # normalise
+    if normalise:
+        empirical = empirical / np.sum(empirical)
+        profile = profile / np.sum(profile)
+    # labels for legend
+    if empirical_label is None:
+        empirical_label = "empirical"
+    if profile_label is None:
+        profile_label = "profile"
+    # do plot
+    width = 0.33
+    x = np.arange(12)
+    ax_.bar(x + width / 2, empirical, width=width, label=empirical_label, **plot_kwargs)
+    ax_.bar(x - width / 2, profile, width=width, label=profile_label, **plot_kwargs)
+    ax_.set_xticks(x)
+    ax_.set_xticklabels(labels)
+    if xlabel is not None:
+        ax_.set_xlabel(xlabel)
+    ax_.legend()

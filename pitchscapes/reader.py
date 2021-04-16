@@ -1,6 +1,8 @@
-import numpy as np
 from collections import namedtuple
+from itertools import product
+from warnings import warn
 
+import numpy as np
 import mido
 import music21
 
@@ -176,9 +178,15 @@ def pitch_class_counts(file, reader=read):
     return pitch_class_counts_from_chordified(chordify(reader(file)))
 
 
-def get_pitch_scape(file_path, normalise=False):
+def get_pitch_scape(file_path, **kwargs):
+    """
+    Load a pitch scape from file.
+    :param file_path: file to load
+    :param kwargs: kwargs passed to PitchScape
+    :return: PitchScape object
+    """
     pitch_counts, times = pitch_class_counts(file_path)
-    return PitchScape(values=pitch_counts, times=times, normalise=normalise)
+    return PitchScape(values=pitch_counts, times=times, **kwargs)
 
 
 def sample_piece(n_samples,
@@ -193,15 +201,49 @@ def sample_piece(n_samples,
     return sample_pitch_scape(scape=scape, n_samples=n_samples, prior_counts=prior_counts)
 
 
-def sample_density(n_samples,
+def sample_density(n_time_intervals,
                    file_path=None,
-                   scape=None):
+                   scape=None,
+                   **kwargs):
     if (file_path is None) == (scape is None):
         raise ValueError("Have to provide exactly one of 'file_path' and 'scape' as arguments")
     if file_path is not None:
-        scape = get_pitch_scape(file_path)
-    times = np.linspace(scape.min_time, scape.max_time, n_samples + 1)
-    samples = np.zeros((n_samples, 12))
+        scape = get_pitch_scape(file_path, **kwargs)
+    times = np.linspace(scape.min_time, scape.max_time, n_time_intervals + 1)
+    samples = None
     for idx, (start, end) in enumerate(zip(times[:-1], times[1:])):
-        samples[idx, :] = scape[start, end]
+        val = scape[start, end]
+        if samples is None:
+            samples = np.zeros((n_time_intervals,) + val.shape)
+        samples[idx, ...] = val
     return samples
+
+
+def sample_scape(n_time_intervals,
+                 file_path=None,
+                 scape=None,
+                 **kwargs):
+    """
+    Sample points from a scape on a uniform grid. The total time [min_time, max_time] is divided into n_time_intervals
+    equally sized intervals. A sample for every possible combination of start and end time is collected and returned,
+    ordered first by start time and then by end time.
+    :param n_time_intervals: the number of time intervals
+    :param file_path: path to a file for reading a scape via get_pitch_scape (alternative to passing scape directly)
+    :param scape: the scape to sample (alternative to providing file_path)
+    :param kwargs: kwargs to pass to get_pitch_scape
+    :return: array of samples (first dimension has size n_time_intervals * (n_time_intervals + 1) / 2)
+    """
+    if (file_path is None) == (scape is None):
+        raise ValueError("Have to provide exactly one of 'file_path' and 'scape' as arguments")
+    if scape is not None:
+        if kwargs:
+            warn("Keyword arguments are ignored if you provide 'scape'")
+    else:
+        scape = get_pitch_scape(file_path, **kwargs)
+    times = np.linspace(scape.min_time, scape.max_time, n_time_intervals + 1)
+    samples = []
+    for start, end in product(times, times):
+        if start >= end:
+            continue
+        samples.append(scape[start, end])
+    return np.array(samples)

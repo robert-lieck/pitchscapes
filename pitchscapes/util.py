@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,16 +10,19 @@ pitch_classes_sharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#
 pitch_classes_flat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 pitch_classes = pitch_classes_sharp
 
+
 def safe_int(s):
     i = int(s)
     assert i == s, f"{i} == {s}"
     return i
+
 
 def random_batch_ids(n_data, n_batches):
     batch_ids = np.arange(n_data)
     np.random.shuffle(batch_ids)
     batch_ids %= n_batches
     return batch_ids
+
 
 def axis_set_invisible(ax, splines=False, ticks=(), patch=False, x=False, y=False):
     if x:
@@ -76,6 +81,7 @@ def multi_sample_pitch_scapes(scapes, n_samples):
 
 
 def sample_pitch_scape(scape, n_samples, prior_counts=None, normalize=True):
+    warnings.warn("This function is deprecated as it handles prior counts inconsistently.", DeprecationWarning)
     if prior_counts is None:
         if isinstance(scape, PitchScape):
             prior_counts = 1.
@@ -186,30 +192,127 @@ def sample_discrete_scape(scape,
                     yield tuple(return_list)
 
 
-def coords_from_times(times, remove_offset=True, unit_times=True):
-    coords = []
+def coords_from_times(times,
+                      start_end_idx=False,
+                      start_end_time=False,
+                      center_width=False,
+                      coords=False,
+                      remove_offset=True,
+                      unit_times=True):
+    """
+    Generate various coordinate information from a given list of times. Given N points in time, the returned arrays will
+     contain N(N-1)/2 items, corresponding to all ordered non-zero time intervals. The ordering corresponds constructing
+      a list by iterating over start points in the outer loop and end points in the inner loop.
+    :param times: An iterable of N points in time (has to be ordered).
+    :param start_end_idx: (default False) Whether to return an array of shape Nx2 with integer (start_idx, end_idx)
+    pairs.
+    :param start_end_time: (default False) Whether to return an array of shape Nx2 with (start_time, end_time) pairs
+    according to the values in times.
+    :param center_width: (default False) Whether to return an array of shape Nx2 with (center, width) time coordinate,
+    related to (start_time, end_time) via start_end_to_center_width.
+    :param coords: (default False) Whether to return an array of shape Nx4x2 with four points in center-width
+    coordinates, describing the rhomboid region in a scape plot that corresponds to the respective time interval. The
+    top-point of the rhombus corresponds to the respective center_width coordinate, the other three points are obtained
+    by moving the start and/or end point one time step forward and/or backward, respectively. The coordinates are
+    ordered clock-wise starting at 9 (left, top, right, bottom), corresponding to the indices [(start, end - 1),
+    (start, end), (start + 1, end), (start + 1, end - 1)]. For the bottom row of a scape plot (adjacent points in time),
+    the last (bottom) coordinate will be a pair of np.nan.
+    :param remove_offset: (default True) Whether the minimum time is subtracted to have time start at zero.
+    :param unit_times: (default True) Whether to normalise times to be in [0, 1].
+    :return: If only one of [start_end_idx, start_end_time, center_width, coords] is true, return the corresponding
+    array, otherwise return a tuple of the requested arrays (in this order).
+    """
+    start_end_idx_list = []
+    start_end_time_list = []
+    center_width_list = []
+    coord_list = []
     for start_idx, start in enumerate(times):
         for end_idx, end in enumerate(times):
             # only process valid, non-zero size windows
             if start_idx < end_idx:
-                coo = [tuple(start_end_to_center_width(start, times[end_idx - 1])),
-                       tuple(start_end_to_center_width(start, end)),
-                       tuple(start_end_to_center_width(times[start_idx + 1], end))]
-                if end_idx - start_idx > 1:
-                    coo.append(tuple(start_end_to_center_width(times[start_idx + 1], times[end_idx - 1])))
-                else:
-                    coo.append((np.nan, np.nan))
-                coords.append(tuple(coo))
-    coords = np.array(coords)
+                # get start/end index
+                if start_end_idx:
+                    start_end_idx_list.append([start_idx, end_idx])
+                # get start/end time
+                if start_end_time:
+                    start_end_time_list.append([start, end])
+                # get center/width
+                if center_width:
+                    center_width_list.append(start_end_to_center_width(start, end))
+                # get coordinates
+                if coords:
+                    coo = [tuple(start_end_to_center_width(start, times[end_idx - 1])),
+                           tuple(start_end_to_center_width(start, end)),
+                           tuple(start_end_to_center_width(times[start_idx + 1], end))]
+                    if end_idx - start_idx > 1:
+                        coo.append(tuple(start_end_to_center_width(times[start_idx + 1], times[end_idx - 1])))
+                    else:
+                        coo.append((np.nan, np.nan))
+                    coord_list.append(tuple(coo))
+    start_end_idx_list = np.array(start_end_idx_list)
+    # initialise as floats to allow for inplace division later
+    start_end_time_list = np.array(start_end_time_list, dtype=float)
+    center_width_list = np.array(center_width_list, dtype=float)
+    coord_list = np.array(coord_list, dtype=float)
     # remove offset
     min_time = np.min(times)
     max_time = np.max(times)
     if remove_offset:
-        coords[:, :, 0] -= min_time
+        if start_end_time:
+            start_end_time_list -= min_time
+        if center_width:
+            center_width_list[:, 0] -= min_time
+        if coords:
+            coord_list[:, :, 0] -= min_time
     # rescale to unit interval [0, 1]
     if unit_times:
         if remove_offset:
-            coords /= (max_time - min_time)
+            if start_end_time:
+                start_end_time_list /= (max_time - min_time)
+            if center_width:
+                center_width_list /= (max_time - min_time)
+            if coords:
+                coord_list /= (max_time - min_time)
         else:
-            coords /= max_time
-    return coords
+            if start_end_time:
+                start_end_time_list /= max_time
+            if center_width:
+                center_width_list /= max_time
+            if coords:
+                coord_list /= max_time
+    ret = []
+    if start_end_idx:
+        ret += [start_end_idx_list]
+    if start_end_time:
+        ret += [start_end_time_list]
+    if center_width:
+        ret += [center_width_list]
+    if coords:
+        ret += [coord_list]
+    if len(ret) == 1:
+        return ret[0]
+    else:
+        return tuple(ret)
+
+
+def key_estimates_to_str(estimates, sharp_flat='sharp', use_capitalisation=True):
+    """
+    Transform an array of key estimates into string representation
+    :param estimates: 2D numpy array of shape Nx2 with N estimates, where the first entry in each row indicates whether it
+    is major (0) or minor (1) and the second entry indicates the tonic (0-11, starting a C in chromatically ascending
+    order)
+    :param sharp_flat: one of ['sharp', 'flat'] (default 'sharp'); whether to use sharps or flats for chromatic notes
+    (i.e. C# versus Db)
+    :param use_capitalisation: True/False (default True); whether to indicate major/minor by capitalisation
+    ('C' versus 'c') or spelled out ('C major' versus 'C minor')
+    :return: 1D array of length N with the string descriptions
+    """
+    pcs = np.array(pitch_classes_sharp if sharp_flat == 'sharp' else pitch_classes_flat)
+    tonic_names = pcs[estimates[:, 1]]
+    if use_capitalisation:
+        keys = np.array([tonic if is_major else tonic.lower()
+                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 0)])
+    else:
+        keys = np.array([tonic + " major" if is_major else tonic + " minor"
+                         for tonic, is_major in zip(tonic_names, estimates[:, 0] == 0)])
+    return keys

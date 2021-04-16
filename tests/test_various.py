@@ -22,6 +22,7 @@ class TestVarious(TestCase):
         def pp():
             print(self.print_count)
             self.print_count += 1
+            # plt.show()
 
         pp()
 
@@ -136,7 +137,7 @@ class TestVarious(TestCase):
         counts_LvB, times_LvB = rd.pitch_class_counts('./tests/data/Sonata_No._14_Op._27_No._2_-_Ludwig_van_Beethoven.mid')
         # generate artificial pieces by cutting start/end and transposing
         n_pieces = 2
-        pieces = [[PitchScape(np.roll(c[s:e], shift=shift, axis=1), t[s:e + 1])
+        pieces = [[PitchScape(values=np.roll(c[s:e], shift=shift, axis=1), times=t[s:e + 1])
                    for s, e, shift in zip(np.random.randint(0, 200, n_pieces),  # random start
                                           np.random.randint(len(c) - 200, len(c), n_pieces),  # random end
                                           np.random.randint(0, 12, n_pieces))]  # random transposition

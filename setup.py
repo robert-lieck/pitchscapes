@@ -11,7 +11,7 @@ setuptools.setup(
     description="computing pitch-scapes and pitch-scape clusters",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/DCMLab/pitchscapes",
+    url="https://github.com/robert-lieck/pitchscapes",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
