@@ -65,7 +65,10 @@ def read_midi_mido(file):
 
 def read(file):
     events = []
-    piece = music21.converter.parse(file)
+    try:
+        piece = music21.converter.parse(file)
+    except Exception:
+        raise RuntimeError(f"Could not read the file '{file}'")
     for part_id, part in enumerate(piece.parts):
         for note in part.flat.notes:
             if isinstance(note, (music21.note.Note, music21.chord.Chord)):
@@ -140,6 +143,8 @@ def piano_roll(file, min_pitch=None, max_pitch=None, return_range=False, return_
     roll = np.zeros((len(chordified), max_pitch - min_pitch + 1), dtype=np.bool)
     # set multiple-hot for all time slices
     for time_idx, event in enumerate(chordified):
+        if len(event.data) == 0:
+            continue
         roll[time_idx, np.array(list(event.data)) - min_pitch] = True
     # construct return tuple
     ret = (roll,)

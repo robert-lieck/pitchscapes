@@ -218,7 +218,6 @@ class PitchScapeMixtureModel(Module):
                                        coefficients=coef + np.random.uniform(-clone_noise, clone_noise, coef.shape))
         return new_model
 
-
     def log_joint_pdf(self, samples, log_f):
         """
         Returns (the log of) p(piece | cluster, transposition); assuming uniform prior over clusters and transpositions,
