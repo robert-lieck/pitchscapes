@@ -3,7 +3,6 @@ from itertools import product
 from warnings import warn
 
 import numpy as np
-import mido
 import music21
 
 from .scapes import PitchScape
@@ -19,6 +18,7 @@ def read_midi_mido(file):
     :param file: path to MIDI file
     :return: sorted list of pitch Events
     """
+    import mido
     mid = mido.MidiFile(file)
     piece = []
     ticks_per_beat = mid.ticks_per_beat
