@@ -61,8 +61,8 @@ class KeyEstimator:
         :return: array of shape MxNxK with scores for all statistics, profiles, and transpositions
         """
         # get counts and profiles as numpy arrays and normalise
-        counts = np.array(counts, dtype=np.float)
-        profiles = np.array(profiles, dtype=np.float)
+        counts = np.array(counts, dtype=float)
+        profiles = np.array(profiles, dtype=float)
         if normalise_counts:
             counts /= counts.sum(axis=1, keepdims=True)
         if normalise_profiles:
@@ -102,7 +102,7 @@ class KeyEstimator:
         contains_nans = np.any(np.isnan(scores), axis=tuple(range(1, len(scores.shape))))
         # if there are nans: convert to float and reconstruct
         if np.any(contains_nans):
-            idx = idx.astype(np.float)
+            idx = idx.astype(float)
             idx[contains_nans, ...] = np.nan
         return idx
 
@@ -129,9 +129,9 @@ class KeyEstimator:
             except KeyError:
                 raise KeyError(f"Could not find source '{profiles}', "
                                f"available sources are {list(KeyEstimator.profiles.keys())}")
-            self.profiles = np.array([profiles["major"], profiles["minor"]], dtype=np.float)
+            self.profiles = np.array([profiles["major"], profiles["minor"]], dtype=float)
         else:
-            self.profiles = np.array(profiles, dtype=np.float)
+            self.profiles = np.array(profiles, dtype=float)
         self.scoring_func = scoring_func
         self.normalise_counts = normalise_counts
         self.normalise_profiles = normalise_profiles
