@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.plotting.counts_to_colors &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pitchscapes.plotting.get_circle_of_fifths" href="pitchscapes.plotting.get_circle_of_fifths.html" />
+    <link rel="prev" title="pitchscapes.plotting.compare_key_profiles" href="pitchscapes.plotting.compare_key_profiles.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitchscapes.html">pitchscapes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.keyfinding.html">pitchscapes.keyfinding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.model.html">pitchscapes.model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.optimization.html">pitchscapes.optimization</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pitchscapes.plotting.html">pitchscapes.plotting</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.compare_key_profiles.html">pitchscapes.plotting.compare_key_profiles</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pitchscapes.plotting.counts_to_colors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.get_circle_of_fifths.html">pitchscapes.plotting.get_circle_of_fifths</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.get_key_colour.html">pitchscapes.plotting.get_key_colour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.key_legend.html">pitchscapes.plotting.key_legend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.key_scape_plot.html">pitchscapes.plotting.key_scape_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.key_scores_to_color.html">pitchscapes.plotting.key_scores_to_color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.minor_shift.html">pitchscapes.plotting.minor_shift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.pitch_scape_plots.html">pitchscapes.plotting.pitch_scape_plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.plot_assignment.html">pitchscapes.plotting.plot_assignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.plot_cluster_assignments.html">pitchscapes.plotting.plot_cluster_assignments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.plot_loss.html">pitchscapes.plotting.plot_loss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.plot_piece_assignments.html">pitchscapes.plotting.plot_piece_assignments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.samples_to_key.html">pitchscapes.plotting.samples_to_key</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.scape_plot.html">pitchscapes.plotting.scape_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.scape_plot_from_array.html">pitchscapes.plotting.scape_plot_from_array</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.set_axis_off.html">pitchscapes.plotting.set_axis_off</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.plotting.set_circle_of_fifths.html">pitchscapes.plotting.set_circle_of_fifths</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.reader.html">pitchscapes.reader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.scapes.html">pitchscapes.scapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.util.html">pitchscapes.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
+          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
+          <li><a href="pitchscapes.plotting.html">pitchscapes.plotting</a> &raquo;</li>
+      <li>pitchscapes.plotting.counts_to_colors</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pitchscapes-plotting-counts-to-colors">
+<h1>pitchscapes.plotting.counts_to_colors<a class="headerlink" href="#pitchscapes-plotting-counts-to-colors" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pitchscapes.plotting.counts_to_colors">
+<span class="sig-prename descclassname"><span class="pre">pitchscapes.plotting.</span></span><span class="sig-name descname"><span class="pre">counts_to_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_estimator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/plotting.html#counts_to_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.plotting.counts_to_colors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitchscapes.plotting.compare_key_profiles.html" class="btn btn-neutral float-left" title="pitchscapes.plotting.compare_key_profiles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitchscapes.plotting.get_circle_of_fifths.html" class="btn btn-neutral float-right" title="pitchscapes.plotting.get_circle_of_fifths" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

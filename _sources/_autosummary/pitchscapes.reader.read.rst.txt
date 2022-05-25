@@ -1,0 +1,6 @@
+pitchscapes.reader.read
+=======================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: read

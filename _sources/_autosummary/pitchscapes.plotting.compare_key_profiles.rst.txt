@@ -1,0 +1,6 @@
+pitchscapes.plotting.compare\_key\_profiles
+===========================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: compare_key_profiles

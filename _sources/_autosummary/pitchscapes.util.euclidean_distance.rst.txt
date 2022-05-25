@@ -1,0 +1,6 @@
+pitchscapes.util.euclidean\_distance
+====================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: euclidean_distance

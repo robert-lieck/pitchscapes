@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.keyfinding &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>pitchscapes.keyfinding</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pitchscapes.keyfinding</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">euclidean_distance</span>
+
+
+<div class="viewcode-block" id="KeyEstimator"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator">[docs]</a><span class="k">class</span> <span class="nc">KeyEstimator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute key estimates. Custom parameters can be provided on initialisation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># different major and minor key profiles</span>
+    <span class="n">profiles</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;major&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.16728176182048993</span><span class="p">,</span> <span class="mf">0.02588894338557735</span><span class="p">,</span> <span class="mf">0.1171404498466961</span><span class="p">,</span> <span class="mf">0.0356495908305276</span><span class="p">,</span>
+                      <span class="mf">0.11123089694868556</span><span class="p">,</span> <span class="mf">0.09004464377374272</span><span class="p">,</span> <span class="mf">0.0382659859401006</span><span class="p">,</span> <span class="mf">0.16751964441157266</span><span class="p">,</span>
+                      <span class="mf">0.03408440554363338</span><span class="p">,</span> <span class="mf">0.09272715883619839</span><span class="p">,</span> <span class="mf">0.03950089152204068</span><span class="p">,</span> <span class="mf">0.08066562714073418</span><span class="p">],</span>
+            <span class="s2">&quot;minor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1556462295111984</span><span class="p">,</span> <span class="mf">0.03462755036633632</span><span class="p">,</span> <span class="mf">0.09903157107324087</span><span class="p">,</span> <span class="mf">0.1044334346698825</span><span class="p">,</span>
+                      <span class="mf">0.048477125346135526</span><span class="p">,</span> <span class="mf">0.10397079256257924</span><span class="p">,</span> <span class="mf">0.034020023696857145</span><span class="p">,</span> <span class="mf">0.15515432119981398</span><span class="p">,</span>
+                      <span class="mf">0.07456760938348618</span><span class="p">,</span> <span class="mf">0.05334836234206381</span><span class="p">,</span> <span class="mf">0.08307367815831439</span><span class="p">,</span> <span class="mf">0.05364930169009233</span><span class="p">]},</span>
+        <span class="s2">&quot;bayes&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;major&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.19965448155346477</span><span class="p">,</span> <span class="mf">0.008990613278155785</span><span class="p">,</span> <span class="mf">0.12994202213313824</span><span class="p">,</span> <span class="mf">0.01242816337359103</span><span class="p">,</span>
+                      <span class="mf">0.12638864214266632</span><span class="p">,</span> <span class="mf">0.08545131087389726</span><span class="p">,</span> <span class="mf">0.0263734257934788</span><span class="p">,</span> <span class="mf">0.20655914875192785</span><span class="p">,</span>
+                      <span class="mf">0.013393451149384972</span><span class="p">,</span> <span class="mf">0.08825555654425607</span><span class="p">,</span> <span class="mf">0.01458718179430356</span><span class="p">,</span> <span class="mf">0.08797600261173529</span><span class="p">],</span>
+            <span class="s2">&quot;minor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.17930236689047313</span><span class="p">,</span> <span class="mf">0.017073963004507538</span><span class="p">,</span> <span class="mf">0.10822708838359425</span><span class="p">,</span> <span class="mf">0.11953464160572477</span><span class="p">,</span>
+                      <span class="mf">0.025539463722006557</span><span class="p">,</span> <span class="mf">0.11184032733554274</span><span class="p">,</span> <span class="mf">0.020187990226227148</span><span class="p">,</span> <span class="mf">0.181798715257532</span><span class="p">,</span>
+                      <span class="mf">0.07218923098556179</span><span class="p">,</span> <span class="mf">0.0341394852891066</span><span class="p">,</span> <span class="mf">0.08257135177438128</span><span class="p">,</span> <span class="mf">0.047595375525342154</span><span class="p">]},</span>
+        <span class="s2">&quot;krumhansl&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;major&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.15195022732711172</span><span class="p">,</span> <span class="mf">0.0533620483369227</span><span class="p">,</span> <span class="mf">0.08327351040918879</span><span class="p">,</span> <span class="mf">0.05575496530270399</span><span class="p">,</span>
+                      <span class="mf">0.10480976310122037</span><span class="p">,</span> <span class="mf">0.09787030390045463</span><span class="p">,</span> <span class="mf">0.06030150753768843</span><span class="p">,</span> <span class="mf">0.1241923905240488</span><span class="p">,</span>
+                      <span class="mf">0.05719071548217276</span><span class="p">,</span> <span class="mf">0.08758076094759511</span><span class="p">,</span> <span class="mf">0.05479779851639147</span><span class="p">,</span> <span class="mf">0.06891600861450106</span><span class="p">],</span>
+            <span class="s2">&quot;minor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.14221523253201526</span><span class="p">,</span> <span class="mf">0.06021118849696697</span><span class="p">,</span> <span class="mf">0.07908335205571781</span><span class="p">,</span> <span class="mf">0.12087171422152324</span><span class="p">,</span>
+                      <span class="mf">0.05841383958660975</span><span class="p">,</span> <span class="mf">0.07930802066951245</span><span class="p">,</span> <span class="mf">0.05706582790384183</span><span class="p">,</span> <span class="mf">0.1067175915524601</span><span class="p">,</span>
+                      <span class="mf">0.08941810829027184</span><span class="p">,</span> <span class="mf">0.06043585711076162</span><span class="p">,</span> <span class="mf">0.07503931700741405</span><span class="p">,</span> <span class="mf">0.07121995057290496</span><span class="p">]},</span>
+        <span class="s2">&quot;temperley&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;major&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.12987012987012989</span><span class="p">,</span> <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.09090909090909091</span><span class="p">,</span> <span class="mf">0.05194805194805195</span><span class="p">,</span>
+                      <span class="mf">0.1168831168831169</span><span class="p">,</span> <span class="mf">0.1038961038961039</span><span class="p">,</span> <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.1168831168831169</span><span class="p">,</span>
+                      <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.09090909090909091</span><span class="p">,</span> <span class="mf">0.03896103896103896</span><span class="p">,</span> <span class="mf">0.1038961038961039</span><span class="p">],</span>
+            <span class="s2">&quot;minor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.12987012987012989</span><span class="p">,</span> <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.09090909090909091</span><span class="p">,</span> <span class="mf">0.1168831168831169</span><span class="p">,</span>
+                      <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.1038961038961039</span><span class="p">,</span> <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.1168831168831169</span><span class="p">,</span>
+                      <span class="mf">0.09090909090909091</span><span class="p">,</span> <span class="mf">0.05194805194805195</span><span class="p">,</span> <span class="mf">0.03896103896103896</span><span class="p">,</span> <span class="mf">0.1038961038961039</span><span class="p">]},</span>
+        <span class="s2">&quot;albrecht&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;major&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.23800000000000004</span><span class="p">,</span> <span class="mf">0.006000000000000002</span><span class="p">,</span> <span class="mf">0.11100000000000003</span><span class="p">,</span> <span class="mf">0.006000000000000002</span><span class="p">,</span>
+                      <span class="mf">0.13700000000000004</span><span class="p">,</span> <span class="mf">0.09400000000000003</span><span class="p">,</span> <span class="mf">0.016000000000000004</span><span class="p">,</span> <span class="mf">0.21400000000000005</span><span class="p">,</span>
+                      <span class="mf">0.009000000000000001</span><span class="p">,</span> <span class="mf">0.08000000000000002</span><span class="p">,</span> <span class="mf">0.008000000000000002</span><span class="p">,</span> <span class="mf">0.08100000000000002</span><span class="p">],</span>
+            <span class="s2">&quot;minor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.22044088176352702</span><span class="p">,</span> <span class="mf">0.0060120240480961915</span><span class="p">,</span> <span class="mf">0.10420841683366731</span><span class="p">,</span> <span class="mf">0.12324649298597193</span><span class="p">,</span>
+                      <span class="mf">0.019038076152304607</span><span class="p">,</span> <span class="mf">0.10320641282565128</span><span class="p">,</span> <span class="mf">0.012024048096192383</span><span class="p">,</span> <span class="mf">0.21442885771543083</span><span class="p">,</span>
+                      <span class="mf">0.06212424849699398</span><span class="p">,</span> <span class="mf">0.022044088176352703</span><span class="p">,</span> <span class="mf">0.06112224448897795</span><span class="p">,</span> <span class="mf">0.05210420841683366</span><span class="p">]}</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="KeyEstimator.score"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.score">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">profiles</span><span class="p">,</span> <span class="n">scoring_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">,</span> <span class="n">normalise_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalise_profiles</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute scores for the given count statistics and profiles.</span>
+<span class="sd">        :param counts: array-like of shape MxK with count statistics; M is the number of independent statistics to</span>
+<span class="sd">        compute scores for and K the number of categories, for instance, 12 for pitch-classes.</span>
+<span class="sd">        :param profiles: array-like of shape NxK with profiles to match the count statistics against; N is the</span>
+<span class="sd">        number of different profiles and K has to be of the same as for the counts.</span>
+<span class="sd">        :param scoring_func: the scoring function taking two arrays....</span>
+<span class="sd">        :param normalise_counts: whether to normalise counts before computing scores</span>
+<span class="sd">        :param normalise_profiles: whether to normalise profiles before computing scores</span>
+<span class="sd">        :return: array of shape MxNxK with scores for all statistics, profiles, and transpositions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get counts and profiles as numpy arrays and normalise</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">profiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">profiles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">normalise_counts</span><span class="p">:</span>
+            <span class="n">counts</span> <span class="o">/=</span> <span class="n">counts</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">normalise_profiles</span><span class="p">:</span>
+            <span class="n">profiles</span> <span class="o">/=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># assert matching dimensions</span>
+        <span class="k">if</span> <span class="n">counts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Count and profile arrays have different size (</span><span class="si">{</span><span class="n">counts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">profiles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="c1"># initialise scores</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">counts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">profiles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="c1"># compute scores by iterating over transpositions</span>
+        <span class="k">for</span> <span class="n">roll_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">profiles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># roll/transpose profiles</span>
+            <span class="n">profs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">profiles</span><span class="p">,</span> <span class="n">roll_idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">scores</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">roll_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">scoring_func</span><span class="p">(</span><span class="n">counts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">profs</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="o">...</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">scores</span></div>
+
+<div class="viewcode-block" id="KeyEstimator.argsort_scores"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.argsort_scores">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">argsort_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">scores</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KeyEstimator.argmin_scores"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.argmin_scores">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">argmin_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the best match (minimal score).</span>
+<span class="sd">        :param scores: scores as computed by score function; shape MxNxK (data points x profiles x transpositions)</span>
+<span class="sd">        :return: array with indices of best match; shape Nx2 (first index is the profile index; second the</span>
+<span class="sd">        transposition)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get list of min indices from flattened scores</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">])</span>
+        <span class="c1"># unravel them into multidimensional indices (grouped by dimension)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="c1"># concatenate along first dimension and transpose (i-th entry in return correspond to indices of minimum entry</span>
+        <span class="c1"># in the i-th score array)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="c1"># reconstruct nan values</span>
+        <span class="n">contains_nans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">))))</span>
+        <span class="c1"># if there are nans: convert to float and reconstruct</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">contains_nans</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">idx</span><span class="p">[</span><span class="n">contains_nans</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">return</span> <span class="n">idx</span></div>
+
+<div class="viewcode-block" id="KeyEstimator.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="c1"># profiles=&quot;krumhansl&quot;,</span>
+                 <span class="c1"># profiles=&quot;bayes&quot;,</span>
+                 <span class="c1"># profiles=&quot;metadata&quot;,</span>
+                 <span class="c1"># profiles=&quot;temperley&quot;,</span>
+                 <span class="n">profiles</span><span class="o">=</span><span class="s2">&quot;albrecht&quot;</span><span class="p">,</span>
+                 <span class="n">scoring_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">,</span>
+                 <span class="n">normalise_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">normalise_profiles</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defaults to use</span>
+<span class="sd">        :param profiles: a string in KeyEstimator.profiles or profiles of shape Nx12 (for N profiles)</span>
+<span class="sd">        :param scoring_func: scoring function (default Euclidean distance)</span>
+<span class="sd">        :param normalise_counts: whether to normalise counts before computing scores (default: True)</span>
+<span class="sd">        :param normalise_profiles: whether to normalise profiles before computing scores (default: True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get profiles</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">profiles</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">profiles</span> <span class="o">=</span> <span class="n">KeyEstimator</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profiles</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find source &#39;</span><span class="si">{</span><span class="n">profiles</span><span class="si">}</span><span class="s2">&#39;, &quot;</span>
+                               <span class="sa">f</span><span class="s2">&quot;available sources are </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">KeyEstimator</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">profiles</span><span class="p">[</span><span class="s2">&quot;major&quot;</span><span class="p">],</span> <span class="n">profiles</span><span class="p">[</span><span class="s2">&quot;minor&quot;</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">profiles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring_func</span> <span class="o">=</span> <span class="n">scoring_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalise_counts</span> <span class="o">=</span> <span class="n">normalise_counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalise_profiles</span> <span class="o">=</span> <span class="n">normalise_profiles</span></div>
+
+<div class="viewcode-block" id="KeyEstimator.get_estimate"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.get_estimate">[docs]</a>    <span class="k">def</span> <span class="nf">get_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get best key estimate for given counts. Shortcut for using KeyEstimator.argmin_scores with given defaults.</span>
+<span class="sd">        :param counts: counts to compute scores from</span>
+<span class="sd">        :return: estimates as return by KeyEstimator.argmin_scores</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">KeyEstimator</span><span class="o">.</span><span class="n">argmin_scores</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_score</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="KeyEstimator.get_score"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get scores for given counts. Shotcut to using KeyEstimator.score with given defaults.</span>
+<span class="sd">        :param counts: counts to compute</span>
+<span class="sd">        :return: scores as returned by KeyEstimator.score</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">KeyEstimator</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span>
+                                  <span class="n">profiles</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">,</span>
+                                  <span class="n">scoring_func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scoring_func</span><span class="p">,</span>
+                                  <span class="n">normalise_counts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">normalise_counts</span><span class="p">,</span>
+                                  <span class="n">normalise_profiles</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">normalise_profiles</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

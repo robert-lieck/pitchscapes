@@ -1,0 +1,6 @@
+pitchscapes.plotting.samples\_to\_key
+=====================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: samples_to_key

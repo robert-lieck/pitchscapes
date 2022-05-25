@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.optimization.WarmAdam &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pitchscapes.plotting" href="pitchscapes.plotting.html" />
+    <link rel="prev" title="pitchscapes.optimization" href="pitchscapes.optimization.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitchscapes.html">pitchscapes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.keyfinding.html">pitchscapes.keyfinding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.model.html">pitchscapes.model</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pitchscapes.optimization.html">pitchscapes.optimization</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pitchscapes.optimization.WarmAdam</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.plotting.html">pitchscapes.plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.reader.html">pitchscapes.reader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.scapes.html">pitchscapes.scapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.util.html">pitchscapes.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
+          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
+          <li><a href="pitchscapes.optimization.html">pitchscapes.optimization</a> &raquo;</li>
+      <li>pitchscapes.optimization.WarmAdam</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pitchscapes-optimization-warmadam">
+<h1>pitchscapes.optimization.WarmAdam<a class="headerlink" href="#pitchscapes-optimization-warmadam" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pitchscapes.optimization.</span></span><span class="sig-name descname"><span class="pre">WarmAdam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.9,</span> <span class="pre">0.999)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amsgrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.optim.optimizer.Optimizer</span></code></p>
+<p>Modified from Adam class</p>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__init__" title="pitchscapes.optimization.WarmAdam.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(params[, lr, init_lr, lr_beta, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__setstate__" title="pitchscapes.optimization.WarmAdam.__setstate__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__setstate__</span></code></a>(state)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.step" title="pitchscapes.optimization.WarmAdam.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>([closure])</p></td>
+<td><p>Performs a single optimization step.</p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></summary><table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__init__" title="pitchscapes.optimization.WarmAdam.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(params[, lr, init_lr, lr_beta, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__getstate__" title="pitchscapes.optimization.WarmAdam.__getstate__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getstate__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__setstate__" title="pitchscapes.optimization.WarmAdam.__setstate__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__setstate__</span></code></a>(state)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__repr__" title="pitchscapes.optimization.WarmAdam.__repr__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code></a>()</p></td>
+<td><p>Return repr(self).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.state_dict" title="pitchscapes.optimization.WarmAdam.state_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">state_dict</span></code></a>()</p></td>
+<td><p>Returns the state of the optimizer as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.load_state_dict" title="pitchscapes.optimization.WarmAdam.load_state_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_state_dict</span></code></a>(state_dict)</p></td>
+<td><p>Loads the optimizer state.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.zero_grad" title="pitchscapes.optimization.WarmAdam.zero_grad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_grad</span></code></a>([set_to_none])</p></td>
+<td><p>Sets the gradients of all optimized <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code> s to zero.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.step" title="pitchscapes.optimization.WarmAdam.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>([closure])</p></td>
+<td><p>Performs a single optimization step.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.add_param_group" title="pitchscapes.optimization.WarmAdam.add_param_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_param_group</span></code></a>(param_group)</p></td>
+<td><p>Add a param group to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> s <cite>param_groups</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Private Methods:</p>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></summary><table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._hook_for_profile" title="pitchscapes.optimization.WarmAdam._hook_for_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_hook_for_profile</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<hr class="docutils" />
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'pitchscapes.optimization',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Modified</span> <span class="pre">from</span> <span class="pre">Adam</span> <span class="pre">class\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.__init__&gt;,</span> <span class="pre">'__setstate__':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.__setstate__&gt;,</span> <span class="pre">'step':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.step&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__getstate__">
+<span class="sig-name descname"><span class="pre">__getstate__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__getstate__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.9,</span> <span class="pre">0.999)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amsgrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pitchscapes.optimization'</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__repr__" title="Permalink to this definition"></a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__setstate__">
+<span class="sig-name descname"><span class="pre">__setstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.__setstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__setstate__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._hook_for_profile">
+<span class="sig-name descname"><span class="pre">_hook_for_profile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._hook_for_profile" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.add_param_group">
+<span class="sig-name descname"><span class="pre">add_param_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.add_param_group" title="Permalink to this definition"></a></dt>
+<dd><p>Add a param group to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> s <cite>param_groups</cite>.</p>
+<p>This can be useful when fine tuning a pre-trained network as frozen layers can be made
+trainable and added to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> as training progresses.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>param_group (dict): Specifies what Tensors should be optimized along with group</dt><dd><p>specific optimization options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.load_state_dict">
+<span class="sig-name descname"><span class="pre">load_state_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.load_state_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the optimizer state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>state_dict (dict): optimizer state. Should be an object returned</dt><dd><p>from a call to <a class="reference internal" href="#pitchscapes.optimization.WarmAdam.state_dict" title="pitchscapes.optimization.WarmAdam.state_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.state_dict">
+<span class="sig-name descname"><span class="pre">state_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.state_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the state of the optimizer as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<p>It contains two entries:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>state - a dict holding current optimization state. Its content</dt><dd><p>differs between optimizer classes.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>param_groups - a list containing all parameter groups where each</dt><dd><p>parameter group is a dict</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.step" title="Permalink to this definition"></a></dt>
+<dd><p>Performs a single optimization step.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>closure (callable, optional): A closure that reevaluates the model</dt><dd><p>and returns the loss.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.zero_grad">
+<span class="sig-name descname"><span class="pre">zero_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_to_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.zero_grad" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the gradients of all optimized <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code> s to zero.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>set_to_none (bool): instead of setting to zero, set the grads to None.</dt><dd><p>This will in general have lower memory footprint, and can modestly improve performance.
+However, it changes certain behaviors. For example:
+1. When the user tries to access a gradient and perform manual ops on it,
+a None attribute or a Tensor full of 0s will behave differently.
+2. If the user requests <code class="docutils literal notranslate"><span class="pre">zero_grad(set_to_none=True)</span></code> followed by a backward pass, <code class="docutils literal notranslate"><span class="pre">.grad</span></code>s
+are guaranteed to be None for params that did not receive a gradient.
+3. <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code> optimizers have a different behavior if the gradient is 0 or None
+(in one case it does the step with a gradient of 0 and in the other it skips
+the step altogether).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitchscapes.optimization.html" class="btn btn-neutral float-left" title="pitchscapes.optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitchscapes.plotting.html" class="btn btn-neutral float-right" title="pitchscapes.plotting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

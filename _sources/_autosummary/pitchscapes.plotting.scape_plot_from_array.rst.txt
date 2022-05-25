@@ -1,0 +1,6 @@
+pitchscapes.plotting.scape\_plot\_from\_array
+=============================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: scape_plot_from_array

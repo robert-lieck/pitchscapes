@@ -1,0 +1,6 @@
+pitchscapes.reader.read\_midi\_mido
+===================================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: read_midi_mido

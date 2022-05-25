@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.model &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>pitchscapes.model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pitchscapes.model</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">torch.distributions.dirichlet</span> <span class="kn">import</span> <span class="n">Dirichlet</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">clear_output</span>
+
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">sample_discrete_scape</span><span class="p">,</span> <span class="n">multi_sample_pitch_scapes</span><span class="p">,</span> <span class="n">random_batch_ids</span><span class="p">,</span> <span class="n">start_end_to_center_width</span><span class="p">,</span> <span class="n">safe_int</span>
+<span class="kn">from</span> <span class="nn">.optimization</span> <span class="kn">import</span> <span class="n">WarmAdam</span>
+<span class="kn">from</span> <span class="nn">.scapes</span> <span class="kn">import</span> <span class="n">Scape</span>
+
+
+<div class="viewcode-block" id="ScapeWrapper"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.ScapeWrapper.html#pitchscapes.model.ScapeWrapper">[docs]</a><span class="k">class</span> <span class="nc">ScapeWrapper</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper class for PitchScapeMixtureModel, so that a specific cluster can be accessed as Scape object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ScapeWrapper.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.ScapeWrapper.html#pitchscapes.model.ScapeWrapper.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">cluster</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span> <span class="o">=</span> <span class="n">cluster</span></div>
+
+<div class="viewcode-block" id="ScapeWrapper.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.ScapeWrapper.html#pitchscapes.model.ScapeWrapper.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">center</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">start_end_to_center_width</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">]]),</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log_rep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="PitchScapeMixtureModel"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel">[docs]</a><span class="k">class</span> <span class="nc">PitchScapeMixtureModel</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">n_center</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">n_width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">n_clusters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">n_pitch</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                 <span class="n">offset</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                 <span class="n">init_noise</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+                 <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">c_major</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">n_pitch</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not implemented for uneven number of pitches&quot;</span><span class="p">)</span>
+        <span class="c1"># basic parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span> <span class="o">=</span> <span class="n">n_pitch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="n">n_clusters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_center</span> <span class="o">=</span> <span class="n">n_center</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_width</span> <span class="o">=</span> <span class="n">n_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">periodic</span> <span class="o">=</span> <span class="n">periodic</span>
+
+        <span class="c1"># Fourier representations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_center</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                      <span class="mi">2</span> <span class="o">*</span> <span class="n">n_width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                      <span class="n">n_pitch</span><span class="p">,</span>
+                                                      <span class="n">n_clusters</span><span class="p">))</span> <span class="o">*</span> <span class="n">init_noise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">offset</span>
+        <span class="c1"># add bias towards C-major (Fourier coefficients from diatonic scale)</span>
+        <span class="n">cos_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">0.1339</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.8660</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])</span> <span class="o">/</span> <span class="mf">3.5</span>
+        <span class="n">sin_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.2320</span><span class="p">,</span> <span class="mf">0.8660</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.8660</span><span class="p">,</span> <span class="mf">3.2320</span><span class="p">])</span> <span class="o">/</span> <span class="mf">3.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">c_major</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">c_major</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">cos_coeff</span><span class="p">,</span> <span class="n">sin_coeff</span><span class="p">))[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_vectors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phase_shifts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># center and width dimensions</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="n">n_center</span><span class="p">,</span> <span class="n">n_width</span><span class="p">]:</span>
+            <span class="c1"># first n+1 cos; second n sin (i.e. cos with phase shift)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">periodic</span><span class="p">:</span>
+                <span class="n">wv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wave_vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">wv</span><span class="p">,</span> <span class="n">wv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phase_shifts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                                     <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)))</span>
+        <span class="c1"># pitch dimension (first n+1 cos; second n-1 sin; n = n_pitch / 2 for even n_pitch)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">safe_int</span><span class="p">(</span><span class="n">n_pitch</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_pitch</span><span class="p">,</span>
+                                                 <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">safe_int</span><span class="p">(</span><span class="n">n_pitch</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">n_pitch</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phase_shifts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">safe_int</span><span class="p">(</span><span class="n">n_pitch</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                                 <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">safe_int</span><span class="p">(</span><span class="n">n_pitch</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)))</span>
+        <span class="c1"># to torch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_vectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">wv</span><span class="p">)</span> <span class="k">for</span> <span class="n">wv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wave_vectors</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phase_shifts</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="k">for</span> <span class="n">ps</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase_shifts</span><span class="p">]</span>
+
+        <span class="c1"># mixture model</span>
+        <span class="c1"># log joint has shape (n_pieces, n_clusters, n_transpositions) and equals p(piece | cluster, transposition),</span>
+        <span class="c1"># which is proportional to the joint p(piece, cluster, transposition) when assuming uniform priors over clusters</span>
+        <span class="c1"># and transpositions; the probability for a piece is a DENSITY because it comes from an average Dirichlet, i.e.</span>
+        <span class="c1"># it is not normalised and can be larger than one (positive log)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.set_data"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scapes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">piece_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="n">scapes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">or</span> \
+                <span class="ow">not</span> <span class="p">((</span><span class="n">positions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">coords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">or</span> \
+                <span class="p">((</span><span class="n">scapes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">positions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify EITHER &#39;scapes&#39; and &#39;n_samples&#39; OR &#39;positions&#39;, &#39;samples&#39; and &#39;coords&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scapes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">positions</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">coords</span> <span class="o">=</span> <span class="n">multi_sample_pitch_scapes</span><span class="p">(</span><span class="n">scapes</span><span class="o">=</span><span class="n">scapes</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="c1"># get dimensions</span>
+        <span class="p">(</span><span class="n">n_positions</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">(</span><span class="n">n_pieces</span><span class="p">,</span> <span class="n">n_positions_</span><span class="p">,</span> <span class="n">n_pitches</span><span class="p">)</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">n_transpositions</span> <span class="o">=</span> <span class="n">n_pitches</span>
+        <span class="c1"># store</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">positions</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="c1"># check consistency</span>
+        <span class="k">assert</span> <span class="n">n_dims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_dims</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">assert</span> <span class="n">n_pitches</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_pitches</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">assert</span> <span class="n">n_positions</span> <span class="o">==</span> <span class="n">n_positions_</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_positions</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">n_positions_</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># check and assign weights</span>
+        <span class="k">if</span> <span class="n">piece_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">piece_weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n_pieces</span><span class="p">,),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">piece_weights</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> == </span><span class="si">{</span><span class="n">n_pieces</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">piece_weights</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># store samples with precomputed transpositions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_pieces</span><span class="p">,</span> <span class="n">n_positions</span><span class="p">,</span> <span class="n">n_pitches</span><span class="p">,</span> <span class="n">n_transpositions</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">transp_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_transpositions</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">transp_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">shifts</span><span class="o">=</span><span class="n">transp_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.set_coefficients"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.set_coefficients">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">):</span>
+        <span class="c1"># helper function to extract indices</span>
+        <span class="k">def</span> <span class="nf">coef_indices</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Return the start and end index of the model coefficients for cosine and sine components of the continuous</span>
+<span class="sd">            dimensions (center and width). Additionally, the difference that needs to be added to start in slicing to get</span>
+<span class="sd">            the full slice, i.e. [start:start + diff] such that start + diff = end + 1.</span>
+<span class="sd">            :param n: order of Fourier series (number of complex-valued parameters)</span>
+<span class="sd">            :return: (start_cos, end_cos, diff_cos), (start_sin, end_sin, diff_sin)</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="c1"># indices for this cluster</span>
+        <span class="n">this_n_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_center</span>
+        <span class="n">this_n_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_width</span>
+        <span class="p">((</span><span class="n">this_center_start_cos</span><span class="p">,</span> <span class="n">this_center_end_cos</span><span class="p">,</span> <span class="n">this_center_diff_cos</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">this_center_start_sin</span><span class="p">,</span> <span class="n">this_center_end_sin</span><span class="p">,</span> <span class="n">this_center_diff_sin</span><span class="p">))</span> <span class="o">=</span> <span class="n">coef_indices</span><span class="p">(</span><span class="n">this_n_center</span><span class="p">)</span>
+        <span class="p">((</span><span class="n">this_width_start_cos</span><span class="p">,</span> <span class="n">this_width_end_cos</span><span class="p">,</span> <span class="n">this_width_diff_cos</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">this_width_start_sin</span><span class="p">,</span> <span class="n">this_width_end_sin</span><span class="p">,</span> <span class="n">this_width_diff_sin</span><span class="p">))</span> <span class="o">=</span> <span class="n">coef_indices</span><span class="p">(</span><span class="n">this_n_width</span><span class="p">)</span>
+        <span class="c1"># indices for other cluster</span>
+        <span class="n">other_n_center</span> <span class="o">=</span> <span class="n">safe_int</span><span class="p">((</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">other_n_width</span> <span class="o">=</span> <span class="n">safe_int</span><span class="p">((</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">((</span><span class="n">other_center_start_cos</span><span class="p">,</span> <span class="n">other_center_end_cos</span><span class="p">,</span> <span class="n">other_center_diff_cos</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">other_center_start_sin</span><span class="p">,</span> <span class="n">other_center_end_sin</span><span class="p">,</span> <span class="n">other_center_diff_sin</span><span class="p">))</span> <span class="o">=</span> <span class="n">coef_indices</span><span class="p">(</span><span class="n">other_n_center</span><span class="p">)</span>
+        <span class="p">((</span><span class="n">other_width_start_cos</span><span class="p">,</span> <span class="n">other_width_end_cos</span><span class="p">,</span> <span class="n">other_width_diff_cos</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">other_width_start_sin</span><span class="p">,</span> <span class="n">other_width_end_sin</span><span class="p">,</span> <span class="n">other_width_diff_sin</span><span class="p">))</span> <span class="o">=</span> <span class="n">coef_indices</span><span class="p">(</span><span class="n">other_n_width</span><span class="p">)</span>
+        <span class="c1"># use the shorter of both for copying</span>
+        <span class="n">center_diff_cos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">this_center_diff_cos</span><span class="p">,</span> <span class="n">other_center_diff_cos</span><span class="p">)</span>
+        <span class="n">center_diff_sin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">this_center_diff_sin</span><span class="p">,</span> <span class="n">other_center_diff_sin</span><span class="p">)</span>
+        <span class="n">width_diff_cos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">this_width_diff_cos</span><span class="p">,</span> <span class="n">other_width_diff_cos</span><span class="p">)</span>
+        <span class="n">width_diff_sin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">this_width_diff_sin</span><span class="p">,</span> <span class="n">other_width_diff_sin</span><span class="p">)</span>
+        <span class="c1"># do assignment on numpy level</span>
+        <span class="n">self_coefficients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="c1"># assign all combinations of sine and cosine blocks</span>
+        <span class="k">for</span> <span class="n">this_center_start</span><span class="p">,</span> <span class="n">other_center_start</span><span class="p">,</span> <span class="n">center_diff</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">this_center_start_cos</span><span class="p">,</span> <span class="n">other_center_start_cos</span><span class="p">,</span> <span class="n">center_diff_cos</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">this_center_start_sin</span><span class="p">,</span> <span class="n">other_center_start_sin</span><span class="p">,</span> <span class="n">center_diff_sin</span><span class="p">)</span>
+        <span class="p">]:</span>
+            <span class="k">for</span> <span class="n">this_width_start</span><span class="p">,</span> <span class="n">other_width_start</span><span class="p">,</span> <span class="n">width_diff</span> <span class="ow">in</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">this_width_start_cos</span><span class="p">,</span> <span class="n">other_width_start_cos</span><span class="p">,</span> <span class="n">width_diff_cos</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">this_width_start_sin</span><span class="p">,</span> <span class="n">other_width_start_sin</span><span class="p">,</span> <span class="n">width_diff_sin</span><span class="p">)</span>
+            <span class="p">]:</span>
+                <span class="n">self_coefficients</span><span class="p">[</span>
+                <span class="n">this_center_start</span><span class="p">:</span><span class="n">this_center_start</span> <span class="o">+</span> <span class="n">center_diff</span><span class="p">,</span>
+                <span class="n">this_width_start</span><span class="p">:</span><span class="n">this_width_start</span> <span class="o">+</span> <span class="n">width_diff</span><span class="p">,</span>
+                <span class="p">:,</span>
+                <span class="n">cluster_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span>
+                               <span class="n">other_center_start</span><span class="p">:</span><span class="n">other_center_start</span> <span class="o">+</span> <span class="n">center_diff</span><span class="p">,</span>
+                               <span class="n">other_width_start</span><span class="p">:</span><span class="n">other_width_start</span> <span class="o">+</span> <span class="n">width_diff</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">self_coefficients</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.new"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.new">[docs]</a>    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">clone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_clusters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">clone_noise</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n_pitch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_pitch</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Changing the number of pitches is not supported (n_pitch=</span><span class="si">{</span><span class="n">n_pitch</span><span class="si">}</span><span class="s2"> does not match value &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;of model: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="c1"># initialise new model</span>
+        <span class="k">if</span> <span class="n">n_center</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_center</span>
+        <span class="k">if</span> <span class="n">n_width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_width</span>
+        <span class="k">if</span> <span class="n">n_pitch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_pitch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span>
+        <span class="k">if</span> <span class="n">clone</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n_clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">n_clusters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span>
+            <span class="n">clone</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n_clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">n_clusters</span> <span class="o">=</span> <span class="n">safe_int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">clone</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">clone</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_clusters</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The total number of clusters to create by cloning (sum of &#39;clone&#39;) must equal the &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;number of initialised clusters. But we have n_clusters=</span><span class="si">{</span><span class="n">n_clusters</span><span class="si">}</span><span class="s2"> and &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;clone=</span><span class="si">{</span><span class="n">clone</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">new_model</span> <span class="o">=</span> <span class="n">PitchScapeMixtureModel</span><span class="p">(</span><span class="n">n_center</span><span class="o">=</span><span class="n">n_center</span><span class="p">,</span>
+                                           <span class="n">n_width</span><span class="o">=</span><span class="n">n_width</span><span class="p">,</span>
+                                           <span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span>
+                                           <span class="n">n_pitch</span><span class="o">=</span><span class="n">n_pitch</span><span class="p">,</span>
+                                           <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># set coefficients</span>
+        <span class="n">clone_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">clone_index</span>
+                         <span class="k">for</span> <span class="n">clone_index</span><span class="p">,</span> <span class="n">clone_multiplicity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clone</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">clone_multiplicity</span><span class="p">)]</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">clone_indices</span><span class="p">)</span> <span class="o">==</span> <span class="n">n_clusters</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_clusters</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">clone_indices</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">to_idx</span><span class="p">,</span> <span class="n">from_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clone_indices</span><span class="p">):</span>
+            <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">from_idx</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="n">new_model</span><span class="o">.</span><span class="n">set_coefficients</span><span class="p">(</span><span class="n">cluster_idx</span><span class="o">=</span><span class="n">to_idx</span><span class="p">,</span>
+                                       <span class="n">coefficients</span><span class="o">=</span><span class="n">coef</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">clone_noise</span><span class="p">,</span> <span class="n">clone_noise</span><span class="p">,</span> <span class="n">coef</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">new_model</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.log_joint_pdf"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.log_joint_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">log_joint_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">log_f</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns (the log of) p(piece | cluster, transposition); assuming uniform prior over clusters and transpositions,</span>
+<span class="sd">        this is proportional to the joint p(piece, cluster, transposition)</span>
+<span class="sd">        :param samples: array of shape (n_pieces, n_samples, n_pitches, n_clusters, n_transpositions)</span>
+<span class="sd">        :param log_f: array of shape (n_pieces, n_samples, n_pitches, n_clusters, n_transpositions)</span>
+<span class="sd">        :return: array of shape (...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># construct Dirichlet distributions (move pitch dimension last</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">Dirichlet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;abcde-&gt;abdec&#39;</span><span class="p">,</span> <span class="n">log_f</span><span class="o">.</span><span class="n">exp</span><span class="p">()))</span>
+        <span class="c1"># get point-wise probabilities and multiply up (log-sum) samples for each piece</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="nb">dir</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;abcde-&gt;abdec&#39;</span><span class="p">,</span> <span class="n">samples</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">probs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.log_assignments"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.log_assignments">[docs]</a>    <span class="k">def</span> <span class="nf">log_assignments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># marginalise out cluster and transposition to get piece likelihood</span>
+        <span class="c1"># (ignore constant priors fo cluster and transposition as they cancel out in the division below)</span>
+        <span class="n">piece_log_like</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># divide (log-minus) joint by piece likelihood to get assigment (cluster and transposition) probability</span>
+        <span class="c1"># for each piece</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span> <span class="o">-</span> <span class="n">piece_log_like</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.assignments"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.assignments">[docs]</a>    <span class="k">def</span> <span class="nf">assignments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_assignments</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.piece_log_like"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.piece_log_like">[docs]</a>    <span class="k">def</span> <span class="nf">piece_log_like</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># marginalise out cluster and transposition to get piece likelihood</span>
+        <span class="n">piece_log_like</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">piece_log_like</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.cluster_entropy"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.cluster_entropy">[docs]</a>    <span class="k">def</span> <span class="nf">cluster_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># compute the expected piece log-likelihood per cluster, or cluster entropy:</span>
+        <span class="c1"># sum p(piece | cluster) log p(piece | cluster)</span>
+
+        <span class="c1"># only include pieces that have a non-zero weight</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">include</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-50</span><span class="p">))</span>
+            <span class="n">piece_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span><span class="p">[</span><span class="n">include</span><span class="p">]</span>
+            <span class="n">log_joint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="p">[</span><span class="n">include</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">piece_weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">log_joint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span>
+        <span class="c1"># marginalise out transposition to get p(piece, cluster)</span>
+        <span class="n">piece_log_like</span> <span class="o">=</span> <span class="n">log_joint</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">)</span>
+        <span class="c1"># multiply by piece weight</span>
+        <span class="n">piece_log_like</span> <span class="o">=</span> <span class="n">piece_log_like</span> <span class="o">*</span> <span class="n">piece_weights</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="c1"># marginalise out piece to get p(cluster) and normalise to get p(piece | cluster)</span>
+        <span class="n">piece_log_like</span> <span class="o">-=</span> <span class="n">piece_log_like</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">piece_weights</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="c1"># compute entropy</span>
+        <span class="n">entropy</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">piece_log_like</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span> <span class="o">*</span> <span class="n">piece_log_like</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="n">entropy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.f"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log_rep</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns the function value described by Fourier coefficients of the model at the specified positions</span>
+<span class="sd">        :param positions: array of shape (n_data, 2) or (n_data, n_pitch, 3)</span>
+<span class="sd">        :param positive: whether to apply exp to make output positive (default: True)</span>
+<span class="sd">        :param normalise: whether to normalise along pitch dimensions (default: True)</span>
+<span class="sd">        :param log_rep: whether to return result in log representation (default: False)</span>
+<span class="sd">        :return: array of shape (n_data, n_pitch, n_clusters) with function values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">n_data</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># add pitch dimension</span>
+            <span class="n">full_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">full_positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">full_positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">full_positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">full_positions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">full_positions</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span> <span class="ow">and</span> <span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c1"># full positions</span>
+            <span class="n">n_data</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">full_positions</span> <span class="o">=</span> <span class="n">positions</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Positions should have shape (n_data, 2) or (n_data, n_pitch, 3) with n_pitch=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="si">}</span><span class="s2">, but &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;found a shape of </span><span class="si">{</span><span class="n">positions</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="c1"># reshape from point_position x pitch_position x dimension to point_and_pitch_position x dimension</span>
+        <span class="n">full_positions</span> <span class="o">=</span> <span class="n">full_positions</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n_data</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># compute phases</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="p">[</span><span class="n">full_positions</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">wave_vectors</span><span class="p">[</span><span class="n">dim</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase_shifts</span><span class="p">[</span><span class="n">dim</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+                  <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+        <span class="c1"># compute amplitudes</span>
+        <span class="n">amplitudes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">ph</span><span class="p">)</span> <span class="k">for</span> <span class="n">ph</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">]</span>
+        <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">amplitudes</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">amplitudes</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">,</span>
+                                                                                         <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="c1"># multiply coefficients and sum up</span>
+        <span class="n">amplitudes</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="n">amplitudes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1"># reshape</span>
+        <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pitch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">)</span>
+        <span class="c1"># make positive and apply log (if requested)</span>
+        <span class="k">if</span> <span class="n">positive</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">log_rep</span><span class="p">:</span>
+            <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">positive</span> <span class="ow">and</span> <span class="n">log_rep</span><span class="p">:</span>
+            <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+        <span class="c1"># normalise (if requested)</span>
+        <span class="k">if</span> <span class="n">normalise</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log_rep</span><span class="p">:</span>
+                <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">amplitudes</span> <span class="o">-</span> <span class="n">amplitudes</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">amplitudes</span> <span class="o">/</span> <span class="n">amplitudes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">amplitudes</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.log_likelihood"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.log_likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">log_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        parameters that control computation:</span>
+<span class="sd">            full_positions, precompute_trans, joint_clusters, shared_positions</span>
+
+<span class="sd">        dimensions that may be iterated over:</span>
+<span class="sd">            n_pieces, n_transpositions, n_clusters</span>
+
+<span class="sd">        tensors and shapes:</span>
+<span class="sd">            positions: (n_pieces, n_positions, 2)</span>
+<span class="sd">            samples: (n_pieces, n_positions, n_pitches, n_transpositions)</span>
+<span class="sd">            log_joint: (n_pieces, self.n_clusters, n_transpositions)</span>
+<span class="sd">            log_f: (n_positions, n_pitches)</span>
+
+<span class="sd">        Positions are are flattened for computing model predictions and the results is reshaped to the correct</span>
+<span class="sd">        dimensions afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># whether values are computed successively</span>
+        <span class="c1"># get dimensions</span>
+        <span class="p">(</span><span class="n">n_pieces</span><span class="p">,</span> <span class="n">n_positions</span><span class="p">,</span> <span class="n">n_pitches</span><span class="p">,</span> <span class="n">n_transpositions</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+        <span class="c1"># use all data if batch was not provided</span>
+        <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_pieces</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="c1"># exclude pieces with zero weight from batch</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+                                                                    <span class="mi">0</span><span class="p">,</span>
+                                                                    <span class="n">atol</span><span class="o">=</span><span class="mf">1e-50</span><span class="p">)))</span>
+        <span class="n">n_pieces_in_batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">n_pieces_in_batch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot compute log-likelihood: empty batch and/or only zero weights&quot;</span><span class="p">)</span>
+        <span class="c1"># iterators, slicing, effective dimentions, dropping of singleton dimensions</span>
+        <span class="c1"># pieces</span>
+        <span class="n">piece_it</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="n">piece_slice</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">positions_piece_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">log_joint_piece_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">eff_n_pieces</span> <span class="o">=</span> <span class="n">n_pieces_in_batch</span>
+        <span class="n">piece_drop</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># clusters</span>
+        <span class="n">cluster_it</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="n">cluster_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">eff_n_clusters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span>
+        <span class="n">cluster_drop</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># transposition</span>
+        <span class="n">trans_it</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="n">trans_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">eff_n_trans</span> <span class="o">=</span> <span class="n">n_transpositions</span>
+        <span class="n">trans_drop</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># allocate model log-joint if shape does not match</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">n_pieces</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">n_transpositions</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_pieces</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">n_transpositions</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># pre-allocate total log-joint (of this evaluation) if values are computed iteratively</span>
+        <span class="n">total_log_joint</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># do iteration</span>
+        <span class="n">log_f_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">log_f</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">rolled_log_f</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">piece_idx</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">,</span> <span class="n">trans_idx</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">piece_it</span><span class="p">,</span> <span class="n">cluster_it</span><span class="p">,</span> <span class="n">trans_it</span><span class="p">):</span>
+            <span class="c1"># whether to compute log_f</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">piece_idx</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">log_f_dict</span><span class="p">:</span>
+                <span class="c1"># shape: (n_pieces, n_positions, 2)</span>
+                <span class="n">positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">positions_piece_slice</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="c1"># get values</span>
+                <span class="n">log_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span>
+                               <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                               <span class="n">normalise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">log_rep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># reshape: make compatible with (n_pieces, n_positions, n_pitches, n_clusters, n_transpositions)</span>
+                <span class="n">log_f</span> <span class="o">=</span> <span class="n">log_f</span><span class="o">.</span><span class="n">view</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_positions</span><span class="p">,</span> <span class="n">n_pitches</span><span class="p">,</span> <span class="n">eff_n_clusters</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="c1"># store</span>
+                <span class="n">log_f_dict</span><span class="p">[(</span><span class="n">piece_idx</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># compute transposition</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">piece_idx</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">,</span> <span class="n">trans_idx</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">log_f_dict</span><span class="p">:</span>
+                <span class="n">rolled_log_f</span> <span class="o">=</span> <span class="n">log_f</span>
+                <span class="n">log_f_dict</span><span class="p">[(</span><span class="n">piece_idx</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">,</span> <span class="n">trans_idx</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># pick piece and add dimension for clusters</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">piece_slice</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">eff_n_pieces</span><span class="p">,</span> <span class="n">n_positions</span><span class="p">,</span> <span class="n">n_pitches</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">eff_n_trans</span><span class="p">)</span>
+            <span class="c1"># compute log joint</span>
+            <span class="n">partial_log_joint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_joint_pdf</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">samples</span><span class="p">,</span> <span class="n">log_f</span><span class="o">=</span><span class="n">rolled_log_f</span><span class="p">)</span>
+            <span class="c1"># drop singleton dimensions</span>
+            <span class="n">partial_log_joint</span> <span class="o">=</span> <span class="n">partial_log_joint</span><span class="p">[</span><span class="n">piece_drop</span><span class="p">,</span> <span class="n">cluster_drop</span><span class="p">,</span> <span class="n">trans_drop</span><span class="p">]</span>
+            <span class="c1"># assign to total log joint</span>
+            <span class="n">total_log_joint</span> <span class="o">=</span> <span class="n">partial_log_joint</span>
+        <span class="c1"># normalise by number of samples per piece</span>
+        <span class="n">total_log_joint</span> <span class="o">/=</span> <span class="n">n_positions</span>
+        <span class="c1"># assign total log-joint (of this evaluation) to corresponding entries in model&#39;s log-joint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_joint</span><span class="p">[</span><span class="n">batch</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_log_joint</span>
+        <span class="c1"># marginalise out latent variables (cluster and tranposition) to get log likelihood per piece</span>
+        <span class="c1"># take product (i.e. sum in log representation) for log likelihood;</span>
+        <span class="c1"># normalise to get cross-entropy</span>
+        <span class="n">piece_log_like</span> <span class="o">=</span> <span class="n">total_log_joint</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">*</span> <span class="n">n_transpositions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eff_piece_weight_sum</span> <span class="o">=</span> <span class="n">eff_n_pieces</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># compute effective piece weight</span>
+            <span class="n">eff_piece_weight_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="c1"># weight piece log-like (weighted cross-entropy)</span>
+            <span class="n">piece_log_like</span> <span class="o">=</span> <span class="n">piece_log_like</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">piece_weights</span><span class="p">[</span><span class="n">batch</span><span class="p">]</span>
+        <span class="c1"># multiply piece likelihoods (log-sum) and normalise (log-divide; root in dirict representation)</span>
+        <span class="c1"># by number of data points (effective number of pieces and positions per piece)</span>
+        <span class="n">data_log_like</span> <span class="o">=</span> <span class="n">piece_log_like</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">eff_piece_weight_sum</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data_log_like</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeWarning</span><span class="p">(</span><span class="s2">&quot;Encounterd nan in data log-likelihood&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_log_like</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.closure"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.closure">[docs]</a>    <span class="k">def</span> <span class="nf">closure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.optimize"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_lr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">final_lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">lr_beta</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span>
+                 <span class="n">n_batches</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">latency</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
+                 <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">same_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">restore_best</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># initialise optimizer</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">WarmAdam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">init_lr</span><span class="o">=</span><span class="n">init_lr</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">final_lr</span><span class="p">,</span> <span class="n">lr_beta</span><span class="o">=</span><span class="n">lr_beta</span><span class="p">)</span>
+        <span class="c1"># training</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">batch_ids</span> <span class="o">=</span> <span class="n">random_batch_ids</span><span class="p">(</span><span class="n">n_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_batches</span><span class="o">=</span><span class="n">n_batches</span><span class="p">)</span>
+        <span class="n">epoch_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">same_line</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">short</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">prec</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">format_float_positional</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">prec</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">short</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">n</span>
+        <span class="n">best_state_dict</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">best_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># epoch loop</span>
+            <span class="n">epoch_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">max_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">epoch_idx</span> <span class="o">&gt;</span> <span class="n">max_epochs</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="k">if</span> <span class="n">progress</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">same_line</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch </span><span class="si">{</span><span class="n">epoch_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">batch_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>  <span class="c1"># batch loop</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">progress</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">same_line</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    batch </span><span class="si">{</span><span class="n">it</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_batches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">closure</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">closure</span><span class="p">(</span><span class="n">batch_ids</span> <span class="o">==</span> <span class="n">batch_idx</span><span class="p">))))</span>
+                <span class="k">if</span> <span class="n">progress</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">same_line</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;        batch loss: </span><span class="si">{</span><span class="n">short</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;        time elapsed </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="c1"># same line output</span>
+                <span class="k">if</span> <span class="n">progress</span> <span class="ow">and</span> <span class="n">same_line</span><span class="p">:</span>
+                    <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">epoch </span><span class="si">{</span><span class="n">epoch_idx</span><span class="si">}</span><span class="s2"> | &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;batch </span><span class="si">{</span><span class="n">it</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_batches</span><span class="si">}</span><span class="s2"> | &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;time elapsed </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span><span class="si">}</span><span class="s2"> | &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;batch loss: </span><span class="si">{</span><span class="n">short</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">same_line</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; | epoch loss: </span><span class="si">{</span><span class="n">short</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    epoch loss: </span><span class="si">{</span><span class="n">short</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">restore_best</span><span class="p">:</span>
+                <span class="n">epoch_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">epoch_loss</span> <span class="o">&lt;</span> <span class="n">best_loss</span><span class="p">:</span>
+                    <span class="n">best_loss</span> <span class="o">=</span> <span class="n">epoch_loss</span>
+                    <span class="n">best_state_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">epoch_idx</span> <span class="o">&gt;</span> <span class="n">latency</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">[</span><span class="o">-</span><span class="n">latency</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">same_line</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; | delta[</span><span class="si">{</span><span class="n">latency</span><span class="si">}</span><span class="s2">]: </span><span class="si">{</span><span class="n">short</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    delta[</span><span class="si">{</span><span class="n">latency</span><span class="si">}</span><span class="s2">]: </span><span class="si">{</span><span class="n">short</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="o">-</span><span class="n">d</span> <span class="o">&lt;=</span> <span class="n">delta</span><span class="p">:</span>
+                    <span class="k">break</span>
+        <span class="k">if</span> <span class="n">restore_best</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">best_state_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeWarning</span><span class="p">(</span><span class="s2">&quot;Cannot restore best parameters, not state dict stored.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">best_state_dict</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">progress</span> <span class="ow">and</span> <span class="n">same_line</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.get_samples"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.get_samples">[docs]</a>    <span class="k">def</span> <span class="nf">get_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log_rep</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="c1"># get positions (and possibly coords)</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sample_discrete_scape</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">),</span>
+                                                          <span class="n">center_width</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">])</span>
+                <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span>
+                                 <span class="n">positive</span><span class="o">=</span><span class="n">positive</span><span class="p">,</span>
+                                 <span class="n">normalise</span><span class="o">=</span><span class="n">normalise</span><span class="p">,</span>
+                                 <span class="n">log_rep</span><span class="o">=</span><span class="n">log_rep</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">samples</span><span class="p">,</span> <span class="n">coords</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.cluster"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.cluster">[docs]</a>    <span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ScapeWrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PitchScapeMixtureModel.clusters"><a class="viewcode-back" href="../../_autosummary/pitchscapes.model.PitchScapeMixtureModel.html#pitchscapes.model.PitchScapeMixtureModel.clusters">[docs]</a>    <span class="k">def</span> <span class="nf">clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

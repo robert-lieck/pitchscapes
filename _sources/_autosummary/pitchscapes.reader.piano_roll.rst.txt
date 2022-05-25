@@ -1,0 +1,6 @@
+pitchscapes.reader.piano\_roll
+==============================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: piano_roll

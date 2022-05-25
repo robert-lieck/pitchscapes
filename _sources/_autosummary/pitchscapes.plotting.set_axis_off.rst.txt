@@ -1,0 +1,6 @@
+pitchscapes.plotting.set\_axis\_off
+===================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: set_axis_off

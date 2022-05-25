@@ -1,0 +1,6 @@
+pitchscapes.util.safe\_int
+==========================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: safe_int

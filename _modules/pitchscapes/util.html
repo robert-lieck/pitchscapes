@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.util &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>pitchscapes.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pitchscapes.util</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">.scapes</span> <span class="kn">import</span> <span class="n">PitchScape</span>
+
+
+<span class="n">pitch_classes_sharp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;C#&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;D#&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;F#&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;G#&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A#&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
+<span class="n">pitch_classes_flat</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;Db&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;Eb&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;Gb&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;Ab&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Bb&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
+<span class="n">pitch_classes</span> <span class="o">=</span> <span class="n">pitch_classes_sharp</span>
+
+
+<div class="viewcode-block" id="safe_int"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.safe_int.html#pitchscapes.util.safe_int">[docs]</a><span class="k">def</span> <span class="nf">safe_int</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">i</span> <span class="o">==</span> <span class="n">s</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> == </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">i</span></div>
+
+
+<div class="viewcode-block" id="random_batch_ids"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.random_batch_ids.html#pitchscapes.util.random_batch_ids">[docs]</a><span class="k">def</span> <span class="nf">random_batch_ids</span><span class="p">(</span><span class="n">n_data</span><span class="p">,</span> <span class="n">n_batches</span><span class="p">):</span>
+    <span class="n">batch_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_data</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">batch_ids</span><span class="p">)</span>
+    <span class="n">batch_ids</span> <span class="o">%=</span> <span class="n">n_batches</span>
+    <span class="k">return</span> <span class="n">batch_ids</span></div>
+
+
+<div class="viewcode-block" id="axis_set_invisible"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.axis_set_invisible.html#pitchscapes.util.axis_set_invisible">[docs]</a><span class="k">def</span> <span class="nf">axis_set_invisible</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">splines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="p">(),</span> <span class="n">patch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">y</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">splines</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ticks</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;left&#39;</span> <span class="ow">in</span> <span class="n">ticks</span> <span class="ow">or</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;right&#39;</span> <span class="ow">in</span> <span class="n">ticks</span> <span class="ow">or</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;top&#39;</span> <span class="ow">in</span> <span class="n">ticks</span> <span class="ow">or</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;bottom&#39;</span> <span class="ow">in</span> <span class="n">ticks</span> <span class="ow">or</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">patch</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="start_end_to_center_width"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.start_end_to_center_width.html#pitchscapes.util.start_end_to_center_width">[docs]</a><span class="k">def</span> <span class="nf">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform (start, end) coordinates of a window to (center, width) coordinates&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span></div>
+
+
+<div class="viewcode-block" id="center_width_to_start_end"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.center_width_to_start_end.html#pitchscapes.util.center_width_to_start_end">[docs]</a><span class="k">def</span> <span class="nf">center_width_to_start_end</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform (center, width) coordinates of a window to (start, end) coordinates&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">center</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">center</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="to_array"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.to_array.html#pitchscapes.util.to_array">[docs]</a><span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="euclidean_distance"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.euclidean_distance.html#pitchscapes.util.euclidean_distance">[docs]</a><span class="k">def</span> <span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">to_array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">to_array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="multi_sample_pitch_scapes"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.multi_sample_pitch_scapes.html#pitchscapes.util.multi_sample_pitch_scapes">[docs]</a><span class="k">def</span> <span class="nf">multi_sample_pitch_scapes</span><span class="p">(</span><span class="n">scapes</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scapes</span><span class="p">:</span>
+        <span class="n">positions</span><span class="p">,</span> <span class="n">samp</span><span class="p">,</span> <span class="n">coords</span> <span class="o">=</span> <span class="n">sample_pitch_scape</span><span class="p">(</span><span class="n">scape</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samp</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+    <span class="k">if</span> <span class="n">positions</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">coords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeWarning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to sample pitch scapes. Did you provide a non-empty list? (provided: &#39;</span><span class="si">{</span><span class="n">scapes</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">samples</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">positions</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">coords</span></div>
+
+
+<div class="viewcode-block" id="sample_pitch_scape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.sample_pitch_scape.html#pitchscapes.util.sample_pitch_scape">[docs]</a><span class="k">def</span> <span class="nf">sample_pitch_scape</span><span class="p">(</span><span class="n">scape</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">prior_counts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This function is deprecated as it handles prior counts inconsistently.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">prior_counts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scape</span><span class="p">,</span> <span class="n">PitchScape</span><span class="p">):</span>
+            <span class="n">prior_counts</span> <span class="o">=</span> <span class="mf">1.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prior_counts</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">coo</span><span class="p">,</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">sample_discrete_scape</span><span class="p">(</span><span class="n">scape</span><span class="p">,</span>
+                                                            <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">scape</span><span class="o">.</span><span class="n">min_time</span><span class="p">,</span> <span class="n">scape</span><span class="o">.</span><span class="n">max_time</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">),</span>
+                                                            <span class="n">center_width</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                            <span class="n">coords</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">])</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coo</span><span class="p">)</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+    <span class="c1"># remove offset</span>
+    <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">scape</span><span class="o">.</span><span class="n">min_time</span>
+    <span class="n">positions</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">scape</span><span class="o">.</span><span class="n">min_time</span>
+    <span class="c1"># rescale to unit interval [0, 1]</span>
+    <span class="n">coords</span> <span class="o">/=</span> <span class="p">(</span><span class="n">scape</span><span class="o">.</span><span class="n">max_time</span> <span class="o">-</span> <span class="n">scape</span><span class="o">.</span><span class="n">min_time</span><span class="p">)</span>
+    <span class="n">positions</span> <span class="o">/=</span> <span class="p">(</span><span class="n">scape</span><span class="o">.</span><span class="n">max_time</span> <span class="o">-</span> <span class="n">scape</span><span class="o">.</span><span class="n">min_time</span><span class="p">)</span>
+    <span class="c1"># add prior counts</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">prior_counts</span>
+    <span class="c1"># normalise</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">/=</span> <span class="n">samples</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">positions</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">coords</span></div>
+
+
+<div class="viewcode-block" id="sample_discrete_scape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.sample_discrete_scape.html#pitchscapes.util.sample_discrete_scape">[docs]</a><span class="k">def</span> <span class="nf">sample_discrete_scape</span><span class="p">(</span><span class="n">scape</span><span class="p">,</span>
+                          <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">start_end_idx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">center_width</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">start_end_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">coords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generator that returns values from scape on a discrete time grid.</span>
+<span class="sd">    :param scape: The scape to sample from. scape[start, end] (for start &lt; end in times) should return the respective</span>
+<span class="sd">    value.</span>
+<span class="sd">    :param times: set of valid points in time (optional; required if scape does not have a times attribute)</span>
+<span class="sd">    :param start_end_idx: whether to return start and end index of window (default: False)</span>
+<span class="sd">    :param center_width: whether to return center and width of window (default: False)</span>
+<span class="sd">    :param start_end_time: whether to return start and end time of window (default: False)</span>
+<span class="sd">    :param coords: whether to return the center-width coordinates for plotting (default: False). This is a 4-tuple of</span>
+<span class="sd">    pairs with center width coordinates for windows defined by time indices [start, end-1], [start, end],</span>
+<span class="sd">    [start+1, end], [start+1,end-1]. If the respective window contains only a single time slot, the last pair is</span>
+<span class="sd">    (nan, nan).</span>
+<span class="sd">    :param value: whether to return the value of the scape for the window (default: True)</span>
+<span class="sd">    :return: yields a nested tuple ((start_idx, center, start_time), (end_idx, width, end_time), coords, value). Some</span>
+<span class="sd">    elements may be omitted (based on start_end_idx, center_width, start_end_time, coords, and value). If the first</span>
+<span class="sd">    tuples would be empty, they are entirely omitted instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># try to get times from scape object if not provided</span>
+    <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="n">scape</span><span class="o">.</span><span class="n">times</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Provided scape object does not have &#39;times&#39; attribute. &quot;</span>
+                                 <span class="s2">&quot;Please provide explicitly as argument.&quot;</span><span class="p">)</span>
+    <span class="c1"># convert times to numpy array</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="c1"># go through all possible start/end points</span>
+    <span class="k">for</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">end_idx</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+            <span class="c1"># only process valid, non-zero size windows</span>
+            <span class="k">if</span> <span class="n">start_idx</span> <span class="o">&lt;</span> <span class="n">end_idx</span><span class="p">:</span>
+                <span class="c1"># construct return tuple</span>
+                <span class="n">return_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="c1"># add window dimensions</span>
+                <span class="n">start_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">end_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="n">start_end_idx</span><span class="p">:</span>
+                    <span class="n">start_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start_idx</span><span class="p">)</span>
+                    <span class="n">end_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_idx</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">center_width</span><span class="p">:</span>
+                    <span class="n">center</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+                    <span class="n">start_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
+                    <span class="n">end_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">start_end_time</span><span class="p">:</span>
+                    <span class="n">start_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+                    <span class="n">end_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+                <span class="c1"># only add to return tuple if non-empty</span>
+                <span class="k">if</span> <span class="n">start_list</span> <span class="ow">and</span> <span class="n">end_list</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">return_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">start_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">return_list</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_list</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">end_list</span><span class="p">)]</span>
+                <span class="c1"># add coordinates</span>
+                <span class="k">if</span> <span class="n">coords</span><span class="p">:</span>
+                    <span class="n">coo</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">times</span><span class="p">[</span><span class="n">end_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])),</span>
+                           <span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)),</span>
+                           <span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">start_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">end</span><span class="p">))]</span>
+                    <span class="k">if</span> <span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">coo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">start_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="n">end_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">coo</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+                    <span class="n">return_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">coo</span><span class="p">))</span>
+                <span class="c1"># add value</span>
+                <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="n">return_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scape</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">return_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">return_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">return_list</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="coords_from_times"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.coords_from_times.html#pitchscapes.util.coords_from_times">[docs]</a><span class="k">def</span> <span class="nf">coords_from_times</span><span class="p">(</span><span class="n">times</span><span class="p">,</span>
+                      <span class="n">start_end_idx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">start_end_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">center_width</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">coords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">remove_offset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">unit_times</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate various coordinate information from a given list of times. Given N points in time, the returned arrays will</span>
+<span class="sd">     contain N(N-1)/2 items, corresponding to all ordered non-zero time intervals. The ordering corresponds constructing</span>
+<span class="sd">      a list by iterating over start points in the outer loop and end points in the inner loop.</span>
+<span class="sd">    :param times: An iterable of N points in time (has to be ordered).</span>
+<span class="sd">    :param start_end_idx: (default False) Whether to return an array of shape Nx2 with integer (start_idx, end_idx)</span>
+<span class="sd">    pairs.</span>
+<span class="sd">    :param start_end_time: (default False) Whether to return an array of shape Nx2 with (start_time, end_time) pairs</span>
+<span class="sd">    according to the values in times.</span>
+<span class="sd">    :param center_width: (default False) Whether to return an array of shape Nx2 with (center, width) time coordinate,</span>
+<span class="sd">    related to (start_time, end_time) via start_end_to_center_width.</span>
+<span class="sd">    :param coords: (default False) Whether to return an array of shape Nx4x2 with four points in center-width</span>
+<span class="sd">    coordinates, describing the rhomboid region in a scape plot that corresponds to the respective time interval. The</span>
+<span class="sd">    top-point of the rhombus corresponds to the respective center_width coordinate, the other three points are obtained</span>
+<span class="sd">    by moving the start and/or end point one time step forward and/or backward, respectively. The coordinates are</span>
+<span class="sd">    ordered clock-wise starting at 9 (left, top, right, bottom), corresponding to the indices [(start, end - 1),</span>
+<span class="sd">    (start, end), (start + 1, end), (start + 1, end - 1)]. For the bottom row of a scape plot (adjacent points in time),</span>
+<span class="sd">    the last (bottom) coordinate will be a pair of np.nan.</span>
+<span class="sd">    :param remove_offset: (default True) Whether the minimum time is subtracted to have time start at zero.</span>
+<span class="sd">    :param unit_times: (default True) Whether to normalise times to be in [0, 1].</span>
+<span class="sd">    :return: If only one of [start_end_idx, start_end_time, center_width, coords] is true, return the corresponding</span>
+<span class="sd">    array, otherwise return a tuple of the requested arrays (in this order).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start_end_idx_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">start_end_time_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">center_width_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">coord_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">end_idx</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+            <span class="c1"># only process valid, non-zero size windows</span>
+            <span class="k">if</span> <span class="n">start_idx</span> <span class="o">&lt;</span> <span class="n">end_idx</span><span class="p">:</span>
+                <span class="c1"># get start/end index</span>
+                <span class="k">if</span> <span class="n">start_end_idx</span><span class="p">:</span>
+                    <span class="n">start_end_idx_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">])</span>
+                <span class="c1"># get start/end time</span>
+                <span class="k">if</span> <span class="n">start_end_time</span><span class="p">:</span>
+                    <span class="n">start_end_time_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">])</span>
+                <span class="c1"># get center/width</span>
+                <span class="k">if</span> <span class="n">center_width</span><span class="p">:</span>
+                    <span class="n">center_width_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+                <span class="c1"># get coordinates</span>
+                <span class="k">if</span> <span class="n">coords</span><span class="p">:</span>
+                    <span class="n">coo</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">times</span><span class="p">[</span><span class="n">end_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])),</span>
+                           <span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)),</span>
+                           <span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">start_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">end</span><span class="p">))]</span>
+                    <span class="k">if</span> <span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">coo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">start_end_to_center_width</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">start_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="n">end_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">coo</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+                    <span class="n">coord_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">coo</span><span class="p">))</span>
+    <span class="n">start_end_idx_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">start_end_idx_list</span><span class="p">)</span>
+    <span class="c1"># initialise as floats to allow for inplace division later</span>
+    <span class="n">start_end_time_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">start_end_time_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">center_width_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">center_width_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">coord_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coord_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># remove offset</span>
+    <span class="n">min_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="n">max_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">remove_offset</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">start_end_time</span><span class="p">:</span>
+            <span class="n">start_end_time_list</span> <span class="o">-=</span> <span class="n">min_time</span>
+        <span class="k">if</span> <span class="n">center_width</span><span class="p">:</span>
+            <span class="n">center_width_list</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">min_time</span>
+        <span class="k">if</span> <span class="n">coords</span><span class="p">:</span>
+            <span class="n">coord_list</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">min_time</span>
+    <span class="c1"># rescale to unit interval [0, 1]</span>
+    <span class="k">if</span> <span class="n">unit_times</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">remove_offset</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">start_end_time</span><span class="p">:</span>
+                <span class="n">start_end_time_list</span> <span class="o">/=</span> <span class="p">(</span><span class="n">max_time</span> <span class="o">-</span> <span class="n">min_time</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">center_width</span><span class="p">:</span>
+                <span class="n">center_width_list</span> <span class="o">/=</span> <span class="p">(</span><span class="n">max_time</span> <span class="o">-</span> <span class="n">min_time</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">coords</span><span class="p">:</span>
+                <span class="n">coord_list</span> <span class="o">/=</span> <span class="p">(</span><span class="n">max_time</span> <span class="o">-</span> <span class="n">min_time</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">start_end_time</span><span class="p">:</span>
+                <span class="n">start_end_time_list</span> <span class="o">/=</span> <span class="n">max_time</span>
+            <span class="k">if</span> <span class="n">center_width</span><span class="p">:</span>
+                <span class="n">center_width_list</span> <span class="o">/=</span> <span class="n">max_time</span>
+            <span class="k">if</span> <span class="n">coords</span><span class="p">:</span>
+                <span class="n">coord_list</span> <span class="o">/=</span> <span class="n">max_time</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">start_end_idx</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="p">[</span><span class="n">start_end_idx_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">start_end_time</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="p">[</span><span class="n">start_end_time_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">center_width</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="p">[</span><span class="n">center_width_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">coords</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="p">[</span><span class="n">coord_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="key_estimates_to_str"><a class="viewcode-back" href="../../_autosummary/pitchscapes.util.key_estimates_to_str.html#pitchscapes.util.key_estimates_to_str">[docs]</a><span class="k">def</span> <span class="nf">key_estimates_to_str</span><span class="p">(</span><span class="n">estimates</span><span class="p">,</span> <span class="n">sharp_flat</span><span class="o">=</span><span class="s1">&#39;sharp&#39;</span><span class="p">,</span> <span class="n">use_capitalisation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform an array of key estimates into string representation</span>
+<span class="sd">    :param estimates: 2D numpy array of shape Nx2 with N estimates, where the first entry in each row indicates whether it</span>
+<span class="sd">    is major (0) or minor (1) and the second entry indicates the tonic (0-11, starting a C in chromatically ascending</span>
+<span class="sd">    order)</span>
+<span class="sd">    :param sharp_flat: one of [&#39;sharp&#39;, &#39;flat&#39;] (default &#39;sharp&#39;); whether to use sharps or flats for chromatic notes</span>
+<span class="sd">    (i.e. C# versus Db)</span>
+<span class="sd">    :param use_capitalisation: True/False (default True); whether to indicate major/minor by capitalisation</span>
+<span class="sd">    (&#39;C&#39; versus &#39;c&#39;) or spelled out (&#39;C major&#39; versus &#39;C minor&#39;)</span>
+<span class="sd">    :return: 1D array of length N with the string descriptions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pcs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pitch_classes_sharp</span> <span class="k">if</span> <span class="n">sharp_flat</span> <span class="o">==</span> <span class="s1">&#39;sharp&#39;</span> <span class="k">else</span> <span class="n">pitch_classes_flat</span><span class="p">)</span>
+    <span class="n">tonic_names</span> <span class="o">=</span> <span class="n">pcs</span><span class="p">[</span><span class="n">estimates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">use_capitalisation</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tonic</span> <span class="k">if</span> <span class="n">is_major</span> <span class="k">else</span> <span class="n">tonic</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                         <span class="k">for</span> <span class="n">tonic</span><span class="p">,</span> <span class="n">is_major</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tonic_names</span><span class="p">,</span> <span class="n">estimates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tonic</span> <span class="o">+</span> <span class="s2">&quot; major&quot;</span> <span class="k">if</span> <span class="n">is_major</span> <span class="k">else</span> <span class="n">tonic</span> <span class="o">+</span> <span class="s2">&quot; minor&quot;</span>
+                         <span class="k">for</span> <span class="n">tonic</span><span class="p">,</span> <span class="n">is_major</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tonic_names</span><span class="p">,</span> <span class="n">estimates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">keys</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

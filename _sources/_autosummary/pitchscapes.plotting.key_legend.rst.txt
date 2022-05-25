@@ -1,0 +1,6 @@
+pitchscapes.plotting.key\_legend
+================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: key_legend

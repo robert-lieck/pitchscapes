@@ -1,0 +1,6 @@
+pitchscapes.plotting.plot\_assignment
+=====================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: plot_assignment

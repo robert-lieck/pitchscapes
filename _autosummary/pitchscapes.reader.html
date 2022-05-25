@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.reader &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pitchscapes.reader.chordify" href="pitchscapes.reader.chordify.html" />
+    <link rel="prev" title="pitchscapes.plotting.set_circle_of_fifths" href="pitchscapes.plotting.set_circle_of_fifths.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitchscapes.html">pitchscapes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.keyfinding.html">pitchscapes.keyfinding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.model.html">pitchscapes.model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.optimization.html">pitchscapes.optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.plotting.html">pitchscapes.plotting</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pitchscapes.reader</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.chordify.html">pitchscapes.reader.chordify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.get_pitch_scape.html">pitchscapes.reader.get_pitch_scape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.piano_roll.html">pitchscapes.reader.piano_roll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.pitch_class_counts.html">pitchscapes.reader.pitch_class_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.pitch_class_counts_from_chordified.html">pitchscapes.reader.pitch_class_counts_from_chordified</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.read.html">pitchscapes.reader.read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.read_midi_mido.html">pitchscapes.reader.read_midi_mido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.sample_density.html">pitchscapes.reader.sample_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.sample_piece.html">pitchscapes.reader.sample_piece</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.sample_scape.html">pitchscapes.reader.sample_scape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.reader.Event.html">pitchscapes.reader.Event</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.scapes.html">pitchscapes.scapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.util.html">pitchscapes.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
+          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
+      <li>pitchscapes.reader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pitchscapes.reader">
+<span id="pitchscapes-reader"></span><h1>pitchscapes.reader<a class="headerlink" href="#module-pitchscapes.reader" title="Permalink to this headline"></a></h1>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.chordify.html#pitchscapes.reader.chordify" title="pitchscapes.reader.chordify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chordify</span></code></a>(piece)</p></td>
+<td><p>Create time bins at note events (on- or offset).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pitchscapes.reader.get_pitch_scape.html#pitchscapes.reader.get_pitch_scape" title="pitchscapes.reader.get_pitch_scape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pitch_scape</span></code></a>(file_path, **kwargs)</p></td>
+<td><p>Load a pitch scape from file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.piano_roll.html#pitchscapes.reader.piano_roll" title="pitchscapes.reader.piano_roll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">piano_roll</span></code></a>(file[, min_pitch, max_pitch, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pitchscapes.reader.pitch_class_counts.html#pitchscapes.reader.pitch_class_counts" title="pitchscapes.reader.pitch_class_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pitch_class_counts</span></code></a>(file[, reader])</p></td>
+<td><p>Read pitch-class counts from MIDI file by concatenating read_midi, chordify, and pitch_class_counts :param file: MIDI file :return: 2-tuple of numpy arrays with pitch-class counts and time boundaries</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.pitch_class_counts_from_chordified.html#pitchscapes.reader.pitch_class_counts_from_chordified" title="pitchscapes.reader.pitch_class_counts_from_chordified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pitch_class_counts_from_chordified</span></code></a>(chordified)</p></td>
+<td><p>Take a chordified piece and compute pitch class counts for each time slot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pitchscapes.reader.read.html#pitchscapes.reader.read" title="pitchscapes.reader.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(file)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.read_midi_mido.html#pitchscapes.reader.read_midi_mido" title="pitchscapes.reader.read_midi_mido"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_midi_mido</span></code></a>(file)</p></td>
+<td><p>Read notes with onset and duration from MIDI file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pitchscapes.reader.sample_density.html#pitchscapes.reader.sample_density" title="pitchscapes.reader.sample_density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_density</span></code></a>(n_time_intervals[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.sample_piece.html#pitchscapes.reader.sample_piece" title="pitchscapes.reader.sample_piece"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_piece</span></code></a>(n_samples[, file_path, scape, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pitchscapes.reader.sample_scape.html#pitchscapes.reader.sample_scape" title="pitchscapes.reader.sample_scape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_scape</span></code></a>(n_time_intervals[, file_path, ...])</p></td>
+<td><p>Sample points from a scape on a uniform grid.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.Event.html#pitchscapes.reader.Event" title="pitchscapes.reader.Event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Event</span></code></a>(time, duration, data)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitchscapes.plotting.set_circle_of_fifths.html" class="btn btn-neutral float-left" title="pitchscapes.plotting.set_circle_of_fifths" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitchscapes.reader.chordify.html" class="btn btn-neutral float-right" title="pitchscapes.reader.chordify" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+pitchscapes.reader
+==================
+
+.. automodule:: pitchscapes.reader
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      chordify
+      get_pitch_scape
+      piano_roll
+      pitch_class_counts
+      pitch_class_counts_from_chordified
+      read
+      read_midi_mido
+      sample_density
+      sample_piece
+      sample_scape
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+   
+      Event
+   
+   
+
+   
+   
+   
+
+
+

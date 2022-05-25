@@ -1,0 +1,6 @@
+pitchscapes.util.key\_estimates\_to\_str
+========================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: key_estimates_to_str

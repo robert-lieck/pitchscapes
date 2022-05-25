@@ -1,0 +1,6 @@
+pitchscapes.reader.sample\_density
+==================================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: sample_density

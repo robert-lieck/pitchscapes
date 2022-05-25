@@ -1,0 +1,6 @@
+pitchscapes.reader.sample\_piece
+================================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: sample_piece

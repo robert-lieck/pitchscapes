@@ -1,0 +1,47 @@
+pitchscapes.plotting
+====================
+
+.. automodule:: pitchscapes.plotting
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      compare_key_profiles
+      counts_to_colors
+      get_circle_of_fifths
+      get_key_colour
+      key_legend
+      key_scape_plot
+      key_scores_to_color
+      minor_shift
+      pitch_scape_plots
+      plot_assignment
+      plot_cluster_assignments
+      plot_loss
+      plot_piece_assignments
+      samples_to_key
+      scape_plot
+      scape_plot_from_array
+      set_axis_off
+      set_circle_of_fifths
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

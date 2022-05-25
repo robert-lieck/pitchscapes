@@ -1,0 +1,43 @@
+pitchscapes.scapes
+==================
+
+.. automodule:: pitchscapes.scapes
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      normalize_non_zero
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+   
+      ContinuousScape
+      DiscretePitchScape_
+      DiscreteScape
+      PitchScape
+      PitchScape_
+      Scape
+   
+   
+
+   
+   
+   
+
+
+

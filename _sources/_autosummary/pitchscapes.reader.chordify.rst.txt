@@ -1,0 +1,6 @@
+pitchscapes.reader.chordify
+===========================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: chordify

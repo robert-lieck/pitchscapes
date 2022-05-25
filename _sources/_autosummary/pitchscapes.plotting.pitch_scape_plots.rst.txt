@@ -1,0 +1,6 @@
+pitchscapes.plotting.pitch\_scape\_plots
+========================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: pitch_scape_plots

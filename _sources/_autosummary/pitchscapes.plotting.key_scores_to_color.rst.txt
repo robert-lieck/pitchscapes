@@ -1,0 +1,6 @@
+pitchscapes.plotting.key\_scores\_to\_color
+===========================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: key_scores_to_color

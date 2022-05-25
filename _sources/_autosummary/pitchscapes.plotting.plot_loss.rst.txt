@@ -1,0 +1,6 @@
+pitchscapes.plotting.plot\_loss
+===============================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: plot_loss

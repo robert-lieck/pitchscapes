@@ -1,0 +1,6 @@
+pitchscapes.plotting.counts\_to\_colors
+=======================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: counts_to_colors

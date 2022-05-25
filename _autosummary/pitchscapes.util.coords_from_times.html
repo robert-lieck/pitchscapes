@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.util.coords_from_times &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pitchscapes.util.euclidean_distance" href="pitchscapes.util.euclidean_distance.html" />
+    <link rel="prev" title="pitchscapes.util.center_width_to_start_end" href="pitchscapes.util.center_width_to_start_end.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitchscapes.html">pitchscapes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.keyfinding.html">pitchscapes.keyfinding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.model.html">pitchscapes.model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.optimization.html">pitchscapes.optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.plotting.html">pitchscapes.plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.reader.html">pitchscapes.reader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.scapes.html">pitchscapes.scapes</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pitchscapes.util.html">pitchscapes.util</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.axis_set_invisible.html">pitchscapes.util.axis_set_invisible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.center_width_to_start_end.html">pitchscapes.util.center_width_to_start_end</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pitchscapes.util.coords_from_times</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.euclidean_distance.html">pitchscapes.util.euclidean_distance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.key_estimates_to_str.html">pitchscapes.util.key_estimates_to_str</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.multi_sample_pitch_scapes.html">pitchscapes.util.multi_sample_pitch_scapes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.random_batch_ids.html">pitchscapes.util.random_batch_ids</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.safe_int.html">pitchscapes.util.safe_int</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.sample_discrete_scape.html">pitchscapes.util.sample_discrete_scape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.sample_pitch_scape.html">pitchscapes.util.sample_pitch_scape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.start_end_to_center_width.html">pitchscapes.util.start_end_to_center_width</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.util.to_array.html">pitchscapes.util.to_array</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
+          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
+          <li><a href="pitchscapes.util.html">pitchscapes.util</a> &raquo;</li>
+      <li>pitchscapes.util.coords_from_times</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pitchscapes-util-coords-from-times">
+<h1>pitchscapes.util.coords_from_times<a class="headerlink" href="#pitchscapes-util-coords-from-times" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pitchscapes.util.coords_from_times">
+<span class="sig-prename descclassname"><span class="pre">pitchscapes.util.</span></span><span class="sig-name descname"><span class="pre">coords_from_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_end_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/util.html#coords_from_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.util.coords_from_times" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Generate various coordinate information from a given list of times. Given N points in time, the returned arrays will</dt><dd><dl class="simple">
+<dt>contain N(N-1)/2 items, corresponding to all ordered non-zero time intervals. The ordering corresponds constructing</dt><dd><p>a list by iterating over start points in the outer loop and end points in the inner loop.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>times</strong> – An iterable of N points in time (has to be ordered).</p></li>
+<li><p><strong>start_end_idx</strong> – (default False) Whether to return an array of shape Nx2 with integer (start_idx, end_idx)</p></li>
+</ul>
+</dd>
+</dl>
+<p>pairs.
+:param start_end_time: (default False) Whether to return an array of shape Nx2 with (start_time, end_time) pairs
+according to the values in times.
+:param center_width: (default False) Whether to return an array of shape Nx2 with (center, width) time coordinate,
+related to (start_time, end_time) via start_end_to_center_width.
+:param coords: (default False) Whether to return an array of shape Nx4x2 with four points in center-width
+coordinates, describing the rhomboid region in a scape plot that corresponds to the respective time interval. The
+top-point of the rhombus corresponds to the respective center_width coordinate, the other three points are obtained
+by moving the start and/or end point one time step forward and/or backward, respectively. The coordinates are
+ordered clock-wise starting at 9 (left, top, right, bottom), corresponding to the indices [(start, end - 1),
+(start, end), (start + 1, end), (start + 1, end - 1)]. For the bottom row of a scape plot (adjacent points in time),
+the last (bottom) coordinate will be a pair of np.nan.
+:param remove_offset: (default True) Whether the minimum time is subtracted to have time start at zero.
+:param unit_times: (default True) Whether to normalise times to be in [0, 1].
+:return: If only one of [start_end_idx, start_end_time, center_width, coords] is true, return the corresponding
+array, otherwise return a tuple of the requested arrays (in this order).</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitchscapes.util.center_width_to_start_end.html" class="btn btn-neutral float-left" title="pitchscapes.util.center_width_to_start_end" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitchscapes.util.euclidean_distance.html" class="btn btn-neutral float-right" title="pitchscapes.util.euclidean_distance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

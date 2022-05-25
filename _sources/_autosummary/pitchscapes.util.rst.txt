@@ -1,0 +1,41 @@
+pitchscapes.util
+================
+
+.. automodule:: pitchscapes.util
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      axis_set_invisible
+      center_width_to_start_end
+      coords_from_times
+      euclidean_distance
+      key_estimates_to_str
+      multi_sample_pitch_scapes
+      random_batch_ids
+      safe_int
+      sample_discrete_scape
+      sample_pitch_scape
+      start_end_to_center_width
+      to_array
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

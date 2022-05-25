@@ -1,0 +1,6 @@
+pitchscapes.plotting.get\_key\_colour
+=====================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: get_key_colour

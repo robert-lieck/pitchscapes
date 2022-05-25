@@ -1,0 +1,6 @@
+pitchscapes.util.axis\_set\_invisible
+=====================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: axis_set_invisible

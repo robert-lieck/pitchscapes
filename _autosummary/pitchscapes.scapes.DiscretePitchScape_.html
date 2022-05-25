@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitchscapes.scapes.DiscretePitchScape_ &mdash; PitchScapes  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pitchscapes.scapes.DiscreteScape" href="pitchscapes.scapes.DiscreteScape.html" />
+    <link rel="prev" title="pitchscapes.scapes.ContinuousScape" href="pitchscapes.scapes.ContinuousScape.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PitchScapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitchscapes.html">pitchscapes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.keyfinding.html">pitchscapes.keyfinding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.model.html">pitchscapes.model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.optimization.html">pitchscapes.optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.plotting.html">pitchscapes.plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.reader.html">pitchscapes.reader</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pitchscapes.scapes.html">pitchscapes.scapes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.scapes.normalize_non_zero.html">pitchscapes.scapes.normalize_non_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.scapes.ContinuousScape.html">pitchscapes.scapes.ContinuousScape</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pitchscapes.scapes.DiscretePitchScape_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.scapes.DiscreteScape.html">pitchscapes.scapes.DiscreteScape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.scapes.PitchScape.html">pitchscapes.scapes.PitchScape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.scapes.PitchScape_.html">pitchscapes.scapes.PitchScape_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitchscapes.scapes.Scape.html">pitchscapes.scapes.Scape</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitchscapes.util.html">pitchscapes.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PitchScapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
+          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
+          <li><a href="pitchscapes.scapes.html">pitchscapes.scapes</a> &raquo;</li>
+      <li>pitchscapes.scapes.DiscretePitchScape_</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pitchscapes-scapes-discretepitchscape">
+<h1>pitchscapes.scapes.DiscretePitchScape_<a class="headerlink" href="#pitchscapes-scapes-discretepitchscape" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pitchscapes.scapes.</span></span><span class="sig-name descname"><span class="pre">DiscretePitchScape_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_counts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_type_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape" title="pitchscapes.scapes.Scape"><code class="xref py py-class docutils literal notranslate"><span class="pre">pitchscapes.scapes.Scape</span></code></a></p>
+<p>Discrete-time scape that is only well-defined at specific points in time. It computes the weighted sum (optionally
+the mean) over the given time window i.e. it sums up the values weighted by the corresponding time span and
+(optionally) divides by the total time interval.</p>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.__init__" title="pitchscapes.scapes.DiscretePitchScape_.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(values[, times, prior_counts, ...])</p></td>
+<td><p>Initialise the scape. :param values: values for each time slot (first dimension of size N runs over time intervals) :param times: [optional] boundaries of the time intervals (array like of length N+1). Defaults to [0, 1, ..., N]. :param prior_counts: scalar prior counts added to the aggregated values. Non-zero prior counts correspond to  a Bayesian estimate with a uniform prior; the magnitude adjusts the prior strength. A value of None (default)  does not add any prior counts. If return values are normalised (normalise=True) there is a difference between  None and 0: A value of 0 is interpreted as the limitting case of non-zero prior counts, which means that  outputs will always be normalised and if no data is available (zero counts, e.g. for zero-width time intervals  or time intervals only zero values), a uniform distribution is returned. For a value of None, you will get an  unnormalised all-zero output instead. :param strategy: one of [&quot;left&quot;, &quot;right&quot;, &quot;center&quot;] (default: &quot;left&quot;). Determines how a time-index interval [K, L] is split in the recursive computations. For &quot;left&quot;: [K,L-1]+[L-1,L]; for &quot;right&quot;: [K,K+1]+[K+1,L]; for &quot;center&quot;: [K,K+1]+[K+1,L-1]+[L-1,L]. Also see comments for parse_bottom_up concerning efficiency and run time. :param normalise: whether to compute the weighted sum or mean (default: False i.e. compute weighted sum) :param normalise_values: whether to normalise the values per time interval (default: True) :param skip_type_check: If the values are integers there may be problems with in-place normalisation or adding floating-type prior counts. The function raises a warning in these cases, suggesting to use a floating type for the values. This check can be disabled (which is generally a bad idea) by setting skip_type_check=True. Note that the warning is not raised for integer values of no normalisation is performed and the prior counts are None or not of a floating type. :param dtype: type to use for values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window" title="pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_time_window</span></code></a>(start, end)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.assert_valid_index_window" title="pitchscapes.scapes.DiscretePitchScape_.assert_valid_index_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_index_window</span></code></a>(start, end)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.__getitem__" title="pitchscapes.scapes.DiscretePitchScape_.__getitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getitem__</span></code></a>(item)</p></td>
+<td><p>Return value of the scape at position :param item: (start, end) with start &lt; end :return: value of the scape for the time window (start, end)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.recursive_indices" title="pitchscapes.scapes.DiscretePitchScape_.recursive_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recursive_indices</span></code></a>(start_idx, end_idx)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.zero_size_value" title="pitchscapes.scapes.DiscretePitchScape_.zero_size_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_size_value</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.get_value_at_index" title="pitchscapes.scapes.DiscretePitchScape_.get_value_at_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value_at_index</span></code></a>(start, end)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.add_prior_counts" title="pitchscapes.scapes.DiscretePitchScape_.add_prior_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_prior_counts</span></code></a>(value, delta_t)</p></td>
+<td><p>Add prior counts ensuring correct normalisation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.parse_bottom_up" title="pitchscapes.scapes.DiscretePitchScape_.parse_bottom_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_bottom_up</span></code></a>()</p></td>
+<td><p>Compute all values bottom up.</p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <a class="reference internal" href="pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape" title="pitchscapes.scapes.Scape"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scape</span></code></a></summary><table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.__init__" title="pitchscapes.scapes.DiscretePitchScape_.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(values[, times, prior_counts, ...])</p></td>
+<td><p>Initialise the scape. :param values: values for each time slot (first dimension of size N runs over time intervals) :param times: [optional] boundaries of the time intervals (array like of length N+1). Defaults to [0, 1, ..., N]. :param prior_counts: scalar prior counts added to the aggregated values. Non-zero prior counts correspond to  a Bayesian estimate with a uniform prior; the magnitude adjusts the prior strength. A value of None (default)  does not add any prior counts. If return values are normalised (normalise=True) there is a difference between  None and 0: A value of 0 is interpreted as the limitting case of non-zero prior counts, which means that  outputs will always be normalised and if no data is available (zero counts, e.g. for zero-width time intervals  or time intervals only zero values), a uniform distribution is returned. For a value of None, you will get an  unnormalised all-zero output instead. :param strategy: one of [&quot;left&quot;, &quot;right&quot;, &quot;center&quot;] (default: &quot;left&quot;). Determines how a time-index interval [K, L] is split in the recursive computations. For &quot;left&quot;: [K,L-1]+[L-1,L]; for &quot;right&quot;: [K,K+1]+[K+1,L]; for &quot;center&quot;: [K,K+1]+[K+1,L-1]+[L-1,L]. Also see comments for parse_bottom_up concerning efficiency and run time. :param normalise: whether to compute the weighted sum or mean (default: False i.e. compute weighted sum) :param normalise_values: whether to normalise the values per time interval (default: True) :param skip_type_check: If the values are integers there may be problems with in-place normalisation or adding floating-type prior counts. The function raises a warning in these cases, suggesting to use a floating type for the values. This check can be disabled (which is generally a bad idea) by setting skip_type_check=True. Note that the warning is not raised for integer values of no normalisation is performed and the prior counts are None or not of a floating type. :param dtype: type to use for values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.__getitem__" title="pitchscapes.scapes.DiscretePitchScape_.__getitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getitem__</span></code></a>(item)</p></td>
+<td><p>Return value of the scape at position :param item: (start, end) with start &lt; end :return: value of the scape for the time window (start, end)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window" title="pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_time_window</span></code></a>(start, end)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<hr class="docutils" />
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'pitchscapes.scapes',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Discrete-time</span> <span class="pre">scape</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">only</span> <span class="pre">well-defined</span> <span class="pre">at</span> <span class="pre">specific</span> <span class="pre">points</span> <span class="pre">in</span> <span class="pre">time.</span> <span class="pre">It</span> <span class="pre">computes</span> <span class="pre">the</span> <span class="pre">weighted</span> <span class="pre">sum</span> <span class="pre">(optionally\n</span>&#160;&#160;&#160; <span class="pre">the</span> <span class="pre">mean)</span> <span class="pre">over</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">time</span> <span class="pre">window</span> <span class="pre">i.e.</span> <span class="pre">it</span> <span class="pre">sums</span> <span class="pre">up</span> <span class="pre">the</span> <span class="pre">values</span> <span class="pre">weighted</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">corresponding</span> <span class="pre">time</span> <span class="pre">span</span> <span class="pre">and\n</span>&#160;&#160;&#160; <span class="pre">(optionally)</span> <span class="pre">divides</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">total</span> <span class="pre">time</span> <span class="pre">interval.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.__init__&gt;,</span> <span class="pre">'assert_valid_time_window':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.assert_valid_time_window&gt;,</span> <span class="pre">'assert_valid_index_window':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.assert_valid_index_window&gt;,</span> <span class="pre">'__getitem__':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.__getitem__&gt;,</span> <span class="pre">'recursive_indices':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.recursive_indices&gt;,</span> <span class="pre">'zero_size_value':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.zero_size_value&gt;,</span> <span class="pre">'get_value_at_index':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.get_value_at_index&gt;,</span> <span class="pre">'add_prior_counts':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.add_prior_counts&gt;,</span> <span class="pre">'parse_bottom_up':</span> <span class="pre">&lt;function</span> <span class="pre">DiscretePitchScape_.parse_bottom_up&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.__getitem__" title="Permalink to this definition"></a></dt>
+<dd><p>Return value of the scape at position
+:param item: (start, end) with start &lt; end
+:return: value of the scape for the time window (start, end)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_counts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_type_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialise the scape.
+:param values: values for each time slot (first dimension of size N runs over time intervals)
+:param times: [optional] boundaries of the time intervals (array like of length N+1).
+Defaults to [0, 1, …, N].
+:param prior_counts: scalar prior counts added to the aggregated values. Non-zero prior counts correspond to</p>
+<blockquote>
+<div><p>a Bayesian estimate with a uniform prior; the magnitude adjusts the prior strength. A value of None (default)
+does not add any prior counts. If return values are normalised (normalise=True) there is a difference between
+None and 0: A value of 0 is interpreted as the limitting case of non-zero prior counts, which means that
+outputs will always be normalised and if no data is available (zero counts, e.g. for zero-width time intervals
+or time intervals only zero values), a uniform distribution is returned. For a value of None, you will get an
+unnormalised all-zero output instead.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>strategy</strong> – one of [“left”, “right”, “center”] (default: “left”). Determines how a time-index interval</p>
+</dd>
+</dl>
+<p>[K, L] is split in the recursive computations. For “left”: [K,L-1]+[L-1,L]; for “right”: [K,K+1]+[K+1,L]; for
+“center”: [K,K+1]+[K+1,L-1]+[L-1,L]. Also see comments for parse_bottom_up concerning efficiency and run time.
+:param normalise: whether to compute the weighted sum or mean (default: False i.e. compute weighted sum)
+:param normalise_values: whether to normalise the values per time interval (default: True)
+:param skip_type_check: If the values are integers there may be problems with in-place normalisation or adding
+floating-type prior counts. The function raises a warning in these cases, suggesting to use a floating type
+for the values. This check can be disabled (which is generally a bad idea) by setting skip_type_check=True.
+Note that the warning is not raised for integer values of no normalisation is performed and the prior counts are
+None or not of a floating type.
+:param dtype: type to use for values</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pitchscapes.scapes'</span></em><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.add_prior_counts">
+<span class="sig-name descname"><span class="pre">add_prior_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.add_prior_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.add_prior_counts" title="Permalink to this definition"></a></dt>
+<dd><p>Add prior counts ensuring correct normalisation. NOTE: value is modified in place.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.assert_valid_index_window">
+<span class="sig-name descname"><span class="pre">assert_valid_index_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.assert_valid_index_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.assert_valid_index_window" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window">
+<span class="sig-name descname"><span class="pre">assert_valid_time_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.assert_valid_time_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.get_value_at_index">
+<span class="sig-name descname"><span class="pre">get_value_at_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.get_value_at_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.get_value_at_index" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.parse_bottom_up">
+<span class="sig-name descname"><span class="pre">parse_bottom_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.parse_bottom_up"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.parse_bottom_up" title="Permalink to this definition"></a></dt>
+<dd><p>Compute all values bottom up. Performs an efficient dynamic programming pass through the entire scape and avoids
+time consuming recursive look-ups for compting single values (run time ~O(n^2)). This can be used if all values
+within the scape are expected to be needed. For high-resolution scapes where only few values need to be computed
+this may be inefficient as a single lookup has only ~O(n) run time. So if fewer than n values are needed,
+separate lookup will be more efficient. Moreover, if multiple value have the same start or end time, the overall
+run time for computing these values is only ~O(n). Depending on whether star or end time are in common the
+“left” or “right” strategy is more efficient.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.recursive_indices">
+<span class="sig-name descname"><span class="pre">recursive_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.recursive_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.recursive_indices" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.scapes.DiscretePitchScape_.zero_size_value">
+<span class="sig-name descname"><span class="pre">zero_size_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/scapes.html#DiscretePitchScape_.zero_size_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.scapes.DiscretePitchScape_.zero_size_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitchscapes.scapes.ContinuousScape.html" class="btn btn-neutral float-left" title="pitchscapes.scapes.ContinuousScape" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitchscapes.scapes.DiscreteScape.html" class="btn btn-neutral float-right" title="pitchscapes.scapes.DiscreteScape" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+pitchscapes.reader.pitch\_class\_counts\_from\_chordified
+=========================================================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: pitch_class_counts_from_chordified

@@ -1,0 +1,14 @@
+pitchscapes.scapes.DiscreteScape
+================================
+
+.. currentmodule:: pitchscapes.scapes
+
+.. autoclass:: DiscreteScape
+   :members:
+   :undoc-members:
+   :special-members:
+   :private-members:
+   :inherited-members:
+   :show-inheritance:
+
+   .. autoclasstoc::

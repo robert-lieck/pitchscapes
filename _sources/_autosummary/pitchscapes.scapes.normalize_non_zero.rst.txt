@@ -1,0 +1,6 @@
+pitchscapes.scapes.normalize\_non\_zero
+=======================================
+
+.. currentmodule:: pitchscapes.scapes
+
+.. autofunction:: normalize_non_zero

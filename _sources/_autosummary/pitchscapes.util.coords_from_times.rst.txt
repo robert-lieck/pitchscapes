@@ -1,0 +1,6 @@
+pitchscapes.util.coords\_from\_times
+====================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: coords_from_times

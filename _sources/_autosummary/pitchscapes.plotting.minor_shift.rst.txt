@@ -1,0 +1,6 @@
+pitchscapes.plotting.minor\_shift
+=================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: minor_shift

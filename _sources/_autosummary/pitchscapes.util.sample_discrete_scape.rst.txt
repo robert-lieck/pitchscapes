@@ -1,0 +1,6 @@
+pitchscapes.util.sample\_discrete\_scape
+========================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: sample_discrete_scape

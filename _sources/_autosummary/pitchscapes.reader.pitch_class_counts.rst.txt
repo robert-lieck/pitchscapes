@@ -1,0 +1,6 @@
+pitchscapes.reader.pitch\_class\_counts
+=======================================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: pitch_class_counts

@@ -1,0 +1,14 @@
+pitchscapes.scapes.ContinuousScape
+==================================
+
+.. currentmodule:: pitchscapes.scapes
+
+.. autoclass:: ContinuousScape
+   :members:
+   :undoc-members:
+   :special-members:
+   :private-members:
+   :inherited-members:
+   :show-inheritance:
+
+   .. autoclasstoc::

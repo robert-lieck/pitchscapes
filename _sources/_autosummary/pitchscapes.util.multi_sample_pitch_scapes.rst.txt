@@ -1,0 +1,6 @@
+pitchscapes.util.multi\_sample\_pitch\_scapes
+=============================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: multi_sample_pitch_scapes

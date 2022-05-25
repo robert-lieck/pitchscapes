@@ -1,0 +1,6 @@
+pitchscapes.reader.sample\_scape
+================================
+
+.. currentmodule:: pitchscapes.reader
+
+.. autofunction:: sample_scape

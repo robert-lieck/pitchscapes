@@ -1,0 +1,6 @@
+pitchscapes.util.to\_array
+==========================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: to_array

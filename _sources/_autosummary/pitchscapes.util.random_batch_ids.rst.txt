@@ -1,0 +1,6 @@
+pitchscapes.util.random\_batch\_ids
+===================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: random_batch_ids

@@ -1,0 +1,6 @@
+pitchscapes.util.center\_width\_to\_start\_end
+==============================================
+
+.. currentmodule:: pitchscapes.util
+
+.. autofunction:: center_width_to_start_end

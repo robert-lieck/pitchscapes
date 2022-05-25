@@ -1,0 +1,6 @@
+pitchscapes.plotting.get\_circle\_of\_fifths
+============================================
+
+.. currentmodule:: pitchscapes.plotting
+
+.. autofunction:: get_circle_of_fifths
