@@ -5,6 +5,7 @@
 ![tests](https://github.com/robert-lieck/pitchscapes/workflows/tests/badge.svg)
 [![codecov](https://codecov.io/gh/robert-lieck/pitchscapes/branch/master/graph/badge.svg?token=UVBQF5J5HG)](undefined)
 
+[![doc](https://github.com/robert-lieck/pitchscapes/actions/workflows/doc.yml/badge.svg)](https://robert-lieck.github.io/pitchscapes/)
 [![DOI](https://zenodo.org/badge/282043116.svg)](https://zenodo.org/badge/latestdoi/282043116)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
