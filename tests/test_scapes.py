@@ -159,7 +159,7 @@ class TestPitchScape(TestCase):
         data = np.array([[[1, 0, 0, 0], [1, 0, 0, 0]],
                          [[0, 1, 0, 0], [0, 1, 0, 0]],
                          [[0, 0, 1, 0], [0, 0, 1, 0]],
-                         [[0, 0, 0, 1], [0, 0, 0, 1]]], dtype=np.float)
+                         [[0, 0, 0, 1], [0, 0, 0, 1]]], dtype=float)
         zeros = np.array([[0, 0, 0, 0], [0, 0, 0, 0]])
         for normalise in [False, True]:
             for prior_counts in [None, 0, 1]:
@@ -187,10 +187,10 @@ class TestPitchScape(TestCase):
                 assert_array_almost_equal(value, pitch_scape[3, 3])
                 assert_array_almost_equal(value, pitch_scape[4, 4])
                 # check width-1 time slots
-                val_0_1 = np.array([[1, 0, 0, 0], [1, 0, 0, 0]], dtype=np.float)
-                val_1_2 = np.array([[0, 1, 0, 0], [0, 1, 0, 0]], dtype=np.float)
-                val_2_3 = np.array([[0, 0, 1, 0], [0, 0, 1, 0]], dtype=np.float)
-                val_3_4 = np.array([[0, 0, 0, 1], [0, 0, 0, 1]], dtype=np.float)
+                val_0_1 = np.array([[1, 0, 0, 0], [1, 0, 0, 0]], dtype=float)
+                val_1_2 = np.array([[0, 1, 0, 0], [0, 1, 0, 0]], dtype=float)
+                val_2_3 = np.array([[0, 0, 1, 0], [0, 0, 1, 0]], dtype=float)
+                val_3_4 = np.array([[0, 0, 0, 1], [0, 0, 0, 1]], dtype=float)
                 for v in [val_0_1, val_1_2, val_2_3, val_3_4]:
                     if normalise:
                         v /= v.sum()
@@ -217,9 +217,9 @@ class TestPitchScape(TestCase):
                 assert_array_almost_equal(val_2, pitch_scape[1.5, 2.5])
                 assert_array_almost_equal(val_3, pitch_scape[2.5, 3.5])
                 # check width-2 time slots
-                val_1 = np.array([[1, 1, 0, 0], [1, 1, 0, 0]], dtype=np.float)
-                val_2 = np.array([[0, 1, 1, 0], [0, 1, 1, 0]], dtype=np.float)
-                val_3 = np.array([[0, 0, 1, 1], [0, 0, 1, 1]], dtype=np.float)
+                val_1 = np.array([[1, 1, 0, 0], [1, 1, 0, 0]], dtype=float)
+                val_2 = np.array([[0, 1, 1, 0], [0, 1, 1, 0]], dtype=float)
+                val_3 = np.array([[0, 0, 1, 1], [0, 0, 1, 1]], dtype=float)
                 for v in [val_1, val_2, val_3]:
                     if normalise:
                         v /= 2
@@ -231,8 +231,8 @@ class TestPitchScape(TestCase):
                 assert_array_almost_equal(val_2, pitch_scape[1, 3])
                 assert_array_almost_equal(val_3, pitch_scape[2, 4])
                 # check width-3 time slots
-                val_1 = np.array([[1, 1, 1, 0], [1, 1, 1, 0]], dtype=np.float)
-                val_2 = np.array([[0, 1, 1, 1], [0, 1, 1, 1]], dtype=np.float)
+                val_1 = np.array([[1, 1, 1, 0], [1, 1, 1, 0]], dtype=float)
+                val_2 = np.array([[0, 1, 1, 1], [0, 1, 1, 1]], dtype=float)
                 for v in [val_1, val_2]:
                     if normalise:
                         v /= 2

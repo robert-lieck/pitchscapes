@@ -646,7 +646,7 @@ class PitchScape(Scape):
         self.prior_counts = prior_counts
         self.normalise = normalise
         # use float values
-        values = np.array(values, dtype=np.float)
+        values = np.array(values, dtype=float)
         # dimensionality of the output
         self.n_dim = np.prod(values.shape[1:])
         # value of uniform distribution

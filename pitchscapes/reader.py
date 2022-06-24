@@ -140,7 +140,7 @@ def piano_roll(file, min_pitch=None, max_pitch=None, return_range=False, return_
             raise ValueError(f"actual maximum pitch ({actual_max_pitch}) is greater than requested value ({max_pitch}")
     assert max_pitch >= min_pitch  # safety check
     # allocate numpy array of appropriate size
-    roll = np.zeros((len(chordified), max_pitch - min_pitch + 1), dtype=np.bool)
+    roll = np.zeros((len(chordified), max_pitch - min_pitch + 1), dtype=bool)
     # set multiple-hot for all time slices
     for time_idx, event in enumerate(chordified):
         if len(event.data) == 0:
