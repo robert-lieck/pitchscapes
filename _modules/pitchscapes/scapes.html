@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pitchscapes.scapes &mdash; PitchScapes  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -29,11 +32,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> PitchScapes
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PitchScapes
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -58,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>pitchscapes.scapes</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pitchscapes.scapes</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -75,8 +82,10 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="normalize_non_zero"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.normalize_non_zero.html#pitchscapes.scapes.normalize_non_zero">[docs]</a><span class="k">def</span> <span class="nf">normalize_non_zero</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replace_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_type_check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;For the given ND array, normalise each 1D array obtained by indexing the &#39;axis&#39; dimension if the sum along the</span>
+<div class="viewcode-block" id="normalize_non_zero">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.normalize_non_zero.html#pitchscapes.scapes.normalize_non_zero">[docs]</a>
+<span class="k">def</span> <span class="nf">normalize_non_zero</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replace_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_type_check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;For the given ND array, normalise each 1D array obtained by indexing the &#39;axis&#39; dimension if the sum along the</span>
 <span class="sd">    other dimensions (for that entry) is non-zero. Normalisation is performed in place.&quot;&quot;&quot;</span>
     <span class="c1"># check that dtype is float (in place division of integer arrays silently rounds)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_type_check</span><span class="p">:</span>
@@ -109,46 +118,63 @@
     <span class="k">return</span> <span class="n">a</span></div>
 
 
-<div class="viewcode-block" id="Scape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape">[docs]</a><span class="k">class</span> <span class="nc">Scape</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Scape">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape">[docs]</a>
+<span class="k">class</span> <span class="nc">Scape</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for scapes objects. Which has a minimum time (min_time) a maximum time (max_time) and a</span>
 <span class="sd">    well-defined value for any window (t1, t2) with min_time &lt;= t1 &lt; t2 &lt;= max_time. The value can be retrieved via</span>
 <span class="sd">    scape[t1, t2].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Scape.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Scape.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param min_time: minimum time</span>
 <span class="sd">        :param max_time: maximum time</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_time</span> <span class="o">=</span> <span class="n">min_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">=</span> <span class="n">max_time</span></div>
 
-<div class="viewcode-block" id="Scape.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Scape.__getitem__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape.__getitem__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return value of the scape at position</span>
 <span class="sd">        :param item: (start, end) with start &lt; end</span>
 <span class="sd">        :return: value of the scape for the time window (start, end)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Scape.assert_valid_time_window"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape.assert_valid_time_window">[docs]</a>    <span class="k">def</span> <span class="nf">assert_valid_time_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Scape.assert_valid_time_window">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.Scape.html#pitchscapes.scapes.Scape.assert_valid_time_window">[docs]</a>
+    <span class="k">def</span> <span class="nf">assert_valid_time_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_time</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isclose</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_time</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window start is less than minimum time (</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">min_time</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">end</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isclose</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window end is greater than maximum time (</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_time</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window start is greater than or equal to window end (</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2"> &gt;= </span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window start is greater than or equal to window end (</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2"> &gt;= </span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="DiscretePitchScape_"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_">[docs]</a><span class="k">class</span> <span class="nc">DiscretePitchScape_</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_">[docs]</a>
+<span class="k">class</span> <span class="nc">DiscretePitchScape_</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Discrete-time scape that is only well-defined at specific points in time. It computes the weighted sum (optionally</span>
 <span class="sd">    the mean) over the given time window i.e. it sums up the values weighted by the corresponding time span and</span>
 <span class="sd">    (optionally) divides by the total time interval.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DiscretePitchScape_.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="DiscretePitchScape_.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">values</span><span class="p">,</span>
                  <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">prior_counts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -157,7 +183,7 @@
                  <span class="n">normalise_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">skip_type_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialise the scape.</span>
 <span class="sd">        :param values: values for each time slot (first dimension of size N runs over time intervals)</span>
 <span class="sd">        :param times: [optional] boundaries of the time intervals (array like of length N+1).</span>
@@ -228,19 +254,28 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_accumulated_values</span> <span class="o">=</span> <span class="p">{(</span><span class="n">idx</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span> <span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
                                         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)}</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.assert_valid_time_window"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window">[docs]</a>    <span class="k">def</span> <span class="nf">assert_valid_time_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.assert_valid_time_window">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.assert_valid_time_window">[docs]</a>
+    <span class="k">def</span> <span class="nf">assert_valid_time_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assert_valid_time_window</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">start</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window start (</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">) is not a valid time (not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">end</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window end (</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">) is not a valid time (not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.assert_valid_index_window"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.assert_valid_index_window">[docs]</a>    <span class="k">def</span> <span class="nf">assert_valid_index_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.assert_valid_index_window">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.assert_valid_index_window">[docs]</a>
+    <span class="k">def</span> <span class="nf">assert_valid_index_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_index</span> <span class="o">&lt;=</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_index</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid start/end index, should be &quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">min_index</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.__getitem__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.__getitem__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">item</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assert_valid_time_window</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
         <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">end</span><span class="p">]</span>
@@ -254,10 +289,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prior_counts</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">value</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.recursive_indices"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.recursive_indices">[docs]</a>    <span class="k">def</span> <span class="nf">recursive_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.recursive_indices">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.recursive_indices">[docs]</a>
+    <span class="k">def</span> <span class="nf">recursive_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recursion only defined for windows with size &gt; 1 &quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot;(start: </span><span class="si">{</span><span class="n">start_idx</span><span class="si">}</span><span class="s2">, end: </span><span class="si">{</span><span class="n">end_idx</span><span class="si">}</span><span class="s2">, size: </span><span class="si">{</span><span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+                             <span class="sa">f</span><span class="s2">&quot;(start: </span><span class="si">{</span><span class="n">start_idx</span><span class="si">}</span><span class="s2">, end: </span><span class="si">{</span><span class="n">end_idx</span><span class="si">}</span><span class="s2">, size: </span><span class="si">{</span><span class="n">end_idx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_idx</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;center&quot;</span><span class="p">:</span>
             <span class="n">index_list</span> <span class="o">=</span> <span class="p">[(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">end_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">)]</span>
             <span class="k">if</span> <span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -270,7 +308,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown recursion strategy &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">index_list</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.zero_size_value"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.zero_size_value">[docs]</a>    <span class="k">def</span> <span class="nf">zero_size_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.zero_size_value">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.zero_size_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">zero_size_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># return zeros, uniform distribution, or prior counts (depending on value of prior_counts)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalise</span><span class="p">:</span>
@@ -282,7 +323,10 @@
                 <span class="n">ret</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_counts</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.get_value_at_index"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.get_value_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_value_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.get_value_at_index">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.get_value_at_index">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_value_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="c1"># if value is not stored in memory: compute recursively</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accumulated_values</span><span class="p">:</span>
             <span class="c1"># accumulate indices to compute</span>
@@ -318,8 +362,11 @@
         <span class="c1"># return a copy of the stored value</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accumulated_values</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.add_prior_counts"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.add_prior_counts">[docs]</a>    <span class="k">def</span> <span class="nf">add_prior_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add prior counts ensuring correct normalisation. NOTE: value is modified in place.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.add_prior_counts">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.add_prior_counts">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_prior_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add prior counts ensuring correct normalisation. NOTE: value is modified in place.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalise</span><span class="p">:</span>
             <span class="c1"># get unnormalised value from normalised to correctly add prior counts</span>
             <span class="n">value</span> <span class="o">*=</span> <span class="n">delta_t</span>
@@ -344,8 +391,11 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">):</span>
                     <span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inexact normalisation corrected (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DiscretePitchScape_.parse_bottom_up"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.parse_bottom_up">[docs]</a>    <span class="k">def</span> <span class="nf">parse_bottom_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscretePitchScape_.parse_bottom_up">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscretePitchScape_.html#pitchscapes.scapes.DiscretePitchScape_.parse_bottom_up">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_bottom_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute all values bottom up. Performs an efficient dynamic programming pass through the entire scape and avoids</span>
 <span class="sd">        time consuming recursive look-ups for compting single values (run time ~O(n^2)). This can be used if all values</span>
 <span class="sd">        within the scape are expected to be needed. For high-resolution scapes where only few values need to be computed</span>
@@ -356,21 +406,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">width</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_index</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_index</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">start_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_index</span> <span class="o">-</span> <span class="n">width</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span></div></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="DiscreteScape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape">[docs]</a><span class="k">class</span> <span class="nc">DiscreteScape</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscreteScape">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape">[docs]</a>
+<span class="k">class</span> <span class="nc">DiscreteScape</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Discrete-time scape that is only well-defined at specific points in time. It computes the weighted sum over the</span>
 <span class="sd">    given time window i.e. it sums up the values weighted by the corresponding time span.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DiscreteScape.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="DiscreteScape.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">values</span><span class="p">,</span>
                  <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialise the scape.</span>
 <span class="sd">        :param values: values for each time slot (first dimension of size N runs over time intervals)</span>
 <span class="sd">        :param times: [optional] boundaries of the time intervals (array like of length N+1).</span>
@@ -415,29 +471,41 @@
         <span class="c1"># initialise bottom level of scape with weighted values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_accumulated_values</span> <span class="o">=</span> <span class="p">{(</span><span class="n">idx</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span> <span class="n">v</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">))}</span></div>
 
-<div class="viewcode-block" id="DiscreteScape.assert_valid_time_window"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.assert_valid_time_window">[docs]</a>    <span class="k">def</span> <span class="nf">assert_valid_time_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscreteScape.assert_valid_time_window">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.assert_valid_time_window">[docs]</a>
+    <span class="k">def</span> <span class="nf">assert_valid_time_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assert_valid_time_window</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">start</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window start (</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">) is not a valid time (not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">end</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window end (</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">) is not a valid time (not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DiscreteScape.assert_valid_index_window"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.assert_valid_index_window">[docs]</a>    <span class="k">def</span> <span class="nf">assert_valid_index_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscreteScape.assert_valid_index_window">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.assert_valid_index_window">[docs]</a>
+    <span class="k">def</span> <span class="nf">assert_valid_index_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_index</span> <span class="o">&lt;=</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_index</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid start/end index, should be &quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">min_index</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DiscreteScape.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscreteScape.__getitem__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.__getitem__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">item</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assert_valid_time_window</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
         <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="n">end</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assert_valid_index_window</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DiscreteScape.recursive_indices"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.recursive_indices">[docs]</a>    <span class="k">def</span> <span class="nf">recursive_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscreteScape.recursive_indices">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.recursive_indices">[docs]</a>
+    <span class="k">def</span> <span class="nf">recursive_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recursion only defined for windows with size &gt; 1 &quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot;(start: </span><span class="si">{</span><span class="n">start_idx</span><span class="si">}</span><span class="s2">, end: </span><span class="si">{</span><span class="n">end_idx</span><span class="si">}</span><span class="s2">, size: </span><span class="si">{</span><span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+                             <span class="sa">f</span><span class="s2">&quot;(start: </span><span class="si">{</span><span class="n">start_idx</span><span class="si">}</span><span class="s2">, end: </span><span class="si">{</span><span class="n">end_idx</span><span class="si">}</span><span class="s2">, size: </span><span class="si">{</span><span class="n">end_idx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_idx</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;center&quot;</span><span class="p">:</span>
             <span class="n">index_list</span> <span class="o">=</span> <span class="p">[(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">end_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">)]</span>
             <span class="k">if</span> <span class="n">end_idx</span> <span class="o">-</span> <span class="n">start_idx</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -450,7 +518,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown recursion strategy &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">index_list</span></div>
 
-<div class="viewcode-block" id="DiscreteScape.get_value_at_index"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.get_value_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_value_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DiscreteScape.get_value_at_index">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.get_value_at_index">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_value_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="c1"># zero-size window</span>
         <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">end</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zero_size_value</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -483,8 +554,11 @@
         <span class="c1"># return a copy of the stored value</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accumulated_values</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DiscreteScape.parse_bottom_up"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.parse_bottom_up">[docs]</a>    <span class="k">def</span> <span class="nf">parse_bottom_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscreteScape.parse_bottom_up">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.DiscreteScape.html#pitchscapes.scapes.DiscreteScape.parse_bottom_up">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_bottom_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute all values bottom up. Performs an efficient dynamic programming pass through the entire scape and avoids</span>
 <span class="sd">        time consuming recursive look-ups for compting single values (run time ~O(n^2)). This can be used if all values</span>
 <span class="sd">        within the scape are expected to be needed. For high-resolution scapes where only few values need to be computed</span>
@@ -495,18 +569,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">width</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_index</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_index</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">start_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_index</span> <span class="o">-</span> <span class="n">width</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span></div></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PitchScape_"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_">[docs]</a><span class="k">class</span> <span class="nc">PitchScape_</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PitchScape_">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_">[docs]</a>
+<span class="k">class</span> <span class="nc">PitchScape_</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Continuous-time scape that takes a discrete-time scape and interpolates linearly for points that lie in between the</span>
 <span class="sd">    discrete time points. This is the exact continuous generalisation when using DiscretePitchScape as discrete-time</span>
 <span class="sd">    scape.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PitchScape_.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="PitchScape_.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialise PitchScape either from count values or from DiscretePitchScape.</span>
 <span class="sd">        :param values: pitch-class counts (do not provide together with scape)</span>
 <span class="sd">        :param scape: DiscretePitchScape object (do not provide together with values)</span>
@@ -523,13 +603,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">normalise</span> <span class="o">=</span> <span class="n">scape</span><span class="o">.</span><span class="n">normalise</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">max_time</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PitchScape_.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PitchScape_.__getitem__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.__getitem__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PitchScape_.get_adjacent_indices"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.get_adjacent_indices">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="PitchScape_.get_adjacent_indices">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.get_adjacent_indices">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_adjacent_indices</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
         <span class="c1"># get upper/lower adjacent indices</span>
         <span class="n">upper_start_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
@@ -553,7 +639,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;End beyond valid times&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">lower_start_idx</span><span class="p">,</span> <span class="n">upper_start_idx</span><span class="p">,</span> <span class="n">lower_end_idx</span><span class="p">,</span> <span class="n">upper_end_idx</span></div>
 
-<div class="viewcode-block" id="PitchScape_.interpolate"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PitchScape_.interpolate">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape_.html#pitchscapes.scapes.PitchScape_.interpolate">[docs]</a>
+    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="c1"># check for zero-size windows</span>
         <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">end</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">zero_size_value</span><span class="p">()</span>
@@ -608,18 +697,24 @@
                 <span class="n">value</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">f1</span> <span class="o">*</span> <span class="n">e</span> <span class="o">+</span> <span class="n">f2</span> <span class="o">*</span> <span class="n">f</span>
         <span class="c1"># add prior counts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">add_prior_counts</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">value</span></div></div>
+        <span class="k">return</span> <span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ContinuousScape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape">[docs]</a><span class="k">class</span> <span class="nc">ContinuousScape</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ContinuousScape">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape">[docs]</a>
+<span class="k">class</span> <span class="nc">ContinuousScape</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Continuous-time scape that takes a discrete-time scape and interpolates linearly for points that lie in between the</span>
 <span class="sd">    discrete time points. This is the exact continuous generalisation when using DiscretePitchScape as discrete-time</span>
 <span class="sd">    scape.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ContinuousScape.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ContinuousScape.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialise PitchScape either from count values or from DiscretePitchScape.</span>
 <span class="sd">        :param values: pitch-class counts (do not provide together with scape)</span>
 <span class="sd">        :param scape: DiscretePitchScape object (do not provide together with values)</span>
@@ -635,13 +730,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scape</span> <span class="o">=</span> <span class="n">scape</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">max_time</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContinuousScape.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ContinuousScape.__getitem__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.__getitem__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContinuousScape.get_adjacent_indices"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.get_adjacent_indices">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="ContinuousScape.get_adjacent_indices">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.get_adjacent_indices">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_adjacent_indices</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
         <span class="c1"># get upper/lower adjacent indices</span>
         <span class="n">upper_start_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
@@ -665,7 +766,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;End beyond valid times&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">lower_start_idx</span><span class="p">,</span> <span class="n">upper_start_idx</span><span class="p">,</span> <span class="n">lower_end_idx</span><span class="p">,</span> <span class="n">upper_end_idx</span></div>
 
-<div class="viewcode-block" id="ContinuousScape.interpolate"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ContinuousScape.interpolate">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.ContinuousScape.html#pitchscapes.scapes.ContinuousScape.interpolate">[docs]</a>
+    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
         <span class="c1"># check for zero-size windows</span>
         <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">end</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">zero_size_value</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -704,12 +808,18 @@
             <span class="n">f1</span> <span class="o">=</span> <span class="p">(</span><span class="n">upper_start_time</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">upper_start_time</span> <span class="o">-</span> <span class="n">lower_start_time</span><span class="p">)</span>
             <span class="n">f2</span> <span class="o">=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">lower_end_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">upper_end_time</span> <span class="o">-</span> <span class="n">lower_end_time</span><span class="p">)</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">f1</span> <span class="o">*</span> <span class="n">e</span> <span class="o">+</span> <span class="n">f2</span> <span class="o">*</span> <span class="n">f</span>
-        <span class="k">return</span> <span class="n">value</span></div></div>
+        <span class="k">return</span> <span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PitchScape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape.html#pitchscapes.scapes.PitchScape">[docs]</a><span class="k">class</span> <span class="nc">PitchScape</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
 
-<div class="viewcode-block" id="PitchScape.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape.html#pitchscapes.scapes.PitchScape.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="PitchScape">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape.html#pitchscapes.scapes.PitchScape">[docs]</a>
+<span class="k">class</span> <span class="nc">PitchScape</span><span class="p">(</span><span class="n">Scape</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PitchScape.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape.html#pitchscapes.scapes.PitchScape.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">prior_counts</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -718,7 +828,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_counts</span> <span class="o">=</span> <span class="n">prior_counts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">normalise</span> <span class="o">=</span> <span class="n">normalise</span>
         <span class="c1"># use float values</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="c1"># dimensionality of the output</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
         <span class="c1"># value of uniform distribution</span>
@@ -741,7 +851,10 @@
         <span class="c1"># init super</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">min_time</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="o">.</span><span class="n">max_time</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PitchScape.__getitem__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape.html#pitchscapes.scapes.PitchScape.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PitchScape.__getitem__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.scapes.PitchScape.html#pitchscapes.scapes.PitchScape.__getitem__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="c1"># get value from underlying scape</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scape</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="c1"># handle zeros</span>
@@ -769,7 +882,9 @@
                 <span class="n">value</span> <span class="o">/=</span> <span class="n">delta_t</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">value</span> <span class="o">/=</span> <span class="n">delta_t</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dim</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_counts</span>
-        <span class="k">return</span> <span class="n">value</span></div></div>
+        <span class="k">return</span> <span class="n">value</span></div>
+</div>
+
 </pre></div>
 
            </div>

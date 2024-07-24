@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pitchscapes.util.coords_from_times &mdash; PitchScapes  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,11 +35,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> PitchScapes
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PitchScapes
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -87,11 +94,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
-          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
-          <li><a href="pitchscapes.util.html">pitchscapes.util</a> &raquo;</li>
-      <li>pitchscapes.util.coords_from_times</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="pitchscapes.html">pitchscapes</a></li>
+          <li class="breadcrumb-item"><a href="pitchscapes.util.html">pitchscapes.util</a></li>
+      <li class="breadcrumb-item active">pitchscapes.util.coords_from_times</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,10 +108,10 @@
            <div itemprop="articleBody">
              
   <section id="pitchscapes-util-coords-from-times">
-<h1>pitchscapes.util.coords_from_times<a class="headerlink" href="#pitchscapes-util-coords-from-times" title="Permalink to this headline"></a></h1>
+<h1>pitchscapes.util.coords_from_times<a class="headerlink" href="#pitchscapes-util-coords-from-times" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pitchscapes.util.coords_from_times">
-<span class="sig-prename descclassname"><span class="pre">pitchscapes.util.</span></span><span class="sig-name descname"><span class="pre">coords_from_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_end_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/util.html#coords_from_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.util.coords_from_times" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pitchscapes.util.</span></span><span class="sig-name descname"><span class="pre">coords_from_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_end_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/util.html#coords_from_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.util.coords_from_times" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Generate various coordinate information from a given list of times. Given N points in time, the returned arrays will</dt><dd><dl class="simple">
 <dt>contain N(N-1)/2 items, corresponding to all ordered non-zero time intervals. The ordering corresponds constructing</dt><dd><p>a list by iterating over start points in the outer loop and end points in the inner loop.</p>
@@ -113,7 +120,7 @@
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>times</strong> – An iterable of N points in time (has to be ordered).</p></li>
 <li><p><strong>start_end_idx</strong> – (default False) Whether to return an array of shape Nx2 with integer (start_idx, end_idx)</p></li>
@@ -121,10 +128,13 @@
 </dd>
 </dl>
 <p>pairs.
+:type start_end_time: 
 :param start_end_time: (default False) Whether to return an array of shape Nx2 with (start_time, end_time) pairs
 according to the values in times.
+:type center_width: 
 :param center_width: (default False) Whether to return an array of shape Nx2 with (center, width) time coordinate,
 related to (start_time, end_time) via start_end_to_center_width.
+:type coords: 
 :param coords: (default False) Whether to return an array of shape Nx4x2 with four points in center-width
 coordinates, describing the rhomboid region in a scape plot that corresponds to the respective time interval. The
 top-point of the rhombus corresponds to the respective center_width coordinate, the other three points are obtained
@@ -132,7 +142,9 @@ by moving the start and/or end point one time step forward and/or backward, resp
 ordered clock-wise starting at 9 (left, top, right, bottom), corresponding to the indices [(start, end - 1),
 (start, end), (start + 1, end), (start + 1, end - 1)]. For the bottom row of a scape plot (adjacent points in time),
 the last (bottom) coordinate will be a pair of np.nan.
+:type remove_offset: 
 :param remove_offset: (default True) Whether the minimum time is subtracted to have time start at zero.
+:type unit_times: 
 :param unit_times: (default True) Whether to normalise times to be in [0, 1].
 :return: If only one of [start_end_idx, start_end_time, center_width, coords] is true, return the corresponding
 array, otherwise return a tuple of the requested arrays (in this order).</p>

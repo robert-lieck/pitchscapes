@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pitchscapes.reader &mdash; PitchScapes  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,11 +35,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> PitchScapes
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PitchScapes
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -86,10 +93,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
-          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
-      <li>pitchscapes.reader</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="pitchscapes.html">pitchscapes</a></li>
+      <li class="breadcrumb-item active">pitchscapes.reader</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -99,13 +106,9 @@
            <div itemprop="articleBody">
              
   <section id="module-pitchscapes.reader">
-<span id="pitchscapes-reader"></span><h1>pitchscapes.reader<a class="headerlink" href="#module-pitchscapes.reader" title="Permalink to this headline"></a></h1>
+<span id="pitchscapes-reader"></span><h1>pitchscapes.reader<a class="headerlink" href="#module-pitchscapes.reader" title="Link to this heading"></a></h1>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.chordify.html#pitchscapes.reader.chordify" title="pitchscapes.reader.chordify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chordify</span></code></a>(piece)</p></td>
 <td><p>Create time bins at note events (on- or offset).</p></td>
@@ -117,7 +120,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pitchscapes.reader.pitch_class_counts.html#pitchscapes.reader.pitch_class_counts" title="pitchscapes.reader.pitch_class_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pitch_class_counts</span></code></a>(file[, reader])</p></td>
-<td><p>Read pitch-class counts from MIDI file by concatenating read_midi, chordify, and pitch_class_counts :param file: MIDI file :return: 2-tuple of numpy arrays with pitch-class counts and time boundaries</p></td>
+<td><p>Read pitch-class counts from MIDI file by concatenating read_midi, chordify, and pitch_class_counts :type file:  :param file: MIDI file :return: 2-tuple of numpy arrays with pitch-class counts and time boundaries</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.pitch_class_counts_from_chordified.html#pitchscapes.reader.pitch_class_counts_from_chordified" title="pitchscapes.reader.pitch_class_counts_from_chordified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pitch_class_counts_from_chordified</span></code></a>(chordified)</p></td>
 <td><p>Take a chordified piece and compute pitch class counts for each time slot.</p></td>
@@ -141,10 +144,6 @@
 </table>
 <p class="rubric">Classes</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.reader.Event.html#pitchscapes.reader.Event" title="pitchscapes.reader.Event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Event</span></code></a>(time, duration, data)</p></td>
 <td><p></p></td>

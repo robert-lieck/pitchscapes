@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pitchscapes.keyfinding &mdash; PitchScapes  documentation</title>
+  <title>Computation times &mdash; PitchScapes  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
@@ -25,9 +25,7 @@
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pitchscapes.keyfinding.KeyEstimator" href="pitchscapes.keyfinding.KeyEstimator.html" />
-    <link rel="prev" title="pitchscapes" href="pitchscapes.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,24 +48,9 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">PitchScapes Gallery</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="pitchscapes.html">pitchscapes</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">pitchscapes.keyfinding</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pitchscapes.keyfinding.KeyEstimator.html">pitchscapes.keyfinding.KeyEstimator</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="pitchscapes.model.html">pitchscapes.model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pitchscapes.optimization.html">pitchscapes.optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pitchscapes.plotting.html">pitchscapes.plotting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pitchscapes.reader.html">pitchscapes.reader</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pitchscapes.scapes.html">pitchscapes.scapes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pitchscapes.util.html">pitchscapes.util</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">PitchScapes Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
 </ul>
 
         </div>
@@ -84,9 +67,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
-          <li class="breadcrumb-item"><a href="pitchscapes.html">pitchscapes</a></li>
-      <li class="breadcrumb-item active">pitchscapes.keyfinding</li>
+      <li class="breadcrumb-item active">Computation times</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -95,25 +76,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-pitchscapes.keyfinding">
-<span id="pitchscapes-keyfinding"></span><h1>pitchscapes.keyfinding<a class="headerlink" href="#module-pitchscapes.keyfinding" title="Link to this heading"></a></h1>
-<p class="rubric">Classes</p>
-<table class="autosummary longtable docutils align-default">
+  <section id="computation-times">
+<span id="sphx-glr-auto-examples-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Link to this heading"></a></h1>
+<p><strong>00:00.000</strong> total execution time for 0 files <strong>from auto_examples</strong>:</p>
+<div class="docutils container">
+<style scoped>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+</style>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script type="text/javascript" class="init">
+$(document).ready( function () {
+    $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+} );
+</script><table class="table table-striped sg-datatable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Example</p></th>
+<th class="head"><p>Time</p></th>
+<th class="head"><p>Mem (MB)</p></th>
+</tr>
+</thead>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator" title="pitchscapes.keyfinding.KeyEstimator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KeyEstimator</span></code></a>([profiles, scoring_func, ...])</p></td>
-<td><p>Compute key estimates.</p></td>
+<tr class="row-even"><td><p>N/A</p></td>
+<td><p>N/A</p></td>
+<td><p>N/A</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pitchscapes.html" class="btn btn-neutral float-left" title="pitchscapes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pitchscapes.keyfinding.KeyEstimator.html" class="btn btn-neutral float-right" title="pitchscapes.keyfinding.KeyEstimator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

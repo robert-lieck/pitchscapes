@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pitchscapes.optimization.WarmAdam &mdash; PitchScapes  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,11 +35,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> PitchScapes
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PitchScapes
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -76,11 +83,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
-          <li><a href="pitchscapes.html">pitchscapes</a> &raquo;</li>
-          <li><a href="pitchscapes.optimization.html">pitchscapes.optimization</a> &raquo;</li>
-      <li>pitchscapes.optimization.WarmAdam</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="pitchscapes.html">pitchscapes</a></li>
+          <li class="breadcrumb-item"><a href="pitchscapes.optimization.html">pitchscapes.optimization</a></li>
+      <li class="breadcrumb-item active">pitchscapes.optimization.WarmAdam</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -90,19 +97,44 @@
            <div itemprop="articleBody">
              
   <section id="pitchscapes-optimization-warmadam">
-<h1>pitchscapes.optimization.WarmAdam<a class="headerlink" href="#pitchscapes-optimization-warmadam" title="Permalink to this headline"></a></h1>
+<h1>pitchscapes.optimization.WarmAdam<a class="headerlink" href="#pitchscapes-optimization-warmadam" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pitchscapes.optimization.</span></span><span class="sig-name descname"><span class="pre">WarmAdam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.9,</span> <span class="pre">0.999)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amsgrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.optim.optimizer.Optimizer</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pitchscapes.optimization.</span></span><span class="sig-name descname"><span class="pre">WarmAdam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.9,</span> <span class="pre">0.999)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amsgrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></p>
 <p>Modified from Adam class</p>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.OptimizerPreHook" title="pitchscapes.optimization.WarmAdam.OptimizerPreHook"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizerPreHook</span></code></a></p></td>
+<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, ...], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, ...], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]] | <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.OptimizerPostHook" title="pitchscapes.optimization.WarmAdam.OptimizerPostHook"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizerPostHook</span></code></a></p></td>
+<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, ...], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">state</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">param_groups</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizerPreHook</span></code></p></td>
+<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, ...], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, ...], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]] | <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizerPostHook</span></code></p></td>
+<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, ...], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
 <div class="autoclasstoc docutils container">
 <p class="rubric">Public Methods:</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__init__" title="pitchscapes.optimization.WarmAdam.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(params[, lr, init_lr, lr_beta, ...])</p></td>
 <td><p></p></td>
@@ -116,37 +148,101 @@
 </tbody>
 </table>
 <details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></summary><table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__init__" title="pitchscapes.optimization.WarmAdam.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(params[, lr, init_lr, lr_beta, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(params, defaults)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__getstate__" title="pitchscapes.optimization.WarmAdam.__getstate__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getstate__</span></code></a>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getstate__</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__setstate__" title="pitchscapes.optimization.WarmAdam.__setstate__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__setstate__</span></code></a>(state)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__setstate__</span></code>(state)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.__repr__" title="pitchscapes.optimization.WarmAdam.__repr__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code></a>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code>()</p></td>
 <td><p>Return repr(self).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.state_dict" title="pitchscapes.optimization.WarmAdam.state_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">state_dict</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile_hook_step</span></code>(func)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_step_pre_hook</span></code>(hook)</p></td>
+<td><p>Register an optimizer step pre hook which will be called before optimizer step. It should have the following signature::.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_step_post_hook</span></code>(hook)</p></td>
+<td><p>Register an optimizer step post hook which will be called after optimizer step. It should have the following signature::.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_state_dict_pre_hook</span></code>(hook[, prepend])</p></td>
+<td><p>Register a state dict pre-hook which will be called before <code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code> is called. It should have the following signature::.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_state_dict_post_hook</span></code>(hook[, prepend])</p></td>
+<td><p>Register a state dict post-hook which will be called after <code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code> is called. It should have the following signature::.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">state_dict</span></code>()</p></td>
 <td><p>Returns the state of the optimizer as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.load_state_dict" title="pitchscapes.optimization.WarmAdam.load_state_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_state_dict</span></code></a>(state_dict)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_load_state_dict_pre_hook</span></code>(hook[, ...])</p></td>
+<td><p>Register a load_state_dict pre-hook which will be called before <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_state_dict()</span></code> is called. It should have the following signature::.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_load_state_dict_post_hook</span></code>(hook[, ...])</p></td>
+<td><p>Register a load_state_dict post-hook which will be called after <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_state_dict()</span></code> is called. It should have the following signature::.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_state_dict</span></code>(state_dict)</p></td>
 <td><p>Loads the optimizer state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.zero_grad" title="pitchscapes.optimization.WarmAdam.zero_grad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_grad</span></code></a>([set_to_none])</p></td>
-<td><p>Sets the gradients of all optimized <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code> s to zero.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_grad</span></code>([set_to_none])</p></td>
+<td><p>Resets the gradients of all optimized <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code> s.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.step" title="pitchscapes.optimization.WarmAdam.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>([closure])</p></td>
-<td><p>Performs a single optimization step.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code>([closure])</p></td>
+<td><p>Performs a single optimization step (parameter update).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam.add_param_group" title="pitchscapes.optimization.WarmAdam.add_param_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_param_group</span></code></a>(param_group)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_param_group</span></code>(param_group)</p></td>
 <td><p>Add a param group to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> s <cite>param_groups</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</details></div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Private Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._optimizer_step_pre_hooks" title="pitchscapes.optimization.WarmAdam._optimizer_step_pre_hooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_step_pre_hooks</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._optimizer_step_post_hooks" title="pitchscapes.optimization.WarmAdam._optimizer_step_post_hooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_step_post_hooks</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._optimizer_state_dict_pre_hooks" title="pitchscapes.optimization.WarmAdam._optimizer_state_dict_pre_hooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_state_dict_pre_hooks</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._optimizer_state_dict_post_hooks" title="pitchscapes.optimization.WarmAdam._optimizer_state_dict_post_hooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_state_dict_post_hooks</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_pre_hooks" title="pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_pre_hooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_load_state_dict_pre_hooks</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_post_hooks" title="pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_post_hooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_load_state_dict_post_hooks</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></summary><table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_step_pre_hooks</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_step_post_hooks</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_state_dict_pre_hooks</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_state_dict_post_hooks</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_load_state_dict_pre_hooks</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_load_state_dict_post_hooks</span></code></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -154,12 +250,20 @@
 <div class="autoclasstoc docutils container">
 <p class="rubric">Private Methods:</p>
 <details><summary>Inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></summary><table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pitchscapes.optimization.WarmAdam._hook_for_profile" title="pitchscapes.optimization.WarmAdam._hook_for_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_hook_for_profile</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_cuda_graph_capture_health_check</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_optimizer_step_code</span></code>()</p></td>
+<td><p>Entry point for <cite>torch.profile.profiler</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_group_tensors_by_device_and_dtype</span></code>(...[, ...])</p></td>
+<td><p>Groups a list of lists of tensors by device and dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_patch_step_function</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_process_value_according_to_param_policy</span></code>(...)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -167,53 +271,169 @@
 </details></div>
 <hr class="docutils" />
 <dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.OptimizerPostHook">
+<span class="sig-name descname"><span class="pre">OptimizerPostHook</span></span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.OptimizerPostHook" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, …], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.OptimizerPreHook">
+<span class="sig-name descname"><span class="pre">OptimizerPreHook</span></span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.OptimizerPreHook" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, …], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>, …], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]] | <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'OptimizerPostHook':</span> <span class="pre">'TypeAlias',</span> <span class="pre">'OptimizerPreHook':</span> <span class="pre">'TypeAlias',</span> <span class="pre">'_optimizer_load_state_dict_post_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;],</span> <span class="pre">None]]\'',</span> <span class="pre">'_optimizer_load_state_dict_pre_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;,</span> <span class="pre">StateDict],</span> <span class="pre">Optional[StateDict]]]\'',</span> <span class="pre">'_optimizer_state_dict_post_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;,</span> <span class="pre">StateDict],</span> <span class="pre">Optional[StateDict]]]\'',</span> <span class="pre">'_optimizer_state_dict_pre_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;],</span> <span class="pre">None]]\'',</span> <span class="pre">'_optimizer_step_post_hooks':</span> <span class="pre">'Dict[int,</span> <span class="pre">OptimizerPostHook]',</span> <span class="pre">'_optimizer_step_pre_hooks':</span> <span class="pre">'Dict[int,</span> <span class="pre">OptimizerPreHook]',</span> <span class="pre">'param_groups':</span> <span class="pre">'List[Dict[str,</span> <span class="pre">Any]]',</span> <span class="pre">'state':</span> <span class="pre">'DefaultDict[torch.Tensor,</span> <span class="pre">Any]'}</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__annotations__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'pitchscapes.optimization',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Modified</span> <span class="pre">from</span> <span class="pre">Adam</span> <span class="pre">class\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.__init__&gt;,</span> <span class="pre">'__setstate__':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.__setstate__&gt;,</span> <span class="pre">'step':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.step&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'pitchscapes.optimization',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Modified</span> <span class="pre">from</span> <span class="pre">Adam</span> <span class="pre">class\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.__init__&gt;,</span> <span class="pre">'__setstate__':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.__setstate__&gt;,</span> <span class="pre">'step':</span> <span class="pre">&lt;function</span> <span class="pre">WarmAdam.step&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{'OptimizerPreHook':</span> <span class="pre">'TypeAlias',</span> <span class="pre">'OptimizerPostHook':</span> <span class="pre">'TypeAlias',</span> <span class="pre">'_optimizer_step_pre_hooks':</span> <span class="pre">'Dict[int,</span> <span class="pre">OptimizerPreHook]',</span> <span class="pre">'_optimizer_step_post_hooks':</span> <span class="pre">'Dict[int,</span> <span class="pre">OptimizerPostHook]',</span> <span class="pre">'_optimizer_state_dict_pre_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;],</span> <span class="pre">None]]\'',</span> <span class="pre">'_optimizer_state_dict_post_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;,</span> <span class="pre">StateDict],</span> <span class="pre">Optional[StateDict]]]\'',</span> <span class="pre">'_optimizer_load_state_dict_pre_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;,</span> <span class="pre">StateDict],</span> <span class="pre">Optional[StateDict]]]\'',</span> <span class="pre">'_optimizer_load_state_dict_post_hooks':</span> <span class="pre">'\'OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;],</span> <span class="pre">None]]\'',</span> <span class="pre">'state':</span> <span class="pre">'DefaultDict[torch.Tensor,</span> <span class="pre">Any]',</span> <span class="pre">'param_groups':</span> <span class="pre">'List[Dict[str,</span> <span class="pre">Any]]'}})</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__dict__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__getstate__">
-<span class="sig-name descname"><span class="pre">__getstate__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__getstate__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">__getstate__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__getstate__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.9,</span> <span class="pre">0.999)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amsgrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.9,</span> <span class="pre">0.999)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amsgrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pitchscapes.optimization'</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__module__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pitchscapes.optimization'</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__module__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__repr__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__repr__" title="Link to this definition"></a></dt>
 <dd><p>Return repr(self).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__setstate__">
-<span class="sig-name descname"><span class="pre">__setstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.__setstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__setstate__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__setstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.__setstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__setstate__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.__weakref__">
-<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__weakref__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.__weakref__" title="Link to this definition"></a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._hook_for_profile">
-<span class="sig-name descname"><span class="pre">_hook_for_profile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._hook_for_profile" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._cuda_graph_capture_health_check">
+<span class="sig-name descname"><span class="pre">_cuda_graph_capture_health_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._cuda_graph_capture_health_check" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._group_tensors_by_device_and_dtype">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_group_tensors_by_device_and_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensorlistlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._group_tensors_by_device_and_dtype" title="Link to this definition"></a></dt>
+<dd><p>Groups a list of lists of tensors by device and dtype.
+Skips this step if we are compiling since this will occur during inductor lowering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]]], <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">device</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]]], <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_post_hooks">
+<span class="sig-name descname"><span class="pre">_optimizer_load_state_dict_post_hooks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;],</span> <span class="pre">None]]</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_post_hooks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_pre_hooks">
+<span class="sig-name descname"><span class="pre">_optimizer_load_state_dict_pre_hooks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;,</span> <span class="pre">StateDict],</span> <span class="pre">Optional[StateDict]]]</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_load_state_dict_pre_hooks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_state_dict_post_hooks">
+<span class="sig-name descname"><span class="pre">_optimizer_state_dict_post_hooks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;,</span> <span class="pre">StateDict],</span> <span class="pre">Optional[StateDict]]]</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_state_dict_post_hooks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_state_dict_pre_hooks">
+<span class="sig-name descname"><span class="pre">_optimizer_state_dict_pre_hooks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OrderedDict[int,</span> <span class="pre">Callable[[&quot;Optimizer&quot;],</span> <span class="pre">None]]</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_state_dict_pre_hooks" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_step_code">
+<span class="sig-name descname"><span class="pre">_optimizer_step_code</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_step_code" title="Link to this definition"></a></dt>
+<dd><p>Entry point for <cite>torch.profile.profiler</cite>.</p>
+<p>When python tracing is enabled the profiler will hook into this
+function at the CPython level to inspect the optimizer’s parameters and
+param groups. It is called it after <cite>step()</cite> since many optimizers
+lazily initialize state.</p>
+<p>This is a workaround due to lack of a proper step hook on the optimizer,
+and will be removed if it exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_step_post_hooks">
+<span class="sig-name descname"><span class="pre">_optimizer_step_post_hooks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict[int,</span> <span class="pre">OptimizerPostHook]</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_step_post_hooks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._optimizer_step_pre_hooks">
+<span class="sig-name descname"><span class="pre">_optimizer_step_pre_hooks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict[int,</span> <span class="pre">OptimizerPreHook]</span></em><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._optimizer_step_pre_hooks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._patch_step_function">
+<span class="sig-name descname"><span class="pre">_patch_step_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._patch_step_function" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam._process_value_according_to_param_policy">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_process_value_according_to_param_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam._process_value_according_to_param_policy" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.add_param_group">
-<span class="sig-name descname"><span class="pre">add_param_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.add_param_group" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_param_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.add_param_group" title="Link to this definition"></a></dt>
 <dd><p>Add a param group to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> s <cite>param_groups</cite>.</p>
 <p>This can be useful when fine tuning a pre-trained network as frozen layers can be made
 trainable and added to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code> as training progresses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>param_group (dict): Specifies what Tensors should be optimized along with group</dt><dd><p>specific optimization options.</p>
@@ -225,8 +445,13 @@ trainable and added to the <code class="xref py py-class docutils literal notran
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.load_state_dict">
-<span class="sig-name descname"><span class="pre">load_state_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.load_state_dict" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load_state_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.load_state_dict" title="Link to this definition"></a></dt>
 <dd><p>Loads the optimizer state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>state_dict (dict): optimizer state. Should be an object returned</dt><dd><p>from a call to <a class="reference internal" href="#pitchscapes.optimization.WarmAdam.state_dict" title="pitchscapes.optimization.WarmAdam.state_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code></a>.</p>
@@ -237,27 +462,276 @@ trainable and added to the <code class="xref py py-class docutils literal notran
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.profile_hook_step">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">profile_hook_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.profile_hook_step" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParamSpec</span></code>(<code class="docutils literal notranslate"><span class="pre">_P</span></code>)], <code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">R</span></code>)]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.register_load_state_dict_post_hook">
+<span class="sig-name descname"><span class="pre">register_load_state_dict_post_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.register_load_state_dict_post_hook" title="Link to this definition"></a></dt>
+<dd><p>Register a load_state_dict post-hook which will be called after
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">load_state_dict()</span></code> is called. It should have the
+following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hook</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> argument is the optimizer instance being used.</p>
+<p>The hook will be called with argument <code class="docutils literal notranslate"><span class="pre">self</span></code> after calling
+<code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>. The registered hook can be used to
+perform post-processing after <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code> has loaded the
+<code class="docutils literal notranslate"><span class="pre">state_dict</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableHandle</span></code></span></p>
+</dd>
+</dl>
+<dl>
+<dt>Args:</dt><dd><p>hook (Callable): The user defined hook to be registered.
+prepend (bool): If True, the provided post <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired before</p>
+<blockquote>
+<div><p>all the already registered post-hooks on <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code>. Otherwise,
+the provided <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired after all the already registered
+post-hooks. (default: False)</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.hooks.RemoveableHandle</span></code>:</dt><dd><p>a handle that can be used to remove the added hook by calling
+<code class="docutils literal notranslate"><span class="pre">handle.remove()</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.register_load_state_dict_pre_hook">
+<span class="sig-name descname"><span class="pre">register_load_state_dict_pre_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.register_load_state_dict_pre_hook" title="Link to this definition"></a></dt>
+<dd><p>Register a load_state_dict pre-hook which will be called before
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">load_state_dict()</span></code> is called. It should have the
+following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hook</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">state_dict</span> <span class="ow">or</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> argument is the optimizer instance being used and the
+<code class="docutils literal notranslate"><span class="pre">state_dict</span></code> argument is a shallow copy of the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> the user
+passed in to <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code>. The hook may modify the state_dict inplace
+or optionally return a new one. If a state_dict is returned, it will be used
+to be loaded into the optimizer.</p>
+<p>The hook will be called with argument <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> before
+calling <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>. The registered hook can be used to
+perform pre-processing before the <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code> call is made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableHandle</span></code></span></p>
+</dd>
+</dl>
+<dl>
+<dt>Args:</dt><dd><p>hook (Callable): The user defined hook to be registered.
+prepend (bool): If True, the provided pre <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired before</p>
+<blockquote>
+<div><p>all the already registered pre-hooks on <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code>. Otherwise,
+the provided <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired after all the already registered
+pre-hooks. (default: False)</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.hooks.RemoveableHandle</span></code>:</dt><dd><p>a handle that can be used to remove the added hook by calling
+<code class="docutils literal notranslate"><span class="pre">handle.remove()</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.register_state_dict_post_hook">
+<span class="sig-name descname"><span class="pre">register_state_dict_post_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.register_state_dict_post_hook" title="Link to this definition"></a></dt>
+<dd><p>Register a state dict post-hook which will be called after
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code> is called. It should have the
+following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hook</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">state_dict</span> <span class="ow">or</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>The hook will be called with arguments <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> after generating
+a <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>. The hook may modify the state_dict inplace or optionally
+return a new one. The registered hook can be used to perform post-processing
+on the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> before it is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableHandle</span></code></span></p>
+</dd>
+</dl>
+<dl>
+<dt>Args:</dt><dd><p>hook (Callable): The user defined hook to be registered.
+prepend (bool): If True, the provided post <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired before</p>
+<blockquote>
+<div><p>all the already registered post-hooks on <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>. Otherwise,
+the provided <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired after all the already registered
+post-hooks. (default: False)</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.hooks.RemoveableHandle</span></code>:</dt><dd><p>a handle that can be used to remove the added hook by calling
+<code class="docutils literal notranslate"><span class="pre">handle.remove()</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.register_state_dict_pre_hook">
+<span class="sig-name descname"><span class="pre">register_state_dict_pre_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.register_state_dict_pre_hook" title="Link to this definition"></a></dt>
+<dd><p>Register a state dict pre-hook which will be called before
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code> is called. It should have the
+following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hook</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> argument is the optimizer instance being used.
+The hook will be called with argument <code class="docutils literal notranslate"><span class="pre">self</span></code> before calling <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>.
+The registered hook can be used to perform pre-processing before the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>
+call is made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableHandle</span></code></span></p>
+</dd>
+</dl>
+<dl>
+<dt>Args:</dt><dd><p>hook (Callable): The user defined hook to be registered.
+prepend (bool): If True, the provided pre <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired before</p>
+<blockquote>
+<div><p>all the already registered pre-hooks on <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>. Otherwise,
+the provided <code class="docutils literal notranslate"><span class="pre">hook</span></code> will be fired after all the already registered
+pre-hooks. (default: False)</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.hooks.RemoveableHandle</span></code>:</dt><dd><p>a handle that can be used to remove the added hook by calling
+<code class="docutils literal notranslate"><span class="pre">handle.remove()</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.register_step_post_hook">
+<span class="sig-name descname"><span class="pre">register_step_post_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.register_step_post_hook" title="Link to this definition"></a></dt>
+<dd><p>Register an optimizer step post hook which will be called after optimizer step.
+It should have the following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hook</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> argument is the optimizer instance being used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableHandle</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hook (Callable): The user defined hook to be registered.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.hooks.RemovableHandle</span></code>:</dt><dd><p>a handle that can be used to remove the added hook by calling
+<code class="docutils literal notranslate"><span class="pre">handle.remove()</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.register_step_pre_hook">
+<span class="sig-name descname"><span class="pre">register_step_pre_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.register_step_pre_hook" title="Link to this definition"></a></dt>
+<dd><p>Register an optimizer step pre hook which will be called before
+optimizer step. It should have the following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hook</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">modified</span> <span class="n">args</span> <span class="ow">and</span> <span class="n">kwargs</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> argument is the optimizer instance being used. If
+args and kwargs are modified by the pre-hook, then the transformed
+values are returned as a tuple containing the new_args and new_kwargs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableHandle</span></code></span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hook (Callable): The user defined hook to be registered.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.hooks.RemovableHandle</span></code>:</dt><dd><p>a handle that can be used to remove the added hook by calling
+<code class="docutils literal notranslate"><span class="pre">handle.remove()</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.state_dict">
-<span class="sig-name descname"><span class="pre">state_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.state_dict" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">state_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.state_dict" title="Link to this definition"></a></dt>
 <dd><p>Returns the state of the optimizer as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
-<p>It contains two entries:</p>
+<p>It contains two entries:
+:rtype: <span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 <ul class="simple">
 <li><dl class="simple">
-<dt>state - a dict holding current optimization state. Its content</dt><dd><p>differs between optimizer classes.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">state</span></code>: a Dict holding current optimization state. Its content</dt><dd><p>differs between optimizer classes, but some common characteristics
+hold. For example, state is saved per parameter, and the parameter
+itself is NOT saved. <code class="docutils literal notranslate"><span class="pre">state</span></code> is a Dictionary mapping parameter ids
+to a Dict with state corresponding to each parameter.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>param_groups - a list containing all parameter groups where each</dt><dd><p>parameter group is a dict</p>
+<dt><code class="docutils literal notranslate"><span class="pre">param_groups</span></code>: a List containing all parameter groups where each</dt><dd><p>parameter group is a Dict. Each parameter group contains metadata
+specific to the optimizer, such as learning rate and weight decay,
+as well as a List of parameter IDs of the parameters in the group.</p>
 </dd>
 </dl>
 </li>
 </ul>
+<p>NOTE: The parameter IDs may look like indices but they are just IDs
+associating state with param_group. When loading from a state_dict,
+the optimizer will zip the param_group <code class="docutils literal notranslate"><span class="pre">params</span></code> (int IDs) and the
+optimizer <code class="docutils literal notranslate"><span class="pre">param_groups</span></code> (actual <code class="docutils literal notranslate"><span class="pre">nn.Parameter</span></code> s) in order to
+match state WITHOUT additional verification.</p>
+<p>A returned state dict might look something like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{
+    &#39;state&#39;: {
+        0: {&#39;momentum_buffer&#39;: tensor(...), ...},
+        1: {&#39;momentum_buffer&#39;: tensor(...), ...},
+        2: {&#39;momentum_buffer&#39;: tensor(...), ...},
+        3: {&#39;momentum_buffer&#39;: tensor(...), ...}
+    },
+    &#39;param_groups&#39;: [
+        {
+            &#39;lr&#39;: 0.01,
+            &#39;weight_decay&#39;: 0,
+            ...
+            &#39;params&#39;: [0]
+        },
+        {
+            &#39;lr&#39;: 0.001,
+            &#39;weight_decay&#39;: 0.5,
+            ...
+            &#39;params&#39;: [1, 2, 3]
+        }
+    ]
+}
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.step">
-<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.step" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pitchscapes/optimization.html#WarmAdam.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.step" title="Link to this definition"></a></dt>
 <dd><p>Performs a single optimization step.</p>
 <dl class="simple">
 <dt>Arguments:</dt><dd><dl class="simple">
@@ -270,8 +744,13 @@ trainable and added to the <code class="xref py py-class docutils literal notran
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pitchscapes.optimization.WarmAdam.zero_grad">
-<span class="sig-name descname"><span class="pre">zero_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_to_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.zero_grad" title="Permalink to this definition"></a></dt>
-<dd><p>Sets the gradients of all optimized <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code> s to zero.</p>
+<span class="sig-name descname"><span class="pre">zero_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_to_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pitchscapes.optimization.WarmAdam.zero_grad" title="Link to this definition"></a></dt>
+<dd><p>Resets the gradients of all optimized <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code> s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>set_to_none (bool): instead of setting to zero, set the grads to None.</dt><dd><p>This will in general have lower memory footprint, and can modestly improve performance.

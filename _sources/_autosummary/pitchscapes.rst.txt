@@ -28,11 +28,11 @@
    :template: custom-module-template.rst
    :recursive:
 
-   pitchscapes.keyfinding
-   pitchscapes.model
-   pitchscapes.optimization
-   pitchscapes.plotting
-   pitchscapes.reader
-   pitchscapes.scapes
-   pitchscapes.util
+   keyfinding
+   model
+   optimization
+   plotting
+   reader
+   scapes
+   util
 

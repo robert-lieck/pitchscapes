@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pitchscapes.keyfinding &mdash; PitchScapes  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -29,11 +32,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> PitchScapes
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PitchScapes
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -58,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>pitchscapes.keyfinding</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pitchscapes.keyfinding</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -75,8 +82,10 @@
 <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">euclidean_distance</span>
 
 
-<div class="viewcode-block" id="KeyEstimator"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator">[docs]</a><span class="k">class</span> <span class="nc">KeyEstimator</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="KeyEstimator">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator">[docs]</a>
+<span class="k">class</span> <span class="nc">KeyEstimator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute key estimates. Custom parameters can be provided on initialisation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -119,9 +128,11 @@
                       <span class="mf">0.06212424849699398</span><span class="p">,</span> <span class="mf">0.022044088176352703</span><span class="p">,</span> <span class="mf">0.06112224448897795</span><span class="p">,</span> <span class="mf">0.05210420841683366</span><span class="p">]}</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="KeyEstimator.score"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.score">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KeyEstimator.score">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.score">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">profiles</span><span class="p">,</span> <span class="n">scoring_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">,</span> <span class="n">normalise_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalise_profiles</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute scores for the given count statistics and profiles.</span>
 <span class="sd">        :param counts: array-like of shape MxK with count statistics; M is the number of independent statistics to</span>
 <span class="sd">        compute scores for and K the number of categories, for instance, 12 for pitch-classes.</span>
@@ -151,13 +162,19 @@
             <span class="n">scores</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">roll_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">scoring_func</span><span class="p">(</span><span class="n">counts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">profs</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="o">...</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">scores</span></div>
 
-<div class="viewcode-block" id="KeyEstimator.argsort_scores"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.argsort_scores">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="KeyEstimator.argsort_scores">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.argsort_scores">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">argsort_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">scores</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyEstimator.argmin_scores"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.argmin_scores">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="KeyEstimator.argmin_scores">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.argmin_scores">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">argmin_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the best match (minimal score).</span>
 <span class="sd">        :param scores: scores as computed by score function; shape MxNxK (data points x profiles x transpositions)</span>
 <span class="sd">        :return: array with indices of best match; shape Nx2 (first index is the profile index; second the</span>
@@ -178,7 +195,10 @@
             <span class="n">idx</span><span class="p">[</span><span class="n">contains_nans</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">return</span> <span class="n">idx</span></div>
 
-<div class="viewcode-block" id="KeyEstimator.__init__"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+
+<div class="viewcode-block" id="KeyEstimator.__init__">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="c1"># profiles=&quot;krumhansl&quot;,</span>
                  <span class="c1"># profiles=&quot;bayes&quot;,</span>
                  <span class="c1"># profiles=&quot;metadata&quot;,</span>
@@ -187,7 +207,7 @@
                  <span class="n">scoring_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">,</span>
                  <span class="n">normalise_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">normalise_profiles</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Defaults to use</span>
 <span class="sd">        :param profiles: a string in KeyEstimator.profiles or profiles of shape Nx12 (for N profiles)</span>
 <span class="sd">        :param scoring_func: scoring function (default Euclidean distance)</span>
@@ -208,16 +228,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">normalise_counts</span> <span class="o">=</span> <span class="n">normalise_counts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">normalise_profiles</span> <span class="o">=</span> <span class="n">normalise_profiles</span></div>
 
-<div class="viewcode-block" id="KeyEstimator.get_estimate"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.get_estimate">[docs]</a>    <span class="k">def</span> <span class="nf">get_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="KeyEstimator.get_estimate">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.get_estimate">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get best key estimate for given counts. Shortcut for using KeyEstimator.argmin_scores with given defaults.</span>
 <span class="sd">        :param counts: counts to compute scores from</span>
 <span class="sd">        :return: estimates as return by KeyEstimator.argmin_scores</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">KeyEstimator</span><span class="o">.</span><span class="n">argmin_scores</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_score</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="KeyEstimator.get_score"><a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="KeyEstimator.get_score">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.keyfinding.KeyEstimator.html#pitchscapes.keyfinding.KeyEstimator.get_score">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get scores for given counts. Shotcut to using KeyEstimator.score with given defaults.</span>
 <span class="sd">        :param counts: counts to compute</span>
 <span class="sd">        :return: scores as returned by KeyEstimator.score</span>
@@ -226,7 +252,9 @@
                                   <span class="n">profiles</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">,</span>
                                   <span class="n">scoring_func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scoring_func</span><span class="p">,</span>
                                   <span class="n">normalise_counts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">normalise_counts</span><span class="p">,</span>
-                                  <span class="n">normalise_profiles</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">normalise_profiles</span><span class="p">)</span></div></div>
+                                  <span class="n">normalise_profiles</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">normalise_profiles</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

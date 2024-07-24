@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pitchscapes.reader &mdash; PitchScapes  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -29,11 +32,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> PitchScapes
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PitchScapes
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -58,9 +65,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>pitchscapes.reader</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pitchscapes.reader</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -84,8 +91,10 @@
 <span class="n">Event</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Event&quot;</span><span class="p">,</span> <span class="s2">&quot;time duration data&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="read_midi_mido"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.read_midi_mido.html#pitchscapes.reader.read_midi_mido">[docs]</a><span class="k">def</span> <span class="nf">read_midi_mido</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="read_midi_mido">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.read_midi_mido.html#pitchscapes.reader.read_midi_mido">[docs]</a>
+<span class="k">def</span> <span class="nf">read_midi_mido</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read notes with onset and duration from MIDI file. Time is specified in beats.</span>
 <span class="sd">    :param file: path to MIDI file</span>
 <span class="sd">    :return: sorted list of pitch Events</span>
@@ -135,7 +144,10 @@
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">time</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.read.html#pitchscapes.reader.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+
+<div class="viewcode-block" id="read">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.read.html#pitchscapes.reader.read">[docs]</a>
+<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
     <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">piece</span> <span class="o">=</span> <span class="n">music21</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
@@ -154,8 +166,11 @@
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">time</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="chordify"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.chordify.html#pitchscapes.reader.chordify">[docs]</a><span class="k">def</span> <span class="nf">chordify</span><span class="p">(</span><span class="n">piece</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="chordify">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.chordify.html#pitchscapes.reader.chordify">[docs]</a>
+<span class="k">def</span> <span class="nf">chordify</span><span class="p">(</span><span class="n">piece</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create time bins at note events (on- or offset). For each bin create a set of notes that are on.</span>
 <span class="sd">    :param piece: List of pitch Events</span>
 <span class="sd">    :return: list of Events (with start time and duration) with note sets</span>
@@ -190,7 +205,10 @@
             <span class="k">for</span> <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">events</span><span class="p">),</span> <span class="p">(</span><span class="n">next_time</span><span class="p">,</span> <span class="n">next_events</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">event_list</span><span class="p">,</span> <span class="n">event_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span></div>
 
 
-<div class="viewcode-block" id="piano_roll"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.piano_roll.html#pitchscapes.reader.piano_roll">[docs]</a><span class="k">def</span> <span class="nf">piano_roll</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">min_pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_range</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_durations</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">read</span><span class="p">):</span>
+
+<div class="viewcode-block" id="piano_roll">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.piano_roll.html#pitchscapes.reader.piano_roll">[docs]</a>
+<span class="k">def</span> <span class="nf">piano_roll</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">min_pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_pitch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_range</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_durations</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">read</span><span class="p">):</span>
     <span class="c1"># read piece and chordify</span>
     <span class="n">chordified</span> <span class="o">=</span> <span class="n">chordify</span><span class="p">(</span><span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">chordified</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;this piece seems to be empty&quot;</span>
@@ -212,7 +230,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;actual maximum pitch (</span><span class="si">{</span><span class="n">actual_max_pitch</span><span class="si">}</span><span class="s2">) is greater than requested value (</span><span class="si">{</span><span class="n">max_pitch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">max_pitch</span> <span class="o">&gt;=</span> <span class="n">min_pitch</span>  <span class="c1"># safety check</span>
     <span class="c1"># allocate numpy array of appropriate size</span>
-    <span class="n">roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">chordified</span><span class="p">),</span> <span class="n">max_pitch</span> <span class="o">-</span> <span class="n">min_pitch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+    <span class="n">roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">chordified</span><span class="p">),</span> <span class="n">max_pitch</span> <span class="o">-</span> <span class="n">min_pitch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
     <span class="c1"># set multiple-hot for all time slices</span>
     <span class="k">for</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chordified</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -231,8 +249,11 @@
         <span class="k">return</span> <span class="n">ret</span></div>
 
 
-<div class="viewcode-block" id="pitch_class_counts_from_chordified"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.pitch_class_counts_from_chordified.html#pitchscapes.reader.pitch_class_counts_from_chordified">[docs]</a><span class="k">def</span> <span class="nf">pitch_class_counts_from_chordified</span><span class="p">(</span><span class="n">chordified</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="pitch_class_counts_from_chordified">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.pitch_class_counts_from_chordified.html#pitchscapes.reader.pitch_class_counts_from_chordified">[docs]</a>
+<span class="k">def</span> <span class="nf">pitch_class_counts_from_chordified</span><span class="p">(</span><span class="n">chordified</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Take a chordified piece and compute pitch class counts for each time slot.</span>
 <span class="sd">    :param chordified: chordified piece</span>
 <span class="sd">    :return: tuple of two numpy arrays: one of shape (N, 12) with with pitch-class counts for each time bin,</span>
@@ -246,8 +267,11 @@
     <span class="k">return</span> <span class="n">pitch_class_counts</span><span class="p">,</span> <span class="n">times</span></div>
 
 
-<div class="viewcode-block" id="pitch_class_counts"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.pitch_class_counts.html#pitchscapes.reader.pitch_class_counts">[docs]</a><span class="k">def</span> <span class="nf">pitch_class_counts</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">read</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="pitch_class_counts">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.pitch_class_counts.html#pitchscapes.reader.pitch_class_counts">[docs]</a>
+<span class="k">def</span> <span class="nf">pitch_class_counts</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">read</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read pitch-class counts from MIDI file by concatenating read_midi, chordify, and pitch_class_counts</span>
 <span class="sd">    :param file: MIDI file</span>
 <span class="sd">    :return: 2-tuple of numpy arrays with pitch-class counts and time boundaries</span>
@@ -255,8 +279,11 @@
     <span class="k">return</span> <span class="n">pitch_class_counts_from_chordified</span><span class="p">(</span><span class="n">chordify</span><span class="p">(</span><span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)))</span></div>
 
 
-<div class="viewcode-block" id="get_pitch_scape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.get_pitch_scape.html#pitchscapes.reader.get_pitch_scape">[docs]</a><span class="k">def</span> <span class="nf">get_pitch_scape</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="get_pitch_scape">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.get_pitch_scape.html#pitchscapes.reader.get_pitch_scape">[docs]</a>
+<span class="k">def</span> <span class="nf">get_pitch_scape</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load a pitch scape from file.</span>
 <span class="sd">    :param file_path: file to load</span>
 <span class="sd">    :param kwargs: kwargs passed to PitchScape</span>
@@ -266,7 +293,10 @@
     <span class="k">return</span> <span class="n">PitchScape</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">pitch_counts</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="n">times</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sample_piece"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.sample_piece.html#pitchscapes.reader.sample_piece">[docs]</a><span class="k">def</span> <span class="nf">sample_piece</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span>
+
+<div class="viewcode-block" id="sample_piece">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.sample_piece.html#pitchscapes.reader.sample_piece">[docs]</a>
+<span class="k">def</span> <span class="nf">sample_piece</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span>
                  <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">prior_counts</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
@@ -278,7 +308,10 @@
     <span class="k">return</span> <span class="n">sample_pitch_scape</span><span class="p">(</span><span class="n">scape</span><span class="o">=</span><span class="n">scape</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">prior_counts</span><span class="o">=</span><span class="n">prior_counts</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sample_density"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.sample_density.html#pitchscapes.reader.sample_density">[docs]</a><span class="k">def</span> <span class="nf">sample_density</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">,</span>
+
+<div class="viewcode-block" id="sample_density">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.sample_density.html#pitchscapes.reader.sample_density">[docs]</a>
+<span class="k">def</span> <span class="nf">sample_density</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">,</span>
                    <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -296,11 +329,14 @@
     <span class="k">return</span> <span class="n">samples</span></div>
 
 
-<div class="viewcode-block" id="sample_scape"><a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.sample_scape.html#pitchscapes.reader.sample_scape">[docs]</a><span class="k">def</span> <span class="nf">sample_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">,</span>
+
+<div class="viewcode-block" id="sample_scape">
+<a class="viewcode-back" href="../../_autosummary/pitchscapes.reader.sample_scape.html#pitchscapes.reader.sample_scape">[docs]</a>
+<span class="k">def</span> <span class="nf">sample_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">,</span>
                  <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">scape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample points from a scape on a uniform grid. The total time [min_time, max_time] is divided into n_time_intervals</span>
 <span class="sd">    equally sized intervals. A sample for every possible combination of start and end time is collected and returned,</span>
 <span class="sd">    ordered first by start time and then by end time.</span>
@@ -324,6 +360,7 @@
             <span class="k">continue</span>
         <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scape</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span></div>
+
 </pre></div>
 
            </div>
