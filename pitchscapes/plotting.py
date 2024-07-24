@@ -514,10 +514,10 @@ def plot_loss(loss, ax=None):
     # plot progress
     ax_.set_xlabel("Iteration / Epoch")
     ax_.set_ylabel("Loss")
-    color = next(ax_._get_lines.prop_cycler)['color']
     # all iterations
     flat_loss = [l for ll in loss for l in ll]
-    ax_.plot(range(1, len(flat_loss) + 1), flat_loss, '-o', markersize=2, color=color)
+    plot, = ax_.plot(range(1, len(flat_loss) + 1), flat_loss, '-o', markersize=2)
+    color = plot.get_color()
     # epochs
     epoch_index = [len(loss[0])]
     epoch_value = [loss[0][-1]]
