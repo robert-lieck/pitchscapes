@@ -70,7 +70,11 @@ def read(file):
     except Exception:
         raise RuntimeError(f"Could not read the file '{file}'")
     for part_id, part in enumerate(piece.parts):
-        for note in part.flat.notes:
+        try:
+            flatpart = part.flatten()
+        except AttributeError:
+            flatpart = part.flat
+        for note in flatpart.notes:
             if isinstance(note, (music21.note.Note, music21.chord.Chord)):
                 for pitch in note.pitches:
                     events.append(Event(data=int(pitch.ps),

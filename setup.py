@@ -8,9 +8,9 @@ with open("requirements.txt", "r") as fh:
 
 setuptools.setup(
     name="pitchscapes",
-    version="0.1.9",
+    version="0.2.0",
     author="Robert Lieck",
-    author_email="robert.lieck@epfl.ch",
+    author_email="robert.lieck@durham.ac.uk",
     description="computing pitch-scapes and pitch-scape clusters",
     long_description=long_description,
     long_description_content_type="text/markdown",

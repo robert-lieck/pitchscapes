@@ -38,4 +38,13 @@ jobs:
       run: |
         python -m pytest
         python -m pytest --cov=pitchscapes --cov-report=xml --cov-report=html --junitxml=junit/test-results.xml
-        bash <(curl -s https://codecov.io/bash -t 634d774d-36f7-46fc-8915-4c173d4b0f0e)
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      with:
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        flags: unittests
+        name: codecov-umbrella
+        verbose: true
