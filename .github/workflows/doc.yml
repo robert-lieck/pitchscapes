@@ -1,11 +1,9 @@
 name: doc
 
+# Building the documentation runs all examples, which takes a while. It is therefore not triggered automatically
+# but has to be started manually from the Actions tab ("Run workflow"). The documentation is only deployed when run
+# on the main branch.
 on:
-  push:
-    branches:
-      - master
-    tags: '*'
-  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -26,6 +24,7 @@ jobs:
           make linkcheck
 
       - name: Deploy doc
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

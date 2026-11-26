@@ -18,3 +18,9 @@ coverage.xml
 
 # Mac
 .DS_Store
+
+# documentation build outputs
+doc/_build/
+doc/_autosummary/
+doc/auto_examples/
+doc/sg_execution_times.rst
