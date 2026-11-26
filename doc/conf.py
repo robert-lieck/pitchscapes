@@ -62,6 +62,15 @@ imgmath_image_format='svg'
 # intersphinx mappings
 intersphinx_mapping = {}
 
+# example gallery: include all Python files in the examples folder (not just files starting with "plot_" as the
+# default) and order them by file name
+sphinx_gallery_conf = {
+    "examples_dirs": "../examples",
+    "gallery_dirs": "auto_examples",
+    "filename_pattern": "",
+    "within_subsection_order": "FileNameSortKey",
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".

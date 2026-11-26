@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/pitchscapes.svg)](https://badge.fury.io/py/pitchscapes)
 ![build](https://github.com/robert-lieck/pitchscapes/workflows/build/badge.svg)
 ![tests](https://github.com/robert-lieck/pitchscapes/workflows/tests/badge.svg)
-[![codecov](https://codecov.io/gh/robert-lieck/pitchscapes/branch/master/graph/badge.svg?token=UVBQF5J5HG)](undefined)
+[![codecov](https://codecov.io/gh/robert-lieck/pitchscapes/branch/main/graph/badge.svg?token=UVBQF5J5HG)](undefined)
 
 [![doc](https://github.com/robert-lieck/pitchscapes/actions/workflows/doc.yml/badge.svg)](https://robert-lieck.github.io/pitchscapes/)
 [![DOI](https://zenodo.org/badge/282043116.svg)](https://zenodo.org/badge/latestdoi/282043116)
@@ -29,6 +29,6 @@ Python library to compute pitch scapes for music analysis. The implemented metho
 
 ## Getting Started
 
-Please have a look at the [Tutorial](./Tutorial.ipynb), which guides you through all the basic functionality of reading data, plotting pitch scapes and training the unsupervised clustering model.
+Please have a look at the [Tutorial](https://robert-lieck.github.io/pitchscapes/auto_examples/plot_01_tutorial.html) and the other [examples](https://robert-lieck.github.io/pitchscapes/auto_examples/index.html) in the documentation. The tutorial guides you through all the basic functionality of reading data, plotting pitch scapes and training the unsupervised clustering model.
 
 **Note:** I tried to make the code accessible and provide some convenience functions for getting started smoothly. But there is still lots of room for better documentation and testing. Please contact me if you have any questions, are missing anything or encounter bugs!
